@@ -1,4 +1,4 @@
-package scotip.app.pages;
+package scotip.app.pages.logged;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -17,6 +17,15 @@ import javax.servlet.http.HttpServletResponse;
 public class GlobalVariables extends HandlerInterceptorAdapter {
 
 
+    /**
+     * To add some variables to view.
+     *
+     * @param request
+     * @param response
+     * @param handler
+     * @param modelAndView
+     * @throws Exception
+     */
     @Override
     public void postHandle(final HttpServletRequest request,
                            final HttpServletResponse response, final Object handler,
@@ -32,23 +41,24 @@ public class GlobalVariables extends HandlerInterceptorAdapter {
             Company currentLoggedCompany = null;
             boolean isLogged = false;
             String currentUsername = "unknown";
-            if(auth != null){
+            if (auth != null) {
 
                 Object principal = auth.getPrincipal();
 
-                if(principal instanceof UserDetails){
-                    currentUsername = ((UserDetails)principal).getUsername();
+                if (principal instanceof UserDetails) {
+                    currentUsername = ((UserDetails) principal).getUsername();
+                    currentLoggedCompany = (Company)principal;
+                    isLogged=true;
                 } else {
                     currentUsername = principal.toString();
                 }
 
-                isLogged = true;
             }
 
 
-            model.put("isLogged",isLogged);
-            model.put("currentUsername",currentUsername);
-            model.put("currentCompany",isLogged);
+            model.put("isLogged", isLogged);
+            model.put("currentUsername", currentUsername);
+            model.put("currentCompany", currentLoggedCompany);
 
         }
     }

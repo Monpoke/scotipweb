@@ -1,5 +1,8 @@
 package scotip.app.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.crypto.SecretKeyFactory;
@@ -10,9 +13,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -20,7 +21,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "company")
-public class Company {
+public class Company implements UserDetails{
 
     @Id @GeneratedValue
     @Column(name = "id")
@@ -206,8 +207,45 @@ public class Company {
         this.salt = salt;
     }
 
+
     public String getPassword() {
         return password;
+    }
+
+
+    /**
+     * Get authorities
+     * @return
+     */
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        ArrayList<SimpleGrantedAuthority> objects = new ArrayList<>();
+        objects.add(new SimpleGrantedAuthority("ROLE_COMPANY"));
+        return objects;
+    }
+    @Override
+    public String getUsername() {
+        return getContactMail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {

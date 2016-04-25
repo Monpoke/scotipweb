@@ -63,9 +63,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/assets/**").permitAll()
 
-                // alls pages are protected
-                .anyRequest().authenticated()
+                // no pages restricted
+                .anyRequest().permitAll()
+
+                // alls pages beginning by /u are protected
+                .antMatchers("/u/**").authenticated()
                 .and()
+
 
                 // login now
                 .formLogin().loginPage("/login")
