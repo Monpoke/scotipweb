@@ -6,31 +6,32 @@ import com.mitchellbosecke.pebble.loader.ClasspathLoader;
 import com.mitchellbosecke.pebble.loader.Loader;
 import com.mitchellbosecke.pebble.spring4.PebbleViewResolver;
 import com.mitchellbosecke.pebble.spring4.extension.SpringExtension;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import scotip.app.injections.GlobalVariables;
 import scotip.app.tools.CustomViewFunctions;
 
 
+/**
+ * Spring MVC Configuration.
+ *
+ * @author Craig Walls
+ */
 @Configuration
-@ComponentScan()
-@EnableAutoConfiguration
-public class MVCConfig extends WebMvcConfigurerAdapter {
+public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
-    /**
-     * Register some interceptors.
-     *
-     * @param registry
-     */
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        super.addInterceptors(registry);
-        registry.addInterceptor(new GlobalVariables());
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+      /*  System.out.println("Registering resource handler");
+        registry.addResourceHandler("/assets/**").addResourceLocations(
+                "/assets/");*/
     }
 
     /**
@@ -71,6 +72,4 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
 
         return viewResolver;
     }
-
-
 }

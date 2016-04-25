@@ -1,22 +1,18 @@
 package scotip.app.config;
 
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.WebApplicationInitializer;
 
-public class SpringMvcInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
-    @Override
-    protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { MVCConfig.class };
-    }
-
-    @Override
-    protected Class<?>[] getServletConfigClasses() {
-        return null;
-    }
+@Configuration
+public class SpringMvcInitializer implements WebApplicationInitializer {
 
     @Override
-    protected String[] getServletMappings() {
-        return new String[] { "/" };
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        System.out.println("Initialit");
     }
+
 
 }
