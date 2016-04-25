@@ -1,0 +1,53 @@
+{% extends "../../layouts/base" %}
+
+{% block pageHeader %}
+    Pricings
+    <small>our best plans</small>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="/pricings">Pricings</a></li>
+{% endblock %}
+
+
+{% block pageContent %}
+
+    <section id="pricePlans">
+        <ul id="plans">
+            {% for plan in plans %}
+                <li class="plan">
+                    <ul class="planContainer">
+                        <li class="title">
+                            <h2{% if plan.isBestPlan %} class="bestPlanTitle"{% endif %}>{{ plan.name }}</h2></li>
+                        <li class="price">
+                            <p{% if plan.isBestPlan %} class="bestPlanPrice"{% endif %}>
+                                {% if plan.value < 0 %}Contact us!{% else %}
+                                    £{{ plan.value }}/<span>month</span>
+                                {% endif %}
+                            </p>
+                        </li>
+                        <li>
+                            <ul class="options">
+                                {% for adv in plan.advantages %}
+                                    <li>{{ adv | raw }}</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li class="button">
+                            <a href="#">
+                                {{ plan.link | default('Purchase') }}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+
+
+{% endblock %}
+
+{% block cssFiles %}
+    <link rel="stylesheet" href="/assets/css/pricings.css"/>
+{% endblock %}

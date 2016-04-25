@@ -1,0 +1,114 @@
+{% extends "../../layouts/base" %}
+
+{% block title %}
+    About...
+{% endblock %}
+{% block pageHeader %}
+    About ScotIP
+    <small>technos</small>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="/about">About</a></li>
+{% endblock %}
+
+
+{% block pageContent %}
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Why this project?</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Used technologies...</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <ul>
+                        <li>
+                            <strong>Website:</strong>
+                            <ul>
+                                <li><a href="https://maven.apache.org/" target="_blank">Maven</a></li>
+                                <li><a href="http://spring.io/" target="_blank">Spring</a></li>
+                                <li><a href="http://hibernate.org/" target="_blank">Hibernate</a></li>
+                                <li><a href="http://www.mitchellbosecke.com/pebble/home" target="_blank">Pebble</a></li>
+                                <li><a href="https://tomcat.apache.org/" target="_blank">Tomcat</a></li>
+                                <li><a href="http://www.oracle.com/technetwork/java/javaee/overview/index.html" target="_blank">JAVA EE</a></li>
+                                <li><a href="http://www.w3schools.com/html/html5_intro.asp" target="_blank">HTML5/CSS3</a></li>
+                                <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">JavaScript</a></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <strong>Others:</strong>
+                            <ul>
+                                <li>
+                                    MP3 conversion into Asterisk readable format
+                                </li>
+                                <li>
+                                    GIT <em>(hosted by <a href="http://github.com" target="_blank">GitHub</a>)</em>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <strong>VOIP server:</strong>
+                            <ul>
+                                <li><a href="http://www.asterisk.org/" target="_blank">Asterisk</a></li>
+                                <li>
+                                    SIP lines:
+                                    <ul>
+                                        <li><a href="http://ovh.com" target="_blank">OVH</a></li>
+                                        <li><a href="http://ippi.fr" target="_blank">IPPI</a> <em>for free incoming</em></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <strong>Communication between systems:</strong>
+                            <ul>
+                                <li><a href="https://www.mysql.com/" target="_blank">MySQL</a></li>
+                                <li>
+                                    SSL certificate: <em><a href="https://letsencrypt.org" target="_blank">Let's encrypt</a></em>
+                                </li>
+                                <li>
+                                    <a href="https://nodejs.org/en/" target="_blank">NodeJS</a> <em>(soon)</em>
+                                    <ul>
+                                        <li>Sockets</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Hostings:</strong>
+                            <ul>
+                                <li>VPS <em><a href="http://ovh.com" target="_blank">OVH</a>: <a href="http://orion.pierrebourgeois.fr"
+                                                    target="_blank">Orion</a></em></li>
+                            </ul>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block cssFiles %}
+    <link rel="stylesheet" href="/assets/css/pricings.css"/>
+{% endblock %}
