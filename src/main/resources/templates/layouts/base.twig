@@ -202,6 +202,10 @@
 
 
 <script src="/assets/js/app.min.js"></script>
+<script src="/assets/js/scotip.js"></script>
+<script>
+    Config.csrfToken="{{ request.attribute('_crsf').token }}";
+</script>
 {% block jsFiles %}
 {% endblock %}
 

@@ -19,15 +19,10 @@ $(document).ready(function () {
 
 function checkLogin(mail, pass) {
     $.ajax({
-        beforeSend: function(){
-          // lock fields
-        },
-
-
         type: 'POST',
-        url: "/login",
+        url: "/loginA",
         dataType: "html",
-        data: 'mail=' + mail + '&pass=' + pass,
+        data: 'mail=' + mail + '&pass=' + pass ,
         success: function (data) {
 
             if (data.charAt(0) === "@") {
