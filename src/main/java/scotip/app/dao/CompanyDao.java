@@ -11,5 +11,6 @@ public interface CompanyDao {
 
     Company findById(int id);
     Company findByMail(String mail);
+    Company saveCompany(Company company);
 
 }

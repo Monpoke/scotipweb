@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 
-public abstract class AbstractDao implements AbstractDao {
+public abstract class AbstractDao<PK extends Serializable, T> {
 
     private final Class<T> persistentClass;
 
@@ -29,7 +29,7 @@ public abstract class AbstractDao implements AbstractDao {
         return (T) getSession().get(persistentClass, key);
     }
 
-    public Serializable persist(T entity) {
+    public void persist(T entity) {
         getSession().persist(entity);
     }
 

@@ -15,8 +15,10 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import scotip.app.injections.GlobalVariables;
 import scotip.app.tools.CustomViewFunctions;
 
 
@@ -32,6 +34,11 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
       /*  System.out.println("Registering resource handler");
         registry.addResourceHandler("/assets/**").addResourceLocations(
                 "/assets/");*/
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new GlobalVariables());
     }
 
     /**

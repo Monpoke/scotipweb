@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +20,8 @@ import scotip.app.model.Company;
 import scotip.app.service.CompanyService;
 
 import javax.validation.Valid;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Pierre on 24/04/2016.
@@ -75,9 +78,17 @@ public class RegistrationController {
 
         // REST HERE
         if (result.hasErrors()) {
-            return new ModelAndView("registration", "user", accountDto);
+            System.out.println("ERRORS ! :D");
+            List<ObjectError> allErrors = result.getAllErrors();
+            Iterator<ObjectError> iterator = allErrors.iterator();
+
+            while(iterator.hasNext()){
+                System.out.println(iterator.next().getDefaultMessage());
+            }
+
+            return new ModelAndView("pages/nonLogged/registration", "company", accountDto);
         } else {
-            return new ModelAndView("successRegister", "user", accountDto);
+            return new ModelAndView("pages/nonLogged/registrationOk", "company", accountDto);
         }
 
     }

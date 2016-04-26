@@ -1,6 +1,7 @@
 package scotip.app.dto;
 
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import scotip.app.validation.PasswordMatches;
 import scotip.app.validation.ValidEmail;
@@ -14,46 +15,43 @@ import javax.validation.constraints.NotNull;
 @PasswordMatches
 public class CompanyDto {
 
-    @NotNull
-    @NotEmpty
+    @NotBlank(message = "Company name can't be empty.")
     private String name;
 
-    @NotNull
-    @NotEmpty
+
+    @NotBlank(message = "Address can't be empty.")
     private String address;
 
     private String address2;
 
-    @NotNull
-    @NotEmpty
+    @NotBlank(message = "Company city can't be empty.")
     private String city;
 
-    @NotNull
-    @NotEmpty
+    @NotBlank(message = "Company postcode can't be empty.")
+    private String postcode;
+
+    @NotBlank(message = "Company country can't be empty.")
     private String country;
 
 
+    @NotBlank(message = "The company phone number should be provided.")
     private String phoneNumber;
 
-    @NotNull
-    @NotEmpty
+    @NotBlank(message = "A contact name have to be provided.")
     private String ContactName;
 
-    @NotNull
-    @NotEmpty
-    @ValidEmail
+
+    @ValidEmail(message = "A valid mail address is required.")
     private String ContactMail;
 
 
+    @NotBlank(message = "A valid contact phone number have to be provided.")
     private String ContactPhone;
 
-    @NotNull
-    @NotEmpty
-    @Length(min = 4)
+    @NotNull(message = "A password should be setted.")
+    @Length(min = 4, max = 25, message = "The password should contains between 4 and 25 characters.")
     private String password;
     private String matchingPassword;
-
-
 
 
     public String getName() {
@@ -142,5 +140,13 @@ public class CompanyDto {
 
     public void setMatchingPassword(String matchingPassword) {
         this.matchingPassword = matchingPassword;
+    }
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
     }
 }

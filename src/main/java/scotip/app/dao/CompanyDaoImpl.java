@@ -20,6 +20,11 @@ public class CompanyDaoImpl extends AbstractDao<Integer, Company> implements Com
         return (Company) crit.uniqueResult();
     }
 
+    @Override
+    public Company saveCompany(Company company) {
+        company.setId((int)getSession().save(company));
+        return company;
+    }
 
 
 }

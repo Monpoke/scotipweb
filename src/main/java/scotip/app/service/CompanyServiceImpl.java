@@ -49,6 +49,7 @@ public class CompanyServiceImpl implements CompanyService {
         company.setAddress(companyDto.getAddress());
         company.setAddress2(companyDto.getAddress2());
         company.setCity(companyDto.getCity());
+        company.setPostcode(companyDto.getPostcode());
         company.setCountry(companyDto.getCountry());
         company.setPhoneNumber(companyDto.getPhoneNumber());
         company.setContactName(companyDto.getContactName());
@@ -59,7 +60,7 @@ public class CompanyServiceImpl implements CompanyService {
         company.setPassword(getPasswordEncoder().encode(companyDto.getPassword()));
 
 
-        return dao.save(company);
+        return dao.saveCompany(company);
     }
 
     @Override

@@ -19,29 +19,24 @@ public class CustomCompanyDetailsService implements UserDetailsService {
     @Autowired
     private CompanyService companyService;
 
-    @Transactional(readOnly=true)
+    /**
+     * Override the default method. Load by email.
+     *
+     * @param email
+     * @return
+     * @throws UsernameNotFoundException
+     */
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
         Company user = companyService.findByMail(email);
 
-        PasswordEncoder bCryptPasswordEncoder = companyService.getPasswordEncoder();
-        System.out.println("TEst password: " + bCryptPasswordEncoder.encode("test"));
-
-        System.out.println("Company email: "+email +" -> " +user);
-
-
-
-        if(user==null){
+        if (user == null) {
             System.out.println("Company email not found");
             throw new UsernameNotFoundException("Company not found");
         }
 
         return user;
-
-
-/*
-        return new org.springframework.security.core.userdetails.User(user.getContactMail(), user.getPassword(),
-                user.getState().equals("Active"), true, true, true, getGrantedAuthorities(user));*/
     }
 
 }
