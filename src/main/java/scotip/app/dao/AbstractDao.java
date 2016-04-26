@@ -1,15 +1,14 @@
 package scotip.app.dao;
 
-import java.io.Serializable;
-
-import java.lang.reflect.ParameterizedType;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class AbstractDao<PK extends Serializable, T> {
+import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+
+public abstract class AbstractDao implements AbstractDao {
 
     private final Class<T> persistentClass;
 
@@ -30,8 +29,12 @@ public abstract class AbstractDao<PK extends Serializable, T> {
         return (T) getSession().get(persistentClass, key);
     }
 
-    public void persist(T entity) {
+    public Serializable persist(T entity) {
         getSession().persist(entity);
+    }
+
+    public Serializable save(T entity) {
+        return getSession().save(entity);
     }
 
     public void delete(T entity) {

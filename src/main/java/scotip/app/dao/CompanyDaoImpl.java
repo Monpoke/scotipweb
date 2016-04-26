@@ -5,6 +5,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import scotip.app.model.Company;
 
+import java.io.Serializable;
+
 @Repository("userDao")
 public class CompanyDaoImpl extends AbstractDao<Integer, Company> implements CompanyDao {
 
@@ -17,6 +19,7 @@ public class CompanyDaoImpl extends AbstractDao<Integer, Company> implements Com
         crit.add(Restrictions.eq("ContactMail", mail));
         return (Company) crit.uniqueResult();
     }
+
 
 
 }

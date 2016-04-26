@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import scotip.app.model.Company;
@@ -23,7 +24,7 @@ public class CustomCompanyDetailsService implements UserDetailsService {
             throws UsernameNotFoundException {
         Company user = companyService.findByMail(email);
 
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        PasswordEncoder bCryptPasswordEncoder = companyService.getPasswordEncoder();
         System.out.println("TEst password: " + bCryptPasswordEncoder.encode("test"));
 
         System.out.println("Company email: "+email +" -> " +user);
