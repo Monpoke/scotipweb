@@ -12,15 +12,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public abstract class App {
 
 
-    protected void redirectIfLogged(){
+    /**
+     * Returns true if someone is logged.
+     * @return
+     */
+    protected boolean isLogged(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(auth!=null){
             Object logged = auth.getPrincipal();
             if(logged instanceof UserDetails){
                 // REDIRECT
-
+                return true;
             }
         }
+        return false;
     }
 
 }
