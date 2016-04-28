@@ -184,7 +184,7 @@ public class Company implements UserDetails{
     }
 
     public String getAvatar(){
-        return "http://gravatar.com/avatar/" + getMD5CryptedMail();
+        return "https://gravatar.com/avatar/" + getMD5CryptedMail();
     }
 
     public String getContactPhone() {
