@@ -19,4 +19,6 @@ public interface CompanyService {
     Company registerNewCompany(CompanyDto companyDto) throws EmailExistsException;
 
     PasswordEncoder getPasswordEncoder();
+
+    void refresh(Company currentCompany);
 }

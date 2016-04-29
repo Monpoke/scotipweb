@@ -101,6 +101,14 @@ public class Switchboard {
         this.name = name;
     }
 
+    public Line getLine() {
+        return line;
+    }
+
+    public void setLine(Line line) {
+        this.line = line;
+    }
+
     public Switchboard(){
 
     }

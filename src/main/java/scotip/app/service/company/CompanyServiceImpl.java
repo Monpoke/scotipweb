@@ -68,6 +68,11 @@ public class CompanyServiceImpl implements CompanyService {
         return passwordEncoder;
     }
 
+    @Override
+    public void refresh(Company company) {
+        dao.refresh(company);
+    }
+
     /**
      * Check if the email is already registered
      *

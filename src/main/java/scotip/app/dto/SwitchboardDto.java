@@ -3,6 +3,7 @@ package scotip.app.dto;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
+import scotip.app.model.Company;
 import scotip.app.model.Line;
 import scotip.app.model.Switchboard;
 import scotip.app.validation.PasswordMatches;
@@ -32,6 +33,10 @@ public class SwitchboardDto {
 
     @NotNull(message = "The shared line is invalid.")
     private Line sharedLine;
+
+
+    // NO COMMENT, BECAUSE SET BY THE SOFTWARE
+    private Company company;
 
 
     public String getName() {
@@ -64,5 +69,13 @@ public class SwitchboardDto {
 
     public void setSharedLine(Line sharedLine) {
         this.sharedLine = sharedLine;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }

@@ -57,7 +57,7 @@
                             <label for="inputTitle3" class="col-sm-2 control-label">Name</label>
                             <div class="col-sm-10">
                                 <input name="name" type="text" class="form-control" id="inputTitle3"
-                                       placeholder="Provide a name for this switchboard" value="{{ company.name }}">
+                                       placeholder="Provide a name for this switchboard" value="{{ switchboard.name }}">
                             </div>
                         </div>
 
@@ -66,7 +66,7 @@
                             <div class="col-sm-10">
 
                                 <textarea name="description" class="form-control" rows="3" id="inputDescription3"
-                                          placeholder="What the purpose of this switchboard?">{{ company.description }}</textarea>
+                                          placeholder="What the purpose of this switchboard?">{{ switchboard.description }}</textarea>
 
                             </div>
                         </div>
@@ -100,7 +100,7 @@
                     <div class="box-body">
 
                         <input type="radio"
-                               name="typeNumber"{% if company.typeNumber != "dedicated" %} checked="checked"{% endif %}
+                               name="typeNumber"{% if switchboard.typeNumber != "dedicated" %} checked="checked"{% endif %}
                                value="shared"
                                id="typeNumber_shared"/>
                         <label for="typeNumber_shared">
@@ -110,7 +110,7 @@
 
                         <select name="sharedLine" class="form-control">
                             {% for sharedNumber in sharedLines %}
-                                <option{% if company.sharedLine == sharedNumber.lineId %} selected="selected"{% endif %}
+                                <option{% if switchboard.sharedLine == sharedNumber.lineId %} selected="selected"{% endif %}
                                         value="{{ sharedNumber.lineId }}">{{ sharedNumber.country }}
                                     : {{ sharedNumber.formatNumber() }}</option>
                             {% else %}
@@ -122,9 +122,10 @@
                             Code to access your service:
                         </label>
 
-                        <input class="form-control col-sm-3" id="accessCode" name="phoneCodeAccess" type="number" min="50"
+                        <input class="form-control col-sm-3" id="accessCode" name="phoneCodeAccess" type="number"
+                               min="50"
                                max="999"
-                               value="{{ company.accessCode | default('50') }}"
+                               value="{{ switchboard.accessCode | default('50') }}"
                                maxlength="3" placeholder="Code to compose when the above numero is called"/>
                     </div>
                 </div>
@@ -136,7 +137,7 @@
                     <div class="box-body">
 
 
-                        <input type="radio"{% if company.typeNumber == "dedicated" %} checked="checked"{% endif %}
+                        <input type="radio"{% if switchboard.typeNumber == "dedicated" %} checked="checked"{% endif %}
                                name="typeNumber" disabled="disabled" value="dedicated"
                                id="typeNumber_dedicated"/>
                         <label for="typeNumber_dedicated">
