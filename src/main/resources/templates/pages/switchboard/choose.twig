@@ -25,7 +25,7 @@
                     <div class="alert alert-success">
                         <strong>Congrats!</strong> Your switchboard have been created.
                     </div>
-                {% else %}
+                {% elseif request.parameter('new') == "maxReached" %}
                     <div class="alert alert-danger">
                         <strong>Ooops!</strong> You reached all switchboards you can create. Delete one or please consider <a href="/u/upgrade">upgrading</a>.
                     </div>
