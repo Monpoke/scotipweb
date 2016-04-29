@@ -31,7 +31,6 @@
 
                         {% endif %}
 
-                        {% set token = request.attribute('_csrf') %}
 
                         <div class="input-group input-sm">
                             <label class="input-group-addon" for="name"><i class="fa fa-building"></i></label>
@@ -110,6 +109,7 @@
                         </div>
 
 
+                        {% set token = request.attribute('_csrf') %}
                         <input type="hidden" name="{{ token.parameterName }}" value="{{ token.token }}"/>
 
                         <div class="form-actions">

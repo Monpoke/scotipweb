@@ -1,9 +1,6 @@
 package scotip.app.pages.visitor;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import scotip.app.dto.CompanyDto;
 import scotip.app.exceptions.EmailExistsException;
 import scotip.app.model.Company;
-import scotip.app.service.CompanyService;
+import scotip.app.service.company.CompanyService;
 
 import javax.validation.Valid;
 import java.util.Iterator;

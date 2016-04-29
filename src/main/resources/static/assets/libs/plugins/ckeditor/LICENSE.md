@@ -60,7 +60,7 @@ Preamble
   The licenses for most software are designed to take away your
 freedom to share and change it.  By contrast, the GNU General Public
 License is intended to guarantee your freedom to share and change free
-software-to make sure the software is free for all its users.  This
+software-to make sure the software is free for all its switchboards.  This
 General Public License applies to most of the Free Software
 Foundation's software and to any other program whose authors commit to
 using it.  (Some other Free Software Foundation software is covered by
@@ -154,7 +154,7 @@ above, provided that you also meet all of these conditions:
     interactive use in the most ordinary way, to print or display an
     announcement including an appropriate copyright notice and a
     notice that there is no warranty (or else, saying that you provide
-    a warranty) and that users may redistribute the program under
+    a warranty) and that switchboards may redistribute the program under
     these conditions, and telling the user how to view a copy of this
     License.  (Exception: if the Program itself is interactive but
     does not normally print such an announcement, your work based on
@@ -349,7 +349,7 @@ Preamble
   The licenses for most software are designed to take away your
 freedom to share and change it.  By contrast, the GNU General Public
 Licenses are intended to guarantee your freedom to share and change
-free software-to make sure the software is free for all its users.
+free software-to make sure the software is free for all its switchboards.
 
   This license, the Lesser General Public License, applies to some
 specially designated software packages-typically libraries-of the
@@ -392,7 +392,7 @@ introduced by others.
 
   Finally, software patents pose a constant threat to the existence of
 any free program.  We wish to make sure that a company cannot
-effectively restrict the users of a free program by obtaining a
+effectively restrict the switchboards of a free program by obtaining a
 restrictive license from a patent holder.  Therefore, we insist that
 any patent license obtained for a version of the library must be
 consistent with the full freedom of use specified in this license.
@@ -436,7 +436,7 @@ operating system, as well as its variant, the GNU/Linux operating
 system.
 
   Although the Lesser General Public License is Less protective of the
-users' freedom, it does ensure that the user of a program that is
+switchboards' freedom, it does ensure that the user of a program that is
 linked with the Library has the freedom and the wherewithal to run
 that program using a modified version of the Library.
 

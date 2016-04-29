@@ -1,4 +1,4 @@
-package scotip.app.dao;
+package scotip.app.dao.company;
 
 import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,5 +12,7 @@ public interface CompanyDao {
     Company findById(int id);
     Company findByMail(String mail);
     Company saveCompany(Company company);
+
+    void refresh(Company company);
 
 }

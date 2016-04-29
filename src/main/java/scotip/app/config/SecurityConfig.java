@@ -70,25 +70,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // always create a session
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                .and()
+                // login now
+                .formLogin().loginPage("/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .permitAll()
+
 
                 // allows assets access
                 .and()
                 .authorizeRequests()
                 .antMatchers("/assets/**").permitAll()
 
+                // alls pages beginning by /u are protected
+                .antMatchers("/u/**").hasRole("COMPANY")
+
                 // no pages restricted
                 .anyRequest().permitAll()
-
-                // alls pages beginning by /u are protected
-                .antMatchers("/u/**").authenticated()
-                .and()
-
-
-                // login now
-                .formLogin().loginPage("/login")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .permitAll()
 
                 // CSRF TOKEN
                 .and().addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
@@ -100,6 +99,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Create a cookie with right name
+     *
      * @return
      */
     private Filter csrfHeaderFilter() {

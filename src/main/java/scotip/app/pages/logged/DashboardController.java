@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DashboardController {
 
 
-    @RequestMapping("/u/dashboard")
+    @RequestMapping({"/u","/u/dashboard"})
     protected String doGet() {
 
         return ("pages/static/index");

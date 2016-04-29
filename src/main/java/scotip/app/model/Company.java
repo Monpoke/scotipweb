@@ -21,13 +21,14 @@ import java.util.*;
  */
 @Entity
 @Table(name = "company")
-public class Company implements UserDetails{
+public class Company implements UserDetails {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "id")
     private int id;
 
-    @Column(name ="name")
+    @Column(name = "name")
     private String name;
 
     @Column(name = "address")
@@ -60,26 +61,25 @@ public class Company implements UserDetails{
     @Column(name = "registrationDate")
     private Date registrationDate;
 
-    @Column(name = "salt")
-    private  String salt;
-
     @Column(name = "password")
-    private  String password;
+    private String password;
 
 
-    @Column(name="STATE", nullable=false)
-    private String state=State.ACTIVE.getState();
+    @Column(name = "STATE", nullable = false)
+    private String state = State.ACTIVE.getState();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "company_profiles",
-            joinColumns = { @JoinColumn(name = "company_id") },
-            inverseJoinColumns = { @JoinColumn(name = "profile_id") })
+            joinColumns = {@JoinColumn(name = "company_id")},
+            inverseJoinColumns = {@JoinColumn(name = "profile_id")})
     private Set<CompanyProfile> companyProfiles = new HashSet<>();
 
 
-  /*  @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
+    /**
+     * @TODO HACK Fetch LAZY
+     */
+    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
     private Set<Switchboard> switchboards = new HashSet<>();
-*/
 
 
     public int getId() {
@@ -162,14 +162,14 @@ public class Company implements UserDetails{
         ContactMail = contactMail;
     }
 
-    public String getMD5CryptedMail(){
+    public String getMD5CryptedMail() {
         try {
             byte[] bytesOfMessage = getContactMail().getBytes("UTF-8");
 
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] thedigest = md.digest(bytesOfMessage);
             return thedigest.toString();
-        } catch(Exception e){
+        } catch (Exception e) {
             return "none";
         }
 
@@ -183,7 +183,7 @@ public class Company implements UserDetails{
         return companyProfiles;
     }
 
-    public String getAvatar(){
+    public String getAvatar() {
         return "https://gravatar.com/avatar/" + getMD5CryptedMail();
     }
 
@@ -203,10 +203,6 @@ public class Company implements UserDetails{
         this.registrationDate = registrationDate;
     }
 
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
 
     public String getPassword() {
         return password;
@@ -215,6 +211,7 @@ public class Company implements UserDetails{
 
     /**
      * Get authorities
+     *
      * @return
      */
     @Override
@@ -223,6 +220,7 @@ public class Company implements UserDetails{
         objects.add(new SimpleGrantedAuthority("ROLE_COMPANY"));
         return objects;
     }
+
     @Override
     public String getUsername() {
         return getContactMail();
@@ -252,66 +250,12 @@ public class Company implements UserDetails{
         this.password = password;
     }
 
-    public void setPlainPassword(String password) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        setPassword(hashPassword(password));
-    }
 
-    public boolean isGoodPassword(String pass){
-        String password = null;
-        try {
-            password = hashPassword(pass);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        }
-        return password.equals(getPassword());}
-
-
-    private  String hashPassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException
-    {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        return bCryptPasswordEncoder.encode(password);
-
-        /*
-        int iterations = 1000;
-        char[] chars = password.toCharArray();
-        byte[] salt = getSalt().getBytes();
-
-        PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 64 * 8);
-        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        byte[] hash = skf.generateSecret(spec).getEncoded();
-        return  toHex(salt) + toHex(hash);*/
-    }
-
-    private  String getSalt() throws NoSuchAlgorithmException
-    {
-        if(this.salt == null || this.salt == ""){
-            byte[] salt = new byte[16];
-            new SecureRandom().nextBytes(salt);
-            this.salt = salt.toString();
-        }
-        return this.salt;
-    }
-
-    private  String toHex(byte[] array) throws NoSuchAlgorithmException
-    {
-        BigInteger bi = new BigInteger(1, array);
-        String hex = bi.toString(16);
-        int paddingLength = (array.length * 2) - hex.length();
-        if(paddingLength > 0)
-        {
-            return String.format("%0"  +paddingLength + "d", 0) + hex;
-        }else{
-            return hex;
-        }
-    }
-
-  /*  public Set<Switchboard> getSwitchboards() {
+    public Set<Switchboard> getSwitchboards() {
         return switchboards;
     }
-*/
-    public Company(){
+
+    public Company() {
         setRegistrationDate(new Date());
     }
 

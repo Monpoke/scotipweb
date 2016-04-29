@@ -1,11 +1,11 @@
-package scotip.app.service;
+package scotip.app.service.company;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import scotip.app.dao.CompanyDao;
+import scotip.app.dao.company.CompanyDao;
 import scotip.app.dto.CompanyDto;
 import scotip.app.exceptions.EmailExistsException;
 import scotip.app.model.Company;

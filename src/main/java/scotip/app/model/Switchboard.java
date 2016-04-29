@@ -1,8 +1,8 @@
 package scotip.app.model;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Pierre on 21/04/2016.
@@ -37,19 +37,9 @@ public class Switchboard {
     protected boolean deleted = false;
 
 
+    @ManyToOne(fetch=FetchType.EAGER)
+    protected Line line;
 
-
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "switchboard_line", joinColumns = {
-            @JoinColumn(name = "switchboard_id", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "line_id",
-                    nullable = false, updatable = false)})
-    private Set<Line> lines = new HashSet<>(0);
-
-    public Set<Line> getLines() {
-        return this.lines;
-    }
 
 
 
@@ -109,14 +99,6 @@ public class Switchboard {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setLines(Set<Line> lines) {
-        this.lines = lines;
-    }
-
-    public void addLine(Line l){
-        lines.add(l);
     }
 
     public Switchboard(){

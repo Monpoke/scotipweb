@@ -1,13 +1,14 @@
-package scotip.app.dao;
+package scotip.app.dao.company;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import scotip.app.dao.AbstractDao;
 import scotip.app.model.Company;
 
-import java.io.Serializable;
-
-@Repository("userDao")
+@Transactional
+@Repository("companyDao")
 public class CompanyDaoImpl extends AbstractDao<Integer, Company> implements CompanyDao {
 
     public Company findById(int id) {
@@ -24,6 +25,12 @@ public class CompanyDaoImpl extends AbstractDao<Integer, Company> implements Com
     public Company saveCompany(Company company) {
         company.setId((int)getSession().save(company));
         return company;
+    }
+
+
+    @Override
+    public void refresh(Company company) {
+        getSession().refresh(company);
     }
 
 

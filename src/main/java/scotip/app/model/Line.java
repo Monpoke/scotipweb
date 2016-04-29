@@ -28,8 +28,8 @@ public class Line {
     private boolean shared = true;
 
     // This end is not the owner. It's the inverse of the User.roles association
-    @ManyToMany(mappedBy = "lines")
-    private Set<Switchboard> users = new HashSet<>();
+    @OneToMany(mappedBy = "line")
+    private Set<Switchboard> switchboards = new HashSet<>();
 
 
     public int getLineId() {
@@ -95,12 +95,12 @@ public class Line {
         return "+" + getRegionCode() + "(" + firstChar + ")"+fin;
     }
 
-    public Set<Switchboard> getUsers() {
-        return users;
+    public Set<Switchboard> getSwitchboards() {
+        return switchboards;
     }
 
-    public void setUsers(Set<Switchboard> users) {
-        this.users = users;
+    public void setSwitchboards(Set<Switchboard> switchboards) {
+        this.switchboards = switchboards;
     }
 
     public Line(){

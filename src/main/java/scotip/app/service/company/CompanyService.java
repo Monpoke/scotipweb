@@ -1,4 +1,4 @@
-package scotip.app.service;
+package scotip.app.service.company;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
