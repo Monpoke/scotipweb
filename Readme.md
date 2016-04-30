@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Monpoke/scotip_nodeSpas.svg?branch=master)](https://travis-ci.org/Monpoke/scotip_nodeSpas)
+
 # ScotIP
 
 *ScotIP* is a software which allows companies to create their own telephone switchboards.
@@ -18,8 +20,6 @@ This is a three month based project and it has been created by Pierre BOURGEOIS 
 - NodeJS / NPM
 - JavaScript
 - HTML5/CSS3
-
-
 
 
 ## Licence
