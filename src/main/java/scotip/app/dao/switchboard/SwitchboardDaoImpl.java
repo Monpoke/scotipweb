@@ -23,4 +23,9 @@ public class SwitchboardDaoImpl extends AbstractDao<Integer, Switchboard>  imple
         switchboard.setSid((int)getSession().save(switchboard));
         return switchboard;
     }
+
+    @Override
+    public Switchboard get(int sid) {
+        return getByKey(sid);
+    }
 }

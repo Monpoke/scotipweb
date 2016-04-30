@@ -74,11 +74,13 @@
 
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
-            {% if isLogged == true %}
-                {% include "../menus/user/userSidebar" %}
-            {% else %}
-                {% include "../menus/visitor/visitorSidebar" %}
-            {% endif %}
+            {% block sidebar %}
+                {% if isLogged == true %}
+                    {% include "../menus/user/userSidebar" %}
+                {% else %}
+                    {% include "../menus/visitor/visitorSidebar" %}
+                {% endif %}
+            {% endblock %}
         </section>
         <!-- /.sidebar -->
     </aside>
@@ -204,7 +206,7 @@
 <script src="/assets/js/app.min.js"></script>
 <script src="/assets/js/scotip.js"></script>
 <script>
-    Config.csrfToken="{{ request.attribute('_crsf').token }}";
+    Config.csrfToken = "{{ request.attribute('_crsf').token }}";
 </script>
 {% block jsFiles %}
 {% endblock %}

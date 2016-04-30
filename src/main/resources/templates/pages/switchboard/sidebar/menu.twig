@@ -25,17 +25,18 @@
 <!-- Sidebar Menu -->
 <ul class="sidebar-menu">
     <li class="header">GENERAL</li>
-    <li{% if sidebarMenu == "home" %} class="active"{% endif %}><a href="/u/dashboard"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
-    <li{% if sidebarMenu == "switchboard" %} class="active"{% endif %}><a href="/u/switchboard"><i class="fa fa-phone"></i> <span>Switchboards</span></a></li>
-    <li{% if sidebarMenu == "dedicated_lines" %} class="active"{% endif %}><a href="/"><i class="fa fa-sliders"></i> <span>Dedicated lines</span></a></li>
+    <li><a href="/u/switchboard/{{ switchboard.sid }}"><i class="fa fa-paper-plane"></i> <span>Stats</span></a></li>
+    <li><a href="/u/switchboard/{{ switchboard.sid }}/dialplan"><i class="fa fa-phone"></i> <span>Dialplan</span></a></li>
+    <li><a href="/u/switchboard/{{ switchboard.sid }}/operators"><i class="fa fa-male"></i> <span>Operators</span></a></li>
+    <li><a href="/u/switchboard/{{ switchboard.sid }}/opening"><i class="fa fa-hourglass-half"></i> <span>Opening hours</span></a></li>
 
 
 
-    <li class="header">ACCOUNT</li>
-    <li><a href="#"><i class="fa fa-info-circle"></i> <span>Informations</span></a></li>
+    <li class="header">SWITCHBOARD</li>
+    <li><a href="/u/switchboard/{{ switchboard.sid }}/config"><i class="fa fa-gear"></i> <span>Configuration</span></a></li>
 
     <li class="header">SCOTIP</li>
-    <li{% if sidebarMenu == "about" %} class="active"{% endif %}><a href="/about"><i class="fa fa-question"></i> <span>About</span></a></li>
+    <li><a href="/u/switchboard"><i class="fa fa-angle-double-left"></i> <span>Back to list</span></a></li>
 
 
     <!--<li class="treeview">

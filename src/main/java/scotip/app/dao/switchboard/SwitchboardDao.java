@@ -7,4 +7,6 @@ import scotip.app.model.Switchboard;
  */
 public interface SwitchboardDao {
     Switchboard saveSwitchboard(Switchboard switchboard);
+
+    Switchboard get(int sid);
 }

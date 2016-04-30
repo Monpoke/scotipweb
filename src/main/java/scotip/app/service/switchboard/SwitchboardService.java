@@ -1,6 +1,7 @@
 package scotip.app.service.switchboard;
 
 import scotip.app.dto.SwitchboardDto;
+import scotip.app.model.Company;
 import scotip.app.model.Switchboard;
 
 /**
@@ -8,4 +9,6 @@ import scotip.app.model.Switchboard;
  */
 public interface SwitchboardService {
     Switchboard registerNewSwitchboard(SwitchboardDto switchboardDto);
+
+    Switchboard getSwitchboardWithIdAndCompany(int sid, Company company);
 }

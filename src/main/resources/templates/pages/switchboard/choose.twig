@@ -71,7 +71,7 @@
 
                             {% if MAX_REACHED == false %}
                                 <!-- ADD -->
-                                <a href="/u/switch/new">
+                                <a href="/u/switchboard/new">
                                     <div class="col-md-3 col-sm-6 col-xs-12">
                                         <div class="info-box">
                                         <span class="info-box-icon bg-blue"><i
@@ -87,7 +87,7 @@
                             {% endif %}
 
                             {% for switch in companySwitchboards %}
-                                <a href="#" onclick="alert('Not available yet...');">
+                                <a href="/u/switchboard/{{ switch.sid }}/dialplan">
                                     <div class="col-md-3 col-sm-6 col-xs-12">
                                         <div class="info-box">
                                         <span class="info-box-icon bg-gray"><i

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import scotip.app.dao.switchboard.SwitchboardDao;
 import scotip.app.dto.SwitchboardDto;
+import scotip.app.model.Company;
 import scotip.app.model.Switchboard;
 
 /**
@@ -36,5 +37,20 @@ public class SwitchboardServiceImpl implements SwitchboardService {
         switchboard.setPhoneCodeAccess(switchboardDto.getPhoneCodeAccess());
 
         return switchboardDao.saveSwitchboard(switchboard);
+    }
+
+    @Override
+    public Switchboard getSwitchboardWithIdAndCompany(int sid, Company company) {
+        if(company==null){
+            return null;
+        }
+
+        // REQUEST COMPANIES ARE SAME
+        Switchboard switchboard = switchboardDao.get(sid);
+        if(switchboard!=null && switchboard.getCompany().getId() != company.getId()){
+            switchboard=null;
+        }
+
+        return switchboard;
     }
 }
