@@ -6,6 +6,7 @@
 
 {% block pageHeader %}
     Stats
+    <small>{{ switchboard.name }}</small>
 {% endblock %}
 
 {% block breadcrumb %}
@@ -16,35 +17,35 @@
 {% block pageContent %}
 
     <!-- Info boxes -->
+    {# <div class="row">
+
+         <div class="col-md-3 col-sm-6 col-xs-12">
+             <div class="info-box">
+                 <span class="info-box-icon bg-aqua"><i class="fa fa-gear"></i></span>
+                 <div class="info-box-content">
+                     <span class="info-box-text">
+                         Stats
+                     </span>
+                     <span class="info-box-number"></span>
+                 </div><!-- /.info-box-content -->
+             </div><!-- /.info-box -->
+         </div><!-- /.col -->
+
+         <div class="col-md-3 col-sm-6 col-xs-12">
+             <div class="info-box">
+                 <span class="info-box-icon bg-green"><i class="fa fa-phone-square"></i></span>
+                 <div class="info-box-content">
+                     <span class="info-box-text">Operators</span>
+                     <span class="info-box-number">3/5 <small> online</small></span>
+                 </div><!-- /.info-box-content -->
+             </div><!-- /.info-box -->
+         </div><!-- /.col -->
+
+     </div>#}
+
     <div class="row">
 
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-aqua"><i class="fa fa-gear"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">
-                        Stats
-                    </span>
-                    <span class="info-box-number"></span>
-                </div><!-- /.info-box-content -->
-            </div><!-- /.info-box -->
-        </div><!-- /.col -->
-
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-green"><i class="fa fa-phone-square"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">Operators</span>
-                    <span class="info-box-number">3/5 <small> online</small></span>
-                </div><!-- /.info-box-content -->
-            </div><!-- /.info-box -->
-        </div><!-- /.col -->
-
-    </div><!-- /.row -->
-
-
-    <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">Stats</h3>
@@ -61,42 +62,77 @@
                     <div class="row">
                         <div class="col-sm-3 col-xs-6">
                             <div class="description-block border-right">
-                                <span class="description-percentage text-green"><i
-                                            class="fa fa-caret-up"></i> 17%</span>
-                                <h5 class="description-header">£35,210.43</h5>
-                                <span class="description-text">TOTAL REVENUE</span>
+                                {# <span class="description-percentage text-green"><i
+                                             class="fa fa-caret-up"></i> 17%</span>#}
+                                <h5 class="description-header">125</h5>
+                                <span class="description-text">TOTAL CALLS</span>
                             </div><!-- /.description-block -->
                         </div><!-- /.col -->
+
                         <div class="col-sm-3 col-xs-6">
                             <div class="description-block border-right">
-                                <span class="description-percentage text-yellow"><i
-                                            class="fa fa-caret-left"></i> 0%</span>
-                                <h5 class="description-header">£10,390.90</h5>
-                                <span class="description-text">TOTAL COST</span>
+                                {# <span class="description-percentage text-yellow"><i
+                                             class="fa fa-caret-left"></i> 0%</span>#}
+                                <h5 class="description-header">2H05</h5>
+                                <span class="description-text">TOTAL CALLS LENGTH</span>
                             </div><!-- /.description-block -->
                         </div><!-- /.col -->
+
                         <div class="col-sm-3 col-xs-6">
                             <div class="description-block border-right">
-                                <span class="description-percentage text-green"><i
-                                            class="fa fa-caret-up"></i> 20%</span>
-                                <h5 class="description-header">£24,813.53</h5>
+
+                                <h5 class="description-header">Soon</h5>
                                 <span class="description-text">TOTAL PROFIT</span>
                             </div><!-- /.description-block -->
                         </div><!-- /.col -->
                         <div class="col-sm-3 col-xs-6">
                             <div class="description-block">
-                                <span class="description-percentage text-red"><i
-                                            class="fa fa-caret-down"></i> 18%</span>
-                                <h5 class="description-header">1200</h5>
-                                <span class="description-text">GOAL COMPLETIONS</span>
+
+                                <h5 class="description-header">Soon</h5>
+                                <span class="description-text">Soon</span>
                             </div><!-- /.description-block -->
                         </div>
                     </div><!-- /.row -->
                 </div><!-- /.box-footer -->
             </div><!-- /.box -->
         </div><!-- /.col -->
-    </div><!-- /.row -->
 
+
+        <div class="col-md-4">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">How to access?</h3>
+
+                </div><!-- /.box-header -->
+                <div class="box-body">
+
+                    {% if switchboard.line.shared == true %}
+                        <strong style="text-decoration: underline;">Shared line:</strong><br/>
+
+                        <ol>
+                            <li>
+                                Call the <strong>{{ switchboard.line.formatNumber }}</strong>
+                                <small>({{ switchboard.line.country }})</small>
+                            </li>
+                            <li>
+                                Enter this code: <strong>{{ switchboard.phoneCodeAccess }}</strong>
+                            </li>
+                        </ol>
+
+                        <p class="text-warning">
+                            <i class="fa fa-info-circle"></i>
+                            <a href="#">Bored? Consider upgrading to get a dedicated line!</a>
+                        </p>
+
+                    {% else %}
+                        <div class="alert alert-danger">Dedicated lines not implemented at this time.</div>
+                    {% endif %}
+
+                </div><!-- ./box-body -->
+
+            </div><!-- /.box -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
 
 
 

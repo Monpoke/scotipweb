@@ -46,7 +46,7 @@ public class SwitchboardServiceImpl implements SwitchboardService {
         }
 
         // REQUEST COMPANIES ARE SAME
-        Switchboard switchboard = switchboardDao.get(sid);
+        Switchboard switchboard = switchboardDao.getWithModules(sid);
         if(switchboard!=null && switchboard.getCompany().getId() != company.getId()){
             switchboard=null;
         }

@@ -1,0 +1,15 @@
+<li>
+
+    {{ rootModule.moduleModel.description }}
+
+
+
+    {% if rootModule.moduleChilds | length > 0 %}
+        <ul>
+            {% for module in rootModule.moduleChilds %}
+                {%  include "./dialplantree" with {'rootModule': module} %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+</li>

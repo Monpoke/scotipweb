@@ -37,11 +37,12 @@ public class Switchboard {
     protected boolean deleted = false;
 
 
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     protected Line line;
 
 
-
+    @OneToMany(mappedBy = "switchboard")
+    protected List<Module> modules;
 
 
     public int getSid() {
@@ -109,7 +110,15 @@ public class Switchboard {
         this.line = line;
     }
 
-    public Switchboard(){
+    public List<Module> getModules() {
+        return modules;
+    }
+
+    public void setModules(List<Module> modules) {
+        this.modules = modules;
+    }
+
+    public Switchboard() {
 
     }
 

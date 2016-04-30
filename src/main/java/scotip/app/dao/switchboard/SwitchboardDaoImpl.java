@@ -1,5 +1,6 @@
 package scotip.app.dao.switchboard;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import scotip.app.dao.AbstractDao;
@@ -27,5 +28,12 @@ public class SwitchboardDaoImpl extends AbstractDao<Integer, Switchboard>  imple
     @Override
     public Switchboard get(int sid) {
         return getByKey(sid);
+    }
+
+    @Override
+    public Switchboard getWithModules(int sid) {
+        Switchboard switchboard = get(sid);
+        Hibernate.initialize(switchboard.getModules());
+        return switchboard;
     }
 }
