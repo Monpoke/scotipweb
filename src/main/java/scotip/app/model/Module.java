@@ -1,6 +1,7 @@
 package scotip.app.model;
 
 import javax.persistence.*;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -11,7 +12,8 @@ import java.util.List;
 @Table(name = "module")
 public class Module {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mid")
     private int mid;
 
@@ -28,7 +30,6 @@ public class Module {
     private int phoneKey;
 
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "switchboard_id", nullable = false)
     protected Switchboard switchboard;
@@ -37,6 +38,10 @@ public class Module {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "model_id", nullable = false)
     protected ModuleModel moduleModel;
+
+
+    @Column(name = "settings")
+    protected HashMap<String, String> settings;
 
 
     public int getMid() {
