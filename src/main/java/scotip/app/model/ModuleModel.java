@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name = "module_model")
 public class ModuleModel {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="model_id")
     private int modelId;
 

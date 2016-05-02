@@ -12,7 +12,7 @@ import java.util.List;
 public class Switchboard {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sid")
     protected int sid;
 
