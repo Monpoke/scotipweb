@@ -11,4 +11,6 @@ public interface SwitchboardService {
     Switchboard registerNewSwitchboard(SwitchboardDto switchboardDto);
 
     Switchboard getSwitchboardWithIdAndCompany(int sid, Company company);
+
+    void notifyServerDialplanReload(Switchboard switchboard);
 }

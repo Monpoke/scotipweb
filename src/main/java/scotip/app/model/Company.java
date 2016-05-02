@@ -78,7 +78,7 @@ public class Company implements UserDetails {
     /**
      * @TODO HACK Fetch LAZY
      */
-    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     private Set<Switchboard> switchboards = new HashSet<>();
 
 

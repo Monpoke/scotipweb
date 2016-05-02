@@ -1,12 +1,24 @@
 package scotip.app.service.switchboard;
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.async.Callback;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import scotip.app.config.MainConfig;
 import scotip.app.dao.switchboard.SwitchboardDao;
 import scotip.app.dto.SwitchboardDto;
 import scotip.app.model.Company;
+import scotip.app.model.Module;
+import scotip.app.model.ModuleModel;
 import scotip.app.model.Switchboard;
+import scotip.app.service.moduleModel.ModuleModelService;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by Pierre on 29/04/2016.
@@ -17,6 +29,10 @@ public class SwitchboardServiceImpl implements SwitchboardService {
 
     @Autowired
     SwitchboardDao switchboardDao;
+
+    @Autowired
+    ModuleModelService moduleModelService;
+
 
     @Override
     public Switchboard registerNewSwitchboard(SwitchboardDto switchboardDto) {
@@ -36,21 +52,86 @@ public class SwitchboardServiceImpl implements SwitchboardService {
         switchboard.setName(switchboardDto.getName());
         switchboard.setPhoneCodeAccess(switchboardDto.getPhoneCodeAccess());
 
+
+        /**
+         * CREATE DEFAULT DIALPLAN
+         */
+        createDefaultDialplan(switchboard);
+
+
         return switchboardDao.saveSwitchboard(switchboard);
     }
 
+
+    /**
+     * Create a default dialplan.
+     *
+     * @param switchboard
+     */
+    private void createDefaultDialplan(Switchboard switchboard) {
+        /**
+         * Have to get some modules from databases.
+         */
+        Map<String, ModuleModel> modulesBySlugsAndMap = moduleModelService.getModulesBySlugsAndMap(new String[]{"playback", "read"});
+
+        /**
+         * DIALPLAN MODULES
+         */
+        Module rootModule = new Module(switchboard);
+        rootModule.setPhoneKey(-1);
+        rootModule.setModuleLevel(1);
+        rootModule.setModuleModel(modulesBySlugsAndMap.get("read"));
+        rootModule.setModuleSetting("file", "scotip/200/EN_Welcome");
+
+        Module module_key1 = new Module(switchboard);
+        module_key1.setPhoneKey(1);
+        module_key1.setModuleLevel(2);
+        module_key1.setModuleModel(modulesBySlugsAndMap.get("playback"));
+        module_key1.setModuleSetting("file", "hello-world");
+        rootModule.addChildModule(module_key1);
+
+
+        Module module_key3 = new Module(switchboard);
+        module_key3.setPhoneKey(3);
+        module_key3.setModuleLevel(2);
+        module_key3.setModuleModel(modulesBySlugsAndMap.get("playback"));
+        module_key3.setModuleSetting("file", "scotip/200/EN_About");
+        rootModule.addChildModule(module_key3);
+
+
+        // register module root
+        switchboard.getModules().add(rootModule);
+    }
+
+
     @Override
     public Switchboard getSwitchboardWithIdAndCompany(int sid, Company company) {
-        if(company==null){
+        if (company == null) {
             return null;
         }
 
         // REQUEST COMPANIES ARE SAME
         Switchboard switchboard = switchboardDao.getWithModules(sid);
-        if(switchboard!=null && switchboard.getCompany().getId() != company.getId()){
-            switchboard=null;
+        if (switchboard != null && switchboard.getCompany().getId() != company.getId()) {
+            switchboard = null;
         }
 
         return switchboard;
+    }
+
+    @Override
+    public void notifyServerDialplanReload(Switchboard switchboard) {
+        Unirest.get(MainConfig.NODESPAS_URL + "/switchboards/" + switchboard.getSid()).asJsonAsync(new Callback<JsonNode>() {
+            @Override
+            public void completed(HttpResponse<JsonNode> httpResponse) {
+            }
+            @Override
+            public void failed(UnirestException e) {
+                e.printStackTrace();
+            }
+            @Override
+            public void cancelled() {
+            }
+        });
     }
 }

@@ -13,4 +13,6 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:application.properties")
 public class MainConfig {
 
+    public final static String NODESPAS_URL = "http://localhost:8000";
+
 }

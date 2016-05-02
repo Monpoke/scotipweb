@@ -41,8 +41,8 @@ public class Switchboard {
     protected Line line;
 
 
-    @OneToMany(mappedBy = "switchboard")
-    protected List<Module> modules;
+    @OneToMany(mappedBy = "switchboard", cascade = {CascadeType.ALL})
+    protected List<Module> modules = new ArrayList<>();
 
 
     public int getSid() {

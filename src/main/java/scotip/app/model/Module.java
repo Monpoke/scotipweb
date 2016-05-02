@@ -1,8 +1,10 @@
 package scotip.app.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -23,8 +25,8 @@ public class Module {
     @ManyToOne(fetch = FetchType.EAGER)
     private Module moduleParent;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "moduleParent")
-    private List<Module> moduleChilds;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "moduleParent", cascade = {CascadeType.ALL})
+    private List<Module> moduleChilds = new ArrayList<>();
 
     @Column(name = "phone_key")
     private int phoneKey;
@@ -40,8 +42,10 @@ public class Module {
     protected ModuleModel moduleModel;
 
 
-    @Column(name = "settings")
-    protected HashMap<String, String> settings;
+    @ElementCollection()
+    @CollectionTable(name="module_settings", joinColumns=@JoinColumn(name="module_id"))
+    @Column(name="setting")
+    protected Map<String, String> settings = new HashMap<>();
 
 
     public int getMid() {
@@ -98,5 +102,46 @@ public class Module {
 
     public void setModuleChilds(List<Module> moduleChilds) {
         this.moduleChilds = moduleChilds;
+    }
+
+    public void addChildModule(Module module) {
+        this.moduleChilds.add(module);
+        module.setModuleParent(this);
+    }
+
+
+    public Map<String, String> getSettings() {
+        return settings;
+    }
+
+    public void setModuleSetting(String name, String value){
+        settings.put(name,value);
+    }
+
+    public void setSettings(Map<String, String> settings) {
+        this.settings = settings;
+    }
+
+    public Module() {
+
+    }
+
+    public Module(Switchboard switchboard) {
+        setSwitchboard(switchboard);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Module{" +
+                "mid=" + mid +
+                ", moduleLevel=" + moduleLevel +
+                ", moduleParent=" + moduleParent +
+                ", moduleChilds=" + moduleChilds +
+                ", phoneKey=" + phoneKey +
+                ", switchboard=" + switchboard +
+                ", moduleModel=" + moduleModel +
+                ", settings=" + settings +
+                '}';
     }
 }

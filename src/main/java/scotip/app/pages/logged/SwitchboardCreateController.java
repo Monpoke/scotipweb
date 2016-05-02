@@ -31,7 +31,7 @@ public class SwitchboardCreateController extends SwitchboardAppController {
     /**
      * CONSTANTS
      */
-    public final static int MAX_SWITCHBOARDS = 3;
+    public final static int MAX_SWITCHBOARDS = 10;
 
 
     @ModelAttribute("MAX")
@@ -87,7 +87,7 @@ public class SwitchboardCreateController extends SwitchboardAppController {
     public String create(ModelMap modelMap) {
 
         if (!canCreateSwitchboard()) {
-            return "redirect:/u/switch?new=maxReached";
+            return "redirect:/u/switchboard?new=maxReached";
         }
 
         Company currentCompany = getCurrentCompany();
@@ -103,7 +103,7 @@ public class SwitchboardCreateController extends SwitchboardAppController {
     @RequestMapping(value = "/u/switchboard/new", method = RequestMethod.POST)
     public String createProcess(@ModelAttribute("switchboard") @Valid SwitchboardDto switchboardDto, BindingResult bindingResult, ModelMap modelMap) {
         if (!canCreateSwitchboard()) {
-            return "redirect:/u/switch?new=maxReached";
+            return "redirect:/u/switchboard?new=maxReached";
         }
 
 
@@ -115,7 +115,11 @@ public class SwitchboardCreateController extends SwitchboardAppController {
 
             // OK
             if (switchboard != null) {
-                return "redirect:/u/switch?new=switch";
+
+                // notify server
+                switchboardService.notifyServerDialplanReload(switchboard);
+
+                return "redirect:/u/switchboard?new=switch";
             }
         }
 
