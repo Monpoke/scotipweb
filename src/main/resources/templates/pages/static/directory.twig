@@ -1,0 +1,40 @@
+{% extends "../../layouts/base" %}
+
+{% block title %}
+    Direcroty
+{% endblock %}
+{% block pageHeader %}
+    Switchboard Direcroty
+{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="/directory">Directory</a></li>
+{% endblock %}
+
+
+{% block pageContent %}
+
+<h2>phone numer : </h2>
+    <table id ="directory" class="table table-striped">
+        <tr>
+            <th>Switchboard number</th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+
+    {% for switchboard in list %}
+        <tr>
+            <td>{{switchboard.sid }}</td>
+            <td>{{switchboard.name }} </td>
+            <td>{{switchboard.description }}</td>
+        </tr>
+
+    {% endfor %}
+
+
+
+
+    </table>
+
+
+{% endblock %}
