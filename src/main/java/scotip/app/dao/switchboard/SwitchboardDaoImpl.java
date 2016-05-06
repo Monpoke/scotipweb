@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import scotip.app.dao.AbstractDao;
 import scotip.app.model.Switchboard;
 
+import java.util.List;
+
 /**
  * Created by Pierre on 29/04/2016.
  */
@@ -35,5 +37,9 @@ public class SwitchboardDaoImpl extends AbstractDao<Integer, Switchboard>  imple
         Switchboard switchboard = get(sid);
         Hibernate.initialize(switchboard.getModules());
         return switchboard;
+    }
+
+    public List<Switchboard> getAllSwitchboard(){
+        return getSession().createCriteria(Switchboard.class).list();
     }
 }

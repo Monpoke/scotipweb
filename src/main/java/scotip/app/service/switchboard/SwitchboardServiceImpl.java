@@ -18,6 +18,7 @@ import scotip.app.model.Switchboard;
 import scotip.app.service.moduleModel.ModuleModelService;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -133,5 +134,10 @@ public class SwitchboardServiceImpl implements SwitchboardService {
             public void cancelled() {
             }
         });
+    }
+
+
+    public List<Switchboard> getAllSwitchboard(){
+        return switchboardDao.getAllSwitchboard();
     }
 }
