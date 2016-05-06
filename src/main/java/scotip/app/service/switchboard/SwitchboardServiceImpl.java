@@ -93,7 +93,7 @@ public class SwitchboardServiceImpl implements SwitchboardService {
 
 
         Module module_key3 = new Module(switchboard);
-        module_key3.setPhoneKey(3);
+        module_key3.setPhoneKey(2);
         module_key3.setModuleLevel(2);
         module_key3.setModuleModel(modulesBySlugsAndMap.get("playback"));
         module_key3.setModuleSetting("file", "scotip/200/EN_About");

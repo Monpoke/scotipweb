@@ -8,20 +8,20 @@ import javax.persistence.*;
 @Table(name = "operator")
 public class Operator {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name = "oid")
-        protected int oid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "oid")
+    protected int oid;
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "company_id", nullable = false)
-        protected Company company;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id", nullable = false)
+    protected Company company;
 
-        @Column(name = "name")
-        protected String name;
+    @Column(name = "name")
+    protected String name;
 
-        @Column(name = "password")
-        protected String password;
+    @Column(name = "password")
+    protected String password;
 
 
     public int getOid() {
@@ -58,7 +58,7 @@ public class Operator {
 
     public Operator() {
 
-        }
-
     }
+
+}
 
