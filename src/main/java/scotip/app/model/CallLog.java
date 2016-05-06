@@ -26,10 +26,26 @@ public class CallLog {
 
 
     @Column(name="caller_number")
-    protected int caller_number;
+    protected String caller_number;
 
     @Column(name="timestamp")
     protected String timestamp;
+
+    @Column(name="duration")
+    protected int duration = 0;
+
+    @Column(name="finished")
+    protected boolean finished = false;
+
+
+    @ElementCollection()
+    @CollectionTable(name="call_logs_actions", joinColumns = @JoinColumn(name = "calllog_id"))
+    List<String> actions = new ArrayList<>();
+
+    @ElementCollection()
+    @CollectionTable(name="call_logs_variables", joinColumns=@JoinColumn(name="calllog_id"))
+    @Column(name="variables")
+    protected Map<String, String> variables = new HashMap<>();
 
 
 
@@ -49,11 +65,11 @@ public class CallLog {
         this.switchboard = switchboard;
     }
 
-    public int getCaller_number() {
+    public String getCaller_number() {
         return caller_number;
     }
 
-    public void setCaller_number(int caller_number) {
+    public void setCaller_number(String caller_number) {
         this.caller_number = caller_number;
     }
 
@@ -63,5 +79,37 @@ public class CallLog {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
+    public List<String> getActions() {
+        return actions;
+    }
+
+    public void setActions(List<String> actions) {
+        this.actions = actions;
+    }
+
+    public Map<String, String> getVariables() {
+        return variables;
+    }
+
+    public void setVariables(Map<String, String> variables) {
+        this.variables = variables;
     }
 }
