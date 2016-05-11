@@ -33,6 +33,7 @@ public class SwitchboardController extends SwitchboardAppController {
             throw new SwitchboardNotFoundException();
         }
         modelMap.addAttribute("switchboard",switchboard);
+        modelMap.addAttribute("stats_nbCalls", switchboard.getCallLogs().size());
 
 
         return "pages/switchboard/stats";

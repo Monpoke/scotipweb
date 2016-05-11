@@ -36,6 +36,7 @@ public class SwitchboardDaoImpl extends AbstractDao<Integer, Switchboard>  imple
     public Switchboard getWithModules(int sid) {
         Switchboard switchboard = get(sid);
         Hibernate.initialize(switchboard.getModules());
+        Hibernate.initialize(switchboard.getCallLogs());
         return switchboard;
     }
 

@@ -29,14 +29,37 @@
     padding               : 0;
 }
 
+.jOrgChart .phoneKey {
+    background-color: red;
+    width: 20px;
+    border-radius: 10px;
+    height: 20px;
+    color: white;
+    cursor: default;
+    font-weight: bold;
+    margin: -10px auto auto;
+}
+
+.jOrgChart .addModule {
+    background-color: darkgreen;
+    width: 20px;
+    border-radius: 10px;
+    height: 20px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 20px auto auto;
+}
+
 /* The node */
 .jOrgChart .node {
-    background-color 		: #35363B;
-    display               : inline-block;
-    width                 : 96px;
-    height                : 60px;
-    z-index 				: 10;
-    margin               : 0 2px;
+    background-color: #35363B;
+    display: inline-block;
+    width: 190px;
+    height: 90px;
+    padding: 2px;
+    z-index: 10;
+    margin: 0 2px;
 }
 
 /* jQuery drag 'n drop */

@@ -45,6 +45,10 @@ public class Switchboard {
     protected List<Module> modules = new ArrayList<>();
 
 
+    @OneToMany(mappedBy = "switchboard", cascade = {CascadeType.ALL})
+    protected List<CallLog> callLogs = new ArrayList<>();
+
+
     public int getSid() {
         return sid;
     }
@@ -116,6 +120,39 @@ public class Switchboard {
 
     public void setModules(List<Module> modules) {
         this.modules = modules;
+    }
+
+    public List<CallLog> getCallLogs() {
+        return callLogs;
+    }
+
+    public String getCallsTotalDuration(){
+
+        int total = 0;
+
+        List<CallLog> callLogs = getCallLogs();
+        for (CallLog call :
+                callLogs) {
+            total += call.getDuration();
+        }
+
+
+        int hours = (int)Math.floor(total / 3600);
+        int minutes = (int)Math.floor((total / 60) % 60);
+        int seconds = total % 60;
+
+        String s = "";
+        if(hours > 0){
+            s = hours +"H";
+        }
+
+        if(minutes > 0){
+            s = minutes +"M";
+        }
+
+        s+=seconds+"S";
+
+        return s;
     }
 
     public Switchboard() {

@@ -1,7 +1,9 @@
 <li>
+    {% if rootModule.phoneKey > 0 %}
+        <div class="phoneKey">{{ rootModule.phoneKey }}</div>
+    {% endif %}
 
     {{ rootModule.moduleModel.description }}
-
 
 
     {% if rootModule.moduleChilds | length > 0 %}
@@ -11,5 +13,7 @@
             {% endfor %}
         </ul>
     {% endif %}
+
+    <div class="addModule">+</div>
 
 </li>
