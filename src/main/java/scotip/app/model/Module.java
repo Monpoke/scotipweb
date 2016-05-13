@@ -1,5 +1,8 @@
 package scotip.app.model;
 
+import com.google.gson.Gson;
+import scotip.app.tools.PublicDataMask;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,9 +45,9 @@ public class Module {
     protected ModuleModel moduleModel;
 
 
-    @ElementCollection()
-    @CollectionTable(name="module_settings", joinColumns=@JoinColumn(name="module_id"))
-    @Column(name="setting")
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "module_settings", joinColumns = @JoinColumn(name = "module_id"))
+    @Column(name = "setting")
     protected Map<String, String> settings = new HashMap<>();
 
 
@@ -114,8 +117,8 @@ public class Module {
         return settings;
     }
 
-    public void setModuleSetting(String name, String value){
-        settings.put(name,value);
+    public void setModuleSetting(String name, String value) {
+        settings.put(name, value);
     }
 
     public void setSettings(Map<String, String> settings) {
@@ -143,5 +146,40 @@ public class Module {
                 ", moduleModel=" + moduleModel +
                 ", settings=" + settings +
                 '}';
+    }
+
+    public Map<String, Object> getPublicData() {
+        HashMap<String, Object> properties = new HashMap<>();
+        properties.put("mid", mid);
+        properties.put("phoneKey", phoneKey);
+        properties.put("settings", getPublicSettings());
+
+        return properties;
+    }
+
+    /**
+     * Have to get all public settings.
+     * @return
+     */
+    private Map<String, String> getPublicSettings() {
+        Map<String, String> sett = new HashMap<>();
+
+        Map<String, String> realSettings = getSettings();
+
+        if(realSettings.containsKey("file")){
+            sett.put("file", PublicDataMask.getFile(realSettings.get("file")));
+        }
+
+        return sett;
+    }
+
+    public String toJson() {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("module", getPublicData());
+        properties.put("model", getModuleModel().getPublicData());
+        properties.put("parent", getModuleParent() == null ? false : getModuleParent().getPublicData());
+
+
+        return new Gson().toJson(properties);
     }
 }

@@ -162,16 +162,33 @@ public class Company implements UserDetails {
         ContactMail = contactMail;
     }
 
-    public String getMD5CryptedMail() {
-        try {
-            byte[] bytesOfMessage = getContactMail().getBytes("UTF-8");
 
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] thedigest = md.digest(bytesOfMessage);
-            return thedigest.toString();
-        } catch (Exception e) {
-            return "none";
+    @Transient
+    private String tmpMD5_mail= null;
+
+    public String getMD5CryptedMail() {
+        if(tmpMD5_mail==null) {
+            try {
+                byte[] bytesOfMessage = getContactMail().getBytes();
+
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                md.reset();
+                byte[] thedigest = md.digest(bytesOfMessage);
+
+
+                //Decoding
+                BigInteger bigInt = new BigInteger(1, thedigest);
+                String hashtext = bigInt.toString(16);
+                while (hashtext.length() < 32) {
+                    hashtext = "0" + hashtext;
+                }
+                tmpMD5_mail=hashtext;
+            } catch (Exception e) {
+                return "none";
+            }
+
         }
+        return tmpMD5_mail;
 
     }
 

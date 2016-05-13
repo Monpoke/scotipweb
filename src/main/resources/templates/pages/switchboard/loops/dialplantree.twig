@@ -1,19 +1,23 @@
-<li>
+<li id="rootmod_{{ rootModule.mid }}">
     {% if rootModule.phoneKey > 0 %}
-        <div class="phoneKey">{{ rootModule.phoneKey }}</div>
+        <div class="phoneKey" title="Key to press on phone">{{ rootModule.phoneKey }}</div>
     {% endif %}
 
-    {{ rootModule.moduleModel.description }}
+    <div class="moduleDescription">
+        <strong>#{{ rootModule.mid }}</strong>
+        {{ rootModule.moduleModel.description }}
+    </div>
 
-
-    {% if rootModule.moduleChilds | length > 0 %}
-        <ul>
+    <ul id="submods_{{ rootModule.mid }}">
+        {% if rootModule.moduleChilds | length > 0 %}
             {% for module in rootModule.moduleChilds %}
-                {%  include "./dialplantree" with {'rootModule': module} %}
+                {% include "./dialplantree" with {'rootModule': module} %}
             {% endfor %}
-        </ul>
-    {% endif %}
+        {% endif %}
+    </ul>
 
-    <div class="addModule">+</div>
+    <div class="addModule" data-module-id="{{ rootModule.mid }}">+</div>
+
+    <div data-infos="{{ rootModule.toJson() }}"></div>
 
 </li>

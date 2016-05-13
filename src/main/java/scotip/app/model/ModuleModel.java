@@ -2,7 +2,9 @@ package scotip.app.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Pierre on 21/04/2016.
@@ -11,21 +13,22 @@ import java.util.List;
 @Table(name = "module_model")
 public class ModuleModel {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="model_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "model_id")
     private int modelId;
 
-    @Column(name="slug")
+    @Column(name = "slug")
     private String slug;
 
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
 
-    @Column(name="enabled")
+    @Column(name = "enabled")
     private boolean enabled = false;
 
-    @OneToMany(fetch=FetchType.LAZY,mappedBy="moduleModel")
-    private List<Module> modules= new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "moduleModel")
+    private List<Module> modules = new ArrayList<>();
 
 
     public int getModelId() {
@@ -66,5 +69,16 @@ public class ModuleModel {
 
     public void setModules(List<Module> modules) {
         this.modules = modules;
+    }
+
+    public Map<String,Object> getPublicData(){
+        HashMap<String, Object> properties = new HashMap<>();
+        properties.put("modelId",modelId);
+        properties.put("slug",slug);
+        properties.put("description",description);
+        properties.put("enabled",true);
+
+
+        return properties;
     }
 }

@@ -21,33 +21,33 @@
 
 {% block pageContent %}
 
-   {# <!-- Info boxes -->
-    <div class="row">
+    {# <!-- Info boxes -->
+     <div class="row">
 
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-aqua"><i class="fa fa-gear"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">
-                        Configuration
-                    </span>
-                    <span class="info-box-number"></span>
-                </div><!-- /.info-box-content -->
-            </div><!-- /.info-box -->
-        </div><!-- /.col -->
+         <div class="col-md-3 col-sm-6 col-xs-12">
+             <div class="info-box">
+                 <span class="info-box-icon bg-aqua"><i class="fa fa-gear"></i></span>
+                 <div class="info-box-content">
+                     <span class="info-box-text">
+                         Configuration
+                     </span>
+                     <span class="info-box-number"></span>
+                 </div><!-- /.info-box-content -->
+             </div><!-- /.info-box -->
+         </div><!-- /.col -->
 
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-green"><i class="fa fa-phone-square"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">Operators</span>
-                    <span class="info-box-number">3/5 <small> online</small></span>
-                </div><!-- /.info-box-content -->
-            </div><!-- /.info-box -->
-        </div><!-- /.col -->
+         <div class="col-md-3 col-sm-6 col-xs-12">
+             <div class="info-box">
+                 <span class="info-box-icon bg-green"><i class="fa fa-phone-square"></i></span>
+                 <div class="info-box-content">
+                     <span class="info-box-text">Operators</span>
+                     <span class="info-box-number">3/5 <small> online</small></span>
+                 </div><!-- /.info-box-content -->
+             </div><!-- /.info-box -->
+         </div><!-- /.col -->
 
-    </div><!-- /.row -->
-    #}
+     </div><!-- /.row -->
+     #}
 
     <div class="row">
         <div class="col-md-12">
@@ -90,42 +90,6 @@
                 </div><!-- ./box-body -->
 
 
-               {# <div class="box-footer">
-                    <div class="row">
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="description-block border-right">
-                                <span class="description-percentage text-green"><i
-                                            class="fa fa-caret-up"></i> 17%</span>
-                                <h5 class="description-header">£35,210.43</h5>
-                                <span class="description-text">TOTAL REVENUE</span>
-                            </div><!-- /.description-block -->
-                        </div><!-- /.col -->
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="description-block border-right">
-                                <span class="description-percentage text-yellow"><i
-                                            class="fa fa-caret-left"></i> 0%</span>
-                                <h5 class="description-header">£10,390.90</h5>
-                                <span class="description-text">TOTAL COST</span>
-                            </div><!-- /.description-block -->
-                        </div><!-- /.col -->
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="description-block border-right">
-                                <span class="description-percentage text-green"><i
-                                            class="fa fa-caret-up"></i> 20%</span>
-                                <h5 class="description-header">£24,813.53</h5>
-                                <span class="description-text">TOTAL PROFIT</span>
-                            </div><!-- /.description-block -->
-                        </div><!-- /.col -->
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="description-block">
-                                <span class="description-percentage text-red"><i
-                                            class="fa fa-caret-down"></i> 18%</span>
-                                <h5 class="description-header">1200</h5>
-                                <span class="description-text">GOAL COMPLETIONS</span>
-                            </div><!-- /.description-block -->
-                        </div>
-                    </div><!-- /.row -->
-                </div><!-- /.box-footer -->#}
             </div><!-- /.box -->
         </div><!-- /.col -->
     </div><!-- /.row -->
@@ -135,15 +99,89 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Modal title</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Module configuration for <span class="moduleParentName"></span></h4>
                 </div>
                 <div class="modal-body">
-                    <p>One fine body&hellip;</p>
+
+
+                    <label for="moduleType">Module type:</label><br/>
+                    <select id="moduleType" name="moduleType" class="form-control">
+                        <option selected="selected">Play a file</option>
+                        <option disabled>User input</option>
+                        <option disabled>Call forwarding</option>
+                        <option disabled>Operator</option>
+                        <option disabled>Group operators</option>
+                    </select>
+                    <br/><br/>
+
+                    <div id="moduleConfig_configs">
+                        <div id="moduleConfig_configs_settings">
+                            loading
+                        </div>
+                        <br />
+
+                        <h3>Options</h3>
+                        <input type="checkbox" name="" /> Can skip the message
+                        <hr />
+
+                        <fieldset>
+                            <legend>Upload</legend>
+                            You can upload a <em>WAV</em> file or a <em>MP3</em> file:<br />
+                            <input type="file" name="file" id="file" />
+                        </fieldset>
+
+                        <br /><br />
+
+                        <fieldset>
+                            <legend>Recording</legend>
+                            <ol>
+                                <li>Call this service number: <strong>+33(0)3.62.72.90.20</strong></li>
+                                <li>Type the service code: <strong>20</strong></li>
+                                <li>Type this dialplan code: <strong>{{ switchboard.sid }}</strong></li>
+                                <li>Then, type this module code: <strong data-set="moduleCode">00</strong></li>
+                                <li><em>Ready to record!</em></li>
+                            </ol>
+                        </fieldset>
+
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div id="moduleCreate" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Create a child for <span class="moduleParentName"></span></h4>
+                </div>
+                <div class="modal-body">
+
+
+                    <label for="moduleType">Module type:</label><br/>
+                    <select id="moduleType" name="moduleType" class="form-control">
+                        <option selected="selected">Play a file</option>
+                        <option disabled>User input</option>
+                        <option disabled>Call forwarding</option>
+                        <option disabled>Operator</option>
+                        <option disabled>Group operators</option>
+                    </select>
+                    <br/><br/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary" id="createNewModuleButton">Create</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
