@@ -69,13 +69,31 @@ function createNewModule(data){
     $(".moduleParentName").text("#"+data.module.mid);
     $("#createNewModuleButton").off().on('click', function(){
 
-        $("#submods_"+data.module.mid).append('<li>Test</li>');
+        var mod = $("#moduleTypeCreate").val();
+
+        $.get("/u/module/create/"+data.module.mid+"/"+mod).success(function(data){
+            if(data=="ok"){
+                location.reload();
+            }
+            else {
+                alert("Hm. Error! " + data);
+            }
+        })
+            .fail(function(err){
+
+               alert("Error!");
+            });
+
+
+
+        $("#submods_"+data.module.mid).append('<li>Refreshing...</li>');
 
         $("#configuration").html("");
         $("#dialplan").jOrgChart({
             chartElement: "#configuration",
             dragAndDrop: true
         });
+
 
         $("#moduleCreate").modal('hide');
     });

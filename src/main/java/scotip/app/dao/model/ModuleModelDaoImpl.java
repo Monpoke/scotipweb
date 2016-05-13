@@ -21,7 +21,6 @@ public class ModuleModelDaoImpl extends AbstractDao<Integer, ModuleModel>  imple
     public ModuleModel getModelBySlug(String slug) {
         Criteria entityCriteria = createEntityCriteria();
         entityCriteria.add(Restrictions.eq("slug",slug));
-
         return (ModuleModel) entityCriteria.uniqueResult();
     }
 

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import scotip.app.dao.model.ModuleModelDao;
 import scotip.app.dao.switchboard.SwitchboardDao;
 import scotip.app.dto.SwitchboardDto;
+import scotip.app.exceptions.ModuleModelNotFoundException;
 import scotip.app.model.Company;
 import scotip.app.model.ModuleModel;
 import scotip.app.model.Switchboard;
@@ -42,6 +43,16 @@ public class ModuleModelServiceImpl implements ModuleModelService {
         }
 
         return stringModuleModelHashMap;
+    }
+
+    @Override
+    public ModuleModel getEnabledModuleBySlug(String slug) throws ModuleModelNotFoundException {
+        ModuleModel modelBySlug = moduleModelDao.getModelBySlug(slug);
+        if(modelBySlug==null || !modelBySlug.isEnabled()){
+            throw new ModuleModelNotFoundException();
+        }
+
+        return modelBySlug;
     }
 
 }

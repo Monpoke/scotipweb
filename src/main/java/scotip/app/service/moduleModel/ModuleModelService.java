@@ -1,6 +1,7 @@
 package scotip.app.service.moduleModel;
 
 import scotip.app.dto.SwitchboardDto;
+import scotip.app.exceptions.ModuleModelNotFoundException;
 import scotip.app.model.Company;
 import scotip.app.model.ModuleModel;
 import scotip.app.model.Switchboard;
@@ -14,4 +15,6 @@ import java.util.Map;
 public interface ModuleModelService {
 
     Map<String, ModuleModel> getModulesBySlugsAndMap(String[] slugs);
+
+    ModuleModel getEnabledModuleBySlug(String slug) throws ModuleModelNotFoundException;
 }
