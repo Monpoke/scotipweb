@@ -10,4 +10,6 @@ public interface ModuleDao {
     Module findByIdAndCompany(int parentId, Company company);
 
     Module saveModule(Module module);
+
+    void remove(Module module);
 }

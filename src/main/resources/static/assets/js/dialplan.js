@@ -18,14 +18,28 @@ $(function () {
      */
     $(document).on('click', '.moduleDescription', function (e) {
 
-        $("#moduleConfig [data-edition]").show();
-
         var data = getData(this);
         updateModalWithData(data);
 
         $('#moduleConfig').modal('show');
 
+        $('#deleteButton').off().click(function (e) {
+
+            $.get("/u/module/delete/" + data.module.mid).success(function (data) {
+                    if (data == "ok") {
+                        location.reload();
+                    }
+                    else {
+                        alert("Hm. Error! " + data);
+                    }
+                })
+                .fail(function (err) {
+                    alert("Error!");
+                });
+        });
     });
+
+
 
 });
 
@@ -47,7 +61,7 @@ function getData(element) {
 
 
 function updateModalWithData(data) {
-    $(".moduleParentName").text("#"+data.module.mid);
+    $(".moduleParentName").text("#" + data.module.mid);
     // foreach sur settings
     $("#moduleConfig_configs_settings").html("");
     $.each(data.module.settings, function (key, value) {
@@ -65,28 +79,27 @@ function updateModalWithData(data) {
 }
 
 
-function createNewModule(data){
-    $(".moduleParentName").text("#"+data.module.mid);
-    $("#createNewModuleButton").off().on('click', function(){
+function createNewModule(data) {
+    $(".moduleParentName").text("#" + data.module.mid);
+    $("#createNewModuleButton").off().on('click', function () {
 
         var mod = $("#moduleTypeCreate").val();
 
-        $.get("/u/module/create/"+data.module.mid+"/"+mod).success(function(data){
-            if(data=="ok"){
-                location.reload();
-            }
-            else {
-                alert("Hm. Error! " + data);
-            }
-        })
-            .fail(function(err){
+        $.get("/u/module/create/" + data.module.mid + "/" + mod).success(function (data) {
+                if (data == "ok") {
+                    location.reload();
+                }
+                else {
+                    alert("Hm. Error! " + data);
+                }
+            })
+            .fail(function (err) {
 
-               alert("Error!");
+                alert("Error!");
             });
 
 
-
-        $("#submods_"+data.module.mid).append('<li>Refreshing...</li>');
+        $("#submods_" + data.module.mid).append('<li>Refreshing...</li>');
 
         $("#configuration").html("");
         $("#dialplan").jOrgChart({

@@ -125,6 +125,10 @@ public class Module {
         this.settings = settings;
     }
 
+    public boolean isRootModule(){
+        return (getPhoneKey() == -1 && getModuleLevel() <= 1);
+    }
+
     public Module() {
 
     }

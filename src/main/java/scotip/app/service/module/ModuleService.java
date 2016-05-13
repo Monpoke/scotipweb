@@ -1,5 +1,6 @@
 package scotip.app.service.module;
 
+import scotip.app.exceptions.OperationException;
 import scotip.app.model.Company;
 import scotip.app.model.Module;
 
@@ -12,4 +13,6 @@ public interface ModuleService {
     Module createNewModule(int parentId, String modelSlug, Company currentCompany) throws Exception;
 
     Module save(Module module);
+
+    Module removeModule(int parentId, Company currentCompany) throws OperationException;
 }

@@ -97,4 +97,21 @@ public class SwitchboardController extends SwitchboardAppController {
         }
 
     }
+
+    @RequestMapping("/u/module/delete/{parent}")
+    @ResponseBody
+    public String deleteModule(@PathVariable("parent") int parentId, ModelMap modelMap) throws ModuleModelNotFoundException {
+
+        try {
+            Module oldModule = moduleService.removeModule(parentId, getCurrentCompany());
+            // reload dialplan
+            switchboardService.notifyServerDialplanReload(oldModule.getSwitchboard());
+
+            return "ok";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+
+    }
 }
