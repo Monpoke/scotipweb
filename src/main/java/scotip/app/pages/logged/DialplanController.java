@@ -12,13 +12,11 @@ import scotip.app.exceptions.NoRootModuleException;
 import scotip.app.exceptions.SeveralRootModuleException;
 import scotip.app.exceptions.SwitchboardNotFoundException;
 import scotip.app.infos.AlertMessage;
-import scotip.app.model.Company;
-import scotip.app.model.Line;
-import scotip.app.model.Module;
-import scotip.app.model.Switchboard;
+import scotip.app.model.*;
 import scotip.app.pages.App;
 import scotip.app.service.company.CompanyService;
 import scotip.app.service.line.LineService;
+import scotip.app.service.sounds.SoundsService;
 import scotip.app.service.switchboard.SwitchboardService;
 
 import javax.validation.Valid;
@@ -43,6 +41,9 @@ public class DialplanController extends SwitchboardAppController {
 
     @Autowired
     private SwitchboardService switchboardService;
+
+    @Autowired
+    private SoundsService soundsService;
 
 
     /**
@@ -77,7 +78,19 @@ public class DialplanController extends SwitchboardAppController {
         modelMap.addAttribute("rootModule", rootModule);
 
 
+        // HAVE TO FIND LIBRARY SOUNDS
+        getLibrarySounds(modelMap);
+
         return ("pages/switchboard/dialplan");
+    }
+
+    /**
+     * Gets the library sounds
+     * @param modelMap
+     */
+    private void getLibrarySounds(ModelMap modelMap) {
+        List<SoundLibrary> librarySounds = soundsService.getLibrarySounds();
+        modelMap.put("librarySounds", librarySounds);
     }
 
     /**

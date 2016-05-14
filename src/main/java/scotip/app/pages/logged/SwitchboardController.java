@@ -15,6 +15,7 @@ import scotip.app.service.company.CompanyService;
 import scotip.app.service.line.LineService;
 import scotip.app.service.module.ModuleService;
 import scotip.app.service.moduleModel.ModuleModelService;
+import scotip.app.service.sounds.SoundsService;
 import scotip.app.service.switchboard.SwitchboardService;
 
 import javax.validation.Valid;
@@ -36,6 +37,9 @@ public class SwitchboardController extends SwitchboardAppController {
 
     @Autowired
     SwitchboardService switchboardService;
+
+    @Autowired
+    SoundsService soundsService;
 
 
     @RequestMapping("/u/switchboard/{sid}")

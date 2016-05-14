@@ -40,7 +40,6 @@ $(function () {
     });
 
 
-
 });
 
 /**
@@ -68,7 +67,13 @@ function updateModalWithData(data) {
         var keyName;
         switch (key) {
             case "file":
-                keyName = "File"
+                keyName = "File";
+
+                // replace default selected
+                if ($("#songLibrary option[data-path='" + value + "']").length == 1) {
+                    $("#songLibrary option[data-path='" + value + "']").attr('')
+                }
+
                 break;
             default:
                 keyName = "Unknown";
