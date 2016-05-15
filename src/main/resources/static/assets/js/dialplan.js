@@ -60,7 +60,6 @@ function getData(element) {
 
 
 function updateModalWithData(data) {
-    $(".moduleParentName").text("#" + data.module.mid);
     $("[data-set='moduleCode']").text(data.module.mid);
 
     // foreach sur settings
