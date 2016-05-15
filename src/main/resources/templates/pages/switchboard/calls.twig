@@ -1,0 +1,133 @@
+{% extends "../../layouts/base" %}
+
+{% block title %}
+    Calls logs
+{% endblock %}
+
+{% block pageHeader %}
+    Calls Logs
+    <small>{{ switchboard.name }}</small>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="/u/switchboard">Switchboard</a></li>
+    <li class="active"><a href="#">Calls logs</a></li>
+{% endblock %}
+
+{# CHANGE SIDEBAR #}
+{% block sidebar %}
+    {% include "pages/switchboard/sidebar/menu" %}
+{% endblock %}
+
+{% block pageContent %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Calls logs</h3>
+                    <div class="box-tools pull-right hidden">
+                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        <div class="btn-group">
+                            <button class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown"><i
+                                        class="fa fa-wrench"></i></button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+
+
+                        <div class="col-md-12">
+
+                            <table class="table table-condensed">
+                                <tr>
+                                    <th>
+                                        Caller
+                                    </th>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Number
+                                    </th>
+                                    <th>
+                                        Duration
+                                    </th>
+                                    <td>
+                                        Action
+                                    </td>
+                                </tr>
+
+                                {% for call in calls %}
+                                    <tr>
+                                        <td>{{ call.callid }}</td>
+                                        <td>{{ call.timestamp }}</td>
+                                        <td>{{ call.caller_number }}</td>
+                                        <td>
+                                            {% if not call.finished %}
+                                                <span class="text-danger">In progress</span>
+                                            {% else %}
+                                                {{ call.duration }}s
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="#" data-toggle="modal" data-target="#variables">Variables</a>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="5">
+                                            No logs yet.
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+
+                            </table>
+
+
+                        </div><!-- /.col -->
+
+
+                    </div><!-- /.row -->
+                </div><!-- ./box-body -->
+
+
+            </div><!-- /.box -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+
+
+
+
+    <div id="variables" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Call variables</h4>
+                </div>
+                <div class="modal-body">
+
+                    Some things...
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+{% endblock %}
+
