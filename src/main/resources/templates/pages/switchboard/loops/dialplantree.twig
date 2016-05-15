@@ -5,7 +5,7 @@
 
     <div class="moduleDescription">
         <strong>#{{ rootModule.mid }}</strong>
-        {{ rootModule.moduleModel.description }}
+        {{ rootModule.display() | raw }}
     </div>
 
     <ul id="submods_{{ rootModule.mid }}">

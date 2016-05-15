@@ -6,8 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import scotip.app.dto.ModuleUpdateDto;
 import scotip.app.dto.SwitchboardDto;
 import scotip.app.exceptions.ModuleModelNotFoundException;
+import scotip.app.exceptions.ModuleNotFoundException;
 import scotip.app.exceptions.SwitchboardNotFoundException;
 import scotip.app.model.*;
 import scotip.app.pages.App;
@@ -118,4 +120,48 @@ public class SwitchboardController extends SwitchboardAppController {
         }
 
     }
+
+
+    @RequestMapping(path = "/u/module/update/{module}", method = RequestMethod.POST)
+    @ResponseBody
+    public String updateModule(@Valid ModuleUpdateDto moduleUpdateDto, BindingResult bindingResult) {
+
+        try {
+            /**
+             * There is no error, so we can save
+             */
+            if (!bindingResult.hasErrors()) {
+
+                Module module = moduleService.findByIdAndCompany(moduleUpdateDto.getModuleId(), getCurrentCompany());
+
+                if (module == null) {
+                    throw new ModuleNotFoundException();
+                }
+
+
+                // save the file
+                if(moduleUpdateDto.getLibraryFile().length() > 0){
+                    /**
+                     * @todo have to check if files exists
+                      */
+
+                    String[] split = moduleUpdateDto.getLibraryFile().split(",");
+                    String finalFiles = String.join("&", split);
+
+                    module.getSettings().put("file",finalFiles);
+                    moduleService.save(module);
+                    switchboardService.notifyServerDialplanReload(module.getSwitchboard());
+                    return "ok";
+                }
+
+            }
+
+            return moduleUpdateDto.toString();
+
+        } catch (ModuleNotFoundException mnfe) {
+            mnfe.printStackTrace();
+            return "notfound";
+        }
+    }
+
 }

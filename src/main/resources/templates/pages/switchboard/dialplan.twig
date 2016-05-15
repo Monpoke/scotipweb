@@ -120,30 +120,39 @@
                         <div id="moduleConfig_configs_settings">
                             loading
                         </div>
-                        <br />
+                        <br/>
 
                         <h3>Options</h3>
-                        <input type="checkbox" name="" /> Can skip the message
-                        <hr />
+                        <input type="checkbox" name="canSkip" id="btnCanSkip"/>
+                        <label for="btnCanSkip">Can skip the message</label>
+                        <hr/>
+
+                        <input type="hidden" name="libraryFile" value=""/>
 
                         <fieldset>
                             <legend>Library song</legend>
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#songLibraryModal">
-                               Click here
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#songLibraryModal">
+                                Click here
                             </button>
 
                         </fieldset>
 
-                        <br /><br />
+                        <br/><br/>
+
 
                         <fieldset>
                             <legend>Upload</legend>
-                            You can upload a <em>WAV</em> file or a <em>MP3</em> file:<br />
-                            <input type="file" name="file" id="file" />
+                            You can upload a <em>WAV</em> file or a <em>MP3</em> file:<br/>
+                            <input type="file" name="file" id="file" accept="audio/mpeg,audio/wav,audio/x-wav"/>
+                            <br/>
+                            <button class="btn btn-warning btn-sm">
+                                <i class="fa fa-upload"></i> Upload
+                            </button>
                         </fieldset>
 
-                        <br /><br />
+                        <br/><br/>
 
                         <fieldset>
                             <legend>Recording</legend>
@@ -163,7 +172,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" id="deleteButton">Delete</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary" data-save>Save changes</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -211,10 +220,11 @@
 
 
                     <label for="songLibrary">Available:</label><br/>
-                    <select id="songLibrary" name="songLibrary" style="width: 100%;" class="select2">
+                    <select id="songLibrary" name="songLibrary" multiple="multiple" style="width: 100%;"
+                            class="select2">
                         {% for sound in librarySounds %}
-                            <option value="{{ sound.soundId }}" data-path="{{ sound.path }}">{{ sound.slug }}</option>
-                        {% endfor  %}
+                            <option value="{{ sound.path }}">{{ sound.slug }}</option>
+                        {% endfor %}
                     </select>
                     <br/><br/>
 
@@ -222,7 +232,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-success">Choose</button>
+                    <button type="button" class="btn btn-success" data-choose-library>Choose</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -254,6 +264,12 @@
 
             //Initialize Select2 Elements
             $(".select2").select2();
+
+            $(document).on('hidden.bs.modal', function (event) {
+                if ($('.modal:visible').length) {
+                    $('body').addClass('modal-open');
+                }
+            });
         });
     </script>
 {% endblock %}

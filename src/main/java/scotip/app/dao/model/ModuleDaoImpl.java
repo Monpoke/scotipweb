@@ -26,7 +26,7 @@ public class ModuleDaoImpl extends AbstractDao<Integer, Module> implements Modul
 
     @Override
     public Module saveModule(Module module) {
-        module.setMid((int)getSession().save(module));
+        getSession().saveOrUpdate(module);
         return module;
     }
 

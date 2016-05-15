@@ -30,9 +30,9 @@ public class ModuleServiceImpl implements ModuleService {
     ModuleModelService moduleModelService;
 
     @Override
-    public Module findByIdAndCompany(int parentId, Company company) {
+    public Module findByIdAndCompany(int id, Company company) {
 
-        return moduleDao.findByIdAndCompany(parentId, company);
+        return moduleDao.findByIdAndCompany(id, company);
     }
 
     @Override

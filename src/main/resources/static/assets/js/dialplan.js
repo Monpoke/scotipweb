@@ -39,6 +39,21 @@ $(function () {
         });
     });
 
+    /**
+     * Choose a library song
+     */
+    $(document).on('click', '[data-choose-library]', function (e) {
+        var val = $("#songLibrary").val();
+        $("[name='libraryFile']").val(val);
+
+        var split = ("" + val).split(",");
+        var allFiles = "library/" + split.join('&library/');
+
+
+        $("[data-id='opt_change_file']").html("<strong>Modification into</strong> <em>" + allFiles + "</em>");
+        $("#songLibraryModal").modal('hide');
+    });
+
 
 });
 
@@ -80,8 +95,39 @@ function updateModalWithData(data) {
                 keyName = "Unknown";
         }
 
-        $("#moduleConfig_configs_settings").append("<strong>" + keyName + ":</strong> \"" + value + "\"<br />");
+        $("#moduleConfig_configs_settings").append("<strong>" + keyName + ":</strong> \"" + value + "\"<div class='text-warning' data-id='opt_change_" + key + "'></div><br />");
     });
+
+
+    $('[data-save]').off().click(function (e) {
+
+        // dialplan id
+        // module id
+
+        // typemodel
+        // libraryFile
+        console.log(data);
+        var data_post = {
+            model: $("[name='moduleType']").val(),
+            libraryFile: $("[name='libraryFile']").val(),
+            canSkipFile: ($("[name='canSkip']").is(':checked')) ? 1 : 0,
+            moduleId: data.module.mid,
+        };
+
+
+        $.post("/u/module/update/"+data_post.moduleId, data_post).success(function(data){
+            console.log(data);
+            if(data==="ok"){
+                location.reload();
+            }
+        }).fail(function(err){
+
+        });
+
+
+    });
+
+
 }
 
 

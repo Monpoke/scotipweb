@@ -17,3 +17,33 @@
     margin-left:0;
     margin-right:0;
 }
+
+
+
+.jOrgChart .phoneKey {
+    background-color: red;
+    width: 20px;
+    border-radius: 10px;
+    height: 20px;
+    color: white;
+    cursor: default;
+    font-weight: bold;
+    margin: -10px auto auto;
+}
+
+.jOrgChart .addModule {
+    background-color: darkgreen;
+    width: 20px;
+    border-radius: 10px;
+    height: 20px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    margin: auto;
+}
+
+.jOrgChart .moduleDescription {
+    max-height:60px;
+    overflow: auto;
+}
+

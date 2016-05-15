@@ -2,6 +2,8 @@ package scotip.app.model;
 
 import com.google.gson.Gson;
 import scotip.app.tools.PublicDataMask;
+import scotip.app.tools.modules.Playback;
+import scotip.app.tools.modules.Read;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -125,7 +127,7 @@ public class Module {
         this.settings = settings;
     }
 
-    public boolean isRootModule(){
+    public boolean isRootModule() {
         return (getPhoneKey() == -1 && getModuleLevel() <= 1);
     }
 
@@ -155,6 +157,7 @@ public class Module {
     public Map<String, Object> getPublicData() {
         HashMap<String, Object> properties = new HashMap<>();
         properties.put("mid", mid);
+        properties.put("sid", getSwitchboard().getSid());
         properties.put("phoneKey", phoneKey);
         properties.put("settings", getPublicSettings());
 
@@ -163,6 +166,7 @@ public class Module {
 
     /**
      * Have to get all public settings.
+     *
      * @return
      */
     private Map<String, String> getPublicSettings() {
@@ -170,7 +174,7 @@ public class Module {
 
         Map<String, String> realSettings = getSettings();
 
-        if(realSettings.containsKey("file")){
+        if (realSettings.containsKey("file")) {
             sett.put("file", PublicDataMask.getFile(realSettings.get("file")));
         }
 
@@ -185,5 +189,28 @@ public class Module {
 
 
         return new Gson().toJson(properties);
+    }
+
+
+    /**
+     * Returns the text case.
+     *
+     * @return
+     */
+    public String display() {
+        String retu;
+        switch (getModuleModel().getSlug()) {
+            case "playback":
+                retu = new Playback(this).textDisplay();
+                break;
+            case "read":
+                retu = new Read(this).textDisplay();
+                break;
+            default:
+                retu = "Unknown module.";
+        }
+
+
+        return retu;
     }
 }
