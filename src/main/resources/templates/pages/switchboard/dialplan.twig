@@ -144,12 +144,15 @@
 
                         <fieldset>
                             <legend>Upload</legend>
-                            You can upload a <em>WAV</em> file or a <em>MP3</em> file:<br/>
-                            <input type="file" name="file" id="file" accept="audio/mpeg,audio/wav,audio/x-wav"/>
-                            <br/>
-                            <button class="btn btn-warning btn-sm">
-                                <i class="fa fa-upload"></i> Upload
-                            </button>
+                            <form id="uploadForm" method="post" action="/upload"  enctype="multipart/form-data">
+                                You can upload a <em>WAV</em> file or a <em>MP3</em> file:<br/>
+                                <input type="file" name="file" id="file" accept="audio/mpeg,audio/wav,audio/x-wav"/>
+                                <br/>
+                                <button class="btn btn-warning btn-sm" data-upload>
+                                    <i class="fa fa-upload"></i> Upload
+                                </button>
+                                <progress id="uploadProgress" class="hidden"></progress>
+                            </form>
                         </fieldset>
 
                         <br/><br/>

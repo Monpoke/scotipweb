@@ -37,6 +37,53 @@ $(function () {
                     alert("Error!");
                 });
         });
+
+
+
+
+        $('[data-upload]').off().click(function (e) {
+            e.preventDefault();
+            var formData = new FormData($('#uploadForm')[0]);
+
+            $.ajax({
+                url: '/u/module/upload/'+data.module.mid,  //Server script to process data
+                type: 'POST',
+                xhr: function () {  // Custom XMLHttpRequest
+                    var myXhr = $.ajaxSettings.xhr();
+                    if (myXhr.upload) { // Check if upload property exists
+                        myXhr.upload.addEventListener('progress', progressHandlingFunction, false); // For handling the progress of the upload
+                    }
+                    return myXhr;
+                },
+                //Ajax events
+                success: function(data){
+                    console.log(data);
+                    if(data==="ok"){
+                        alert('success');
+                    }
+                },
+                error: function(err){
+                    console.log(err);
+                },
+                // Form data
+                data: formData,
+                //Options to tell jQuery not to process data or worry about content-type.
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+
+
+            function progressHandlingFunction(e) {
+                $("#uploadProgress").removeClass('hidden');
+                if (e.lengthComputable) {
+                    $('#uploadProgress').attr({value: e.loaded, max: e.total});
+                }
+            }
+        });
+
+
+
     });
 
     /**
@@ -115,12 +162,12 @@ function updateModalWithData(data) {
         };
 
 
-        $.post("/u/module/update/"+data_post.moduleId, data_post).success(function(data){
+        $.post("/u/module/update/" + data_post.moduleId, data_post).success(function (data) {
             console.log(data);
-            if(data==="ok"){
+            if (data === "ok") {
                 location.reload();
             }
-        }).fail(function(err){
+        }).fail(function (err) {
 
         });
 
