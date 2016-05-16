@@ -27,4 +27,9 @@ public class SoundsServiceImpl implements SoundsService {
     public List<SoundLibrary> getLibrarySounds() {
         return soundDao.getAllLibrary();
     }
+
+    @Override
+    public List<SoundLibrary> getSoundsFromList(String[] slugs) {
+        return soundDao.getSoundsFromList(slugs);
+    }
 }

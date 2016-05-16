@@ -36,6 +36,9 @@ public class Module {
     @Column(name = "phone_key")
     private int phoneKey;
 
+    @Column(name="description")
+    private String description = "";
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "switchboard_id", nullable = false)
@@ -131,6 +134,14 @@ public class Module {
         return (getPhoneKey() == -1 && getModuleLevel() <= 1);
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Module() {
 
     }
@@ -158,7 +169,9 @@ public class Module {
         HashMap<String, Object> properties = new HashMap<>();
         properties.put("mid", mid);
         properties.put("sid", getSwitchboard().getSid());
+        properties.put("root", isRootModule());
         properties.put("phoneKey", phoneKey);
+        properties.put("description", description);
         properties.put("settings", getPublicSettings());
 
         return properties;

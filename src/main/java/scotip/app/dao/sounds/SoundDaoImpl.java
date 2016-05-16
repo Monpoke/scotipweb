@@ -26,4 +26,12 @@ public class SoundDaoImpl extends AbstractDao<Integer, SoundLibrary>  implements
         query.setCacheable(true);
         return query.list();
     }
+
+    @Override
+    public List<SoundLibrary> getSoundsFromList(String[] slugs) {
+        Query query = getSession().createQuery("from SoundLibrary WHERE slug IN :slugs");
+        query.setParameterList("slugs", slugs);
+        System.out.println(query.getQueryString());
+        return query.list();
+    }
 }

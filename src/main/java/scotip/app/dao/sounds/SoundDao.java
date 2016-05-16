@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface SoundDao {
     List<SoundLibrary> getAllLibrary();
+
+    List<SoundLibrary> getSoundsFromList(String[] slugs);
 }

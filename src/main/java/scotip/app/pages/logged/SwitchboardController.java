@@ -1,10 +1,12 @@
 package scotip.app.pages.logged;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import scotip.app.dto.ModuleUpdateDto;
 import scotip.app.dto.SwitchboardDto;
@@ -140,23 +142,13 @@ public class SwitchboardController extends SwitchboardAppController {
 
 
                 // save the file
-                if(moduleUpdateDto.getLibraryFile().length() > 0){
-                    /**
-                     * @todo have to check if files exists
-                      */
+                moduleService.saveUpdate(module, moduleUpdateDto);
+                return "ok";
 
-                    String[] split = moduleUpdateDto.getLibraryFile().split(",");
-                    String finalFiles = String.join("&", split);
-
-                    module.getSettings().put("file",finalFiles);
-                    moduleService.save(module);
-                    switchboardService.notifyServerDialplanReload(module.getSwitchboard());
-                    return "ok";
-                }
-
+            } else {
+                List<ObjectError> allErrors = bindingResult.getAllErrors();
+                return new Gson().toJson(allErrors);
             }
-
-            return moduleUpdateDto.toString();
 
         } catch (ModuleNotFoundException mnfe) {
             mnfe.printStackTrace();

@@ -39,14 +39,15 @@ $(function () {
         });
 
 
-
-
+        /**
+         * Function to upload a file.
+         */
         $('[data-upload]').off().click(function (e) {
             e.preventDefault();
             var formData = new FormData($('#uploadForm')[0]);
 
             $.ajax({
-                url: '/u/module/upload/'+data.module.mid,  //Server script to process data
+                url: '/u/module/upload/' + data.module.mid,  //Server script to process data
                 type: 'POST',
                 xhr: function () {  // Custom XMLHttpRequest
                     var myXhr = $.ajaxSettings.xhr();
@@ -56,13 +57,13 @@ $(function () {
                     return myXhr;
                 },
                 //Ajax events
-                success: function(data){
+                success: function (data) {
                     console.log(data);
-                    if(data==="ok"){
+                    if (data === "ok") {
                         alert('success');
                     }
                 },
-                error: function(err){
+                error: function (err) {
                     console.log(err);
                 },
                 // Form data
@@ -83,7 +84,6 @@ $(function () {
         });
 
 
-
     });
 
     /**
@@ -91,10 +91,12 @@ $(function () {
      */
     $(document).on('click', '[data-choose-library]', function (e) {
         var val = $("#songLibrary").val();
-        $("[name='libraryFile']").val(val);
 
         var split = ("" + val).split(",");
         var allFiles = "library/" + split.join('&library/');
+
+        $(".libraryFileGroup").removeClass('hidden');
+        $("[name='libraryFile']").val(allFiles);
 
 
         $("[data-id='opt_change_file']").html("<strong>Modification into</strong> <em>" + allFiles + "</em>");
@@ -122,7 +124,16 @@ function getData(element) {
 
 
 function updateModalWithData(data) {
+    $("[name='description']").text(data.module.description);
     $("[data-set='moduleCode']").text(data.module.mid);
+
+    console.log(data);
+    if (data.module.root) {
+        $(".phoneKeyGroup").hide();
+    } else {
+        $(".phoneKeyGroup").show();
+        $("input[name='phoneKey']").val(data.module.phoneKey);
+    }
 
     // foreach sur settings
     $("#moduleConfig_configs_settings").html("");
@@ -146,26 +157,41 @@ function updateModalWithData(data) {
     });
 
 
+    /**
+     * Saving changes
+     */
     $('[data-save]').off().click(function (e) {
 
-        // dialplan id
-        // module id
-
-        // typemodel
         // libraryFile
         console.log(data);
         var data_post = {
             model: $("[name='moduleType']").val(),
             libraryFile: $("[name='libraryFile']").val(),
+            description: $("[name='description']").val(),
+            phoneKey: $("[name='phoneKey']").val()*1,
             canSkipFile: ($("[name='canSkip']").is(':checked')) ? 1 : 0,
             moduleId: data.module.mid,
         };
 
 
-        $.post("/u/module/update/" + data_post.moduleId, data_post).success(function (data) {
-            console.log(data);
-            if (data === "ok") {
+        $.post("/u/module/update/" + data_post.moduleId, data_post).success(function (dataPost) {
+            console.log(dataPost);
+            if (dataPost === "ok") {
                 location.reload();
+            } else {
+                try {
+                    var err = $.parseJSON(dataPost);
+                    var alertm = "";
+
+                    for (var i = 0, t = err.length; i < t; i++) {
+                        alertm += err[i].defaultMessage + "\n";
+                    }
+
+                    alert(alertm);
+                } catch (e) {
+                    console.log(dataPost);
+                }
+
             }
         }).fail(function (err) {
 

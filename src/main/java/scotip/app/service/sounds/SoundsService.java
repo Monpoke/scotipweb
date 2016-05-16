@@ -10,4 +10,6 @@ import java.util.List;
 public interface SoundsService {
 
     List<SoundLibrary> getLibrarySounds();
+
+    List<SoundLibrary> getSoundsFromList(String[] slugs);
 }
