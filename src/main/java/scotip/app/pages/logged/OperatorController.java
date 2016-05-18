@@ -1,5 +1,6 @@
 package scotip.app.pages.logged;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
-import scotip.app.dto.CompanyDto;
 import scotip.app.dto.OperatorDto;
 import scotip.app.model.Operator;
 import scotip.app.service.company.CompanyService;
@@ -45,20 +45,25 @@ public class OperatorController {
 
     @RequestMapping(value = "/u/newOperator/{id}", method = RequestMethod.POST)
 
-    public String newOperators(@PathVariable("id") int id,ModelMap model
-            ,@ModelAttribute("operator") @Valid OperatorDto accountDto
+    public String newOperators(@PathVariable("id") int id
+            , @ModelAttribute("operator") @Valid OperatorDto accountDto
             , BindingResult result, WebRequest request, Errors errors) {
         accountDto.setCompany(company.findById(id));
         operator.registerNewOperator(accountDto);
 
 
 
-        model.put("list", operator.getAllOperator(id));
-        OperatorDto operatorDto = new OperatorDto();
-        model.addAttribute("operator", operatorDto);
+        return  "redirect:/u/operator/"+id;
 
-        return "pages/static/operator";
     }
 
+    @RequestMapping("/u/delOperator/{idComp}/{id}")
+    public String delOperators(@PathVariable("idComp") int idComp,@PathVariable("id") int id) {
+
+        operator.deleteById(id);
+
+        return  "redirect:/u/operator/"+idComp;
+
+    }
 
 }

@@ -1,5 +1,6 @@
 package scotip.app.dao.operator;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,10 +16,14 @@ import java.util.List;
 @Transactional
 @Repository("OperatorDao")
 public class OperatorDaoImpl  extends AbstractDao<Integer, Operator> implements OperatorDao{
+
     @Override
     public Operator findById(int id) {
         return getByKey(id);
     }
+
+    @Override
+    public void deleteById(int id) {delete(getByKey(id));}
 
     @Override
     public Operator registerNewOperator(Operator operator) {

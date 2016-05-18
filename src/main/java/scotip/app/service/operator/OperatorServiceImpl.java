@@ -46,5 +46,10 @@ public class OperatorServiceImpl implements OperatorService{
         return dao.getAllOperator(company.findById(id));
     }
 
+    @Override
+    public void deleteById(int id) {
+        dao.deleteById(id);
+    }
+
 
 }

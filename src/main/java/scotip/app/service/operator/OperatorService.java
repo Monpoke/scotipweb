@@ -15,4 +15,6 @@ public interface OperatorService {
     Operator registerNewOperator(OperatorDto OperatorDto);
 
     List<Operator> getAllOperator(int id);
+
+    void deleteById(int id);
 }

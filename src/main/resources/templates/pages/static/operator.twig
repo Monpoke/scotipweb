@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block breadcrumb %}
-    <li><a href="/u/operator">Operator</a></li>
+    <li><a href="/u/operator/{{ currentCompany.id }}">Operator</a></li>
 {% endblock %}
 
 
@@ -26,7 +26,7 @@
         {% set token = request.attribute('_csrf') %}
         <input type="hidden" name="{{ token.parameterName }}" value="{{ token.token }}"/>
 
-        <button type="submit" class="btn btn-default">Sign in</button>
+        <button type="submit" class="btn btn-default">Register</button>
     </form>
 
 
@@ -35,6 +35,7 @@
             <th width = "100">Operator ID</th>
             <th>Name</th>
             <th>password</th>
+            <th>delete</th>
         </tr>
 
         {% for operator in list %}
@@ -42,6 +43,7 @@
                 <td>{{ operator.oid }}</td>
                 <td>{{ operator.name }} </td>
                 <td>{{ operator.password }} </td>
+                <td><a href="/u/delOperator/{{ currentCompany.id }}/{{ operator.oid }}"><img src="/assets/img/delete.png" alt="delete"></a></td>
             </tr>
         {% endfor %}
 

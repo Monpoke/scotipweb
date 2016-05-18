@@ -11,6 +11,7 @@ import java.util.List;
 public interface OperatorDao {
 
     Operator findById(int id);
+    void deleteById(int id);
     Operator registerNewOperator(Operator operator);
     List<Operator> getAllOperator(Company comp);
 }
