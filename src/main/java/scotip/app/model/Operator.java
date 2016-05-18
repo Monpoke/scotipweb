@@ -29,6 +29,8 @@ import javax.persistence.*;
 /**
  * Created by svevia on 05/05/2016.
  */
+
+@Entity
 @Table(name = "operator")
 public class Operator {
 
