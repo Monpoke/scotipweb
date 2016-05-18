@@ -27,8 +27,13 @@ package scotip.app.service.sounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import scotip.app.dao.sounds.MOHGroupDao;
 import scotip.app.dao.sounds.SoundDao;
+import scotip.app.dto.MohGroupAdd;
+import scotip.app.exceptions.MOHNotFoundException;
+import scotip.app.model.MohGroup;
 import scotip.app.model.SoundLibrary;
+import scotip.app.model.Switchboard;
 
 import java.util.List;
 
@@ -42,9 +47,13 @@ public class SoundsServiceImpl implements SoundsService {
     @Autowired
     SoundDao soundDao;
 
+    @Autowired
+    MOHGroupDao mohGroupDao;
+
 
     /**
      * Returns all songs
+     *
      * @return
      */
     @Override
@@ -56,4 +65,37 @@ public class SoundsServiceImpl implements SoundsService {
     public List<SoundLibrary> getSoundsFromList(String[] slugs) {
         return soundDao.getSoundsFromList(slugs);
     }
+
+
+    /**
+     * Saves group
+     *
+     * @param mohGroupAdd
+     * @param switchboard
+     */
+    @Override
+    public void saveMOHGroup(MohGroupAdd mohGroupAdd, Switchboard switchboard) {
+
+        MohGroup mohGroup = new MohGroup(switchboard);
+        mohGroup.setName(mohGroupAdd.getGroupName());
+
+        mohGroupDao.saveGroup(mohGroup);
+    }
+
+    @Override
+    public void removeMOHGroup(Switchboard switchboard, int mid) {
+        mohGroupDao.removeMOHGroup(switchboard, mid);
+    }
+
+    @Override
+    public MohGroup getMohGroupWithIdAndSwitchboard(int mid, int sid) {
+        MohGroup mohGroup = mohGroupDao.findById(mid);
+        if (mohGroup == null || mohGroup.getSwitchboard().getSid() != sid) {
+            return null;
+        }
+
+        return mohGroup;
+    }
+
+
 }

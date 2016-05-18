@@ -73,6 +73,9 @@ public class Switchboard {
     @OneToMany(mappedBy = "switchboard", cascade = {CascadeType.ALL})
     protected List<CallLog> callLogs = new ArrayList<>();
 
+    @OneToMany(mappedBy = "switchboard", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    protected List<MohGroup> mohGroups = new ArrayList<>();
+
 
     public int getSid() {
         return sid;
@@ -149,6 +152,18 @@ public class Switchboard {
 
     public List<CallLog> getCallLogs() {
         return callLogs;
+    }
+
+    public void setCallLogs(List<CallLog> callLogs) {
+        this.callLogs = callLogs;
+    }
+
+    public List<MohGroup> getMohGroups() {
+        return mohGroups;
+    }
+
+    public void setMohGroups(List<MohGroup> mohGroups) {
+        this.mohGroups = mohGroups;
     }
 
     public String getCallsTotalDuration(){

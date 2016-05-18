@@ -22,61 +22,30 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.model;
+package scotip.app.dto;
 
-import javax.persistence.*;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+import scotip.app.validation.PasswordMatches;
+import scotip.app.validation.ValidEmail;
+
+import javax.validation.constraints.NotNull;
 
 /**
- * Created by Pierre on 21/04/2016.
+ * Created by Pierre on 26/04/2016.
  */
-@Entity
-@Table(name = "moh_file")
-public class MohFile {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "moh_id")
-    private int soundId;
 
-    @Column(name = "moh_path")
-    private String path;
-
-    @Column(name = "moh_name")
-    private String name;
+public class MohGroupAdd {
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "group_id", nullable = false)
-    protected MohGroup group;
+    @Length(min = 3, max=25, message = "Group name can contains between 3 and 25 characters.")
+    private String groupName;
 
-    public int getSoundId() {
-        return soundId;
+    public String getGroupName() {
+        return groupName;
     }
 
-    public void setSoundId(int soundId) {
-        this.soundId = soundId;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public MohGroup getGroup() {
-        return group;
-    }
-
-    public void setGroup(MohGroup group) {
-        this.group = group;
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }

@@ -22,61 +22,40 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.model;
+package scotip.app.dao.sounds;
 
-import javax.persistence.*;
+import org.hibernate.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import scotip.app.dao.AbstractDao;
+import scotip.app.model.MohGroup;
+import scotip.app.model.SoundLibrary;
+import scotip.app.model.Switchboard;
+
+import java.util.List;
 
 /**
- * Created by Pierre on 21/04/2016.
+ * Created by Pierre on 18/05/2016.
  */
-@Entity
-@Table(name = "moh_file")
-public class MohFile {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "moh_id")
-    private int soundId;
+@Repository("mohDao")
+@Transactional
+public class MOHGroupDaoImpl extends AbstractDao<Integer, MohGroup> implements MOHGroupDao {
 
-    @Column(name = "moh_path")
-    private String path;
-
-    @Column(name = "moh_name")
-    private String name;
-
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "group_id", nullable = false)
-    protected MohGroup group;
-
-    public int getSoundId() {
-        return soundId;
+    @Override
+    public void saveGroup(MohGroup newGroup) {
+        getSession().saveOrUpdate(newGroup);
     }
 
-    public void setSoundId(int soundId) {
-        this.soundId = soundId;
+    @Override
+    public void removeMOHGroup(Switchboard switchboard, int mid) {
+        Query query = getSession().createQuery("DELETE MohGroup WHERE groupId = :mid AND switchboard = :switchboard");
+        query.setParameter("mid",mid);
+        query.setParameter("switchboard",switchboard);
+        query.executeUpdate();
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public MohGroup getGroup() {
-        return group;
-    }
-
-    public void setGroup(MohGroup group) {
-        this.group = group;
+    @Override
+    public MohGroup findById(int id) {
+        return getByKey(id);
     }
 }

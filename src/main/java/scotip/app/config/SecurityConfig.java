@@ -112,8 +112,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // no pages restricted
                 .anyRequest().permitAll()
 
+                .and().csrf().disable()
+
                 // CSRF TOKEN
-                .and().addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
+                .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
         ;
 
 
