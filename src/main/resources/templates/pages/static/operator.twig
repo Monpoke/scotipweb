@@ -1,0 +1,51 @@
+{% extends "../../layouts/base" %}
+
+{% block title %}
+    Directory
+{% endblock %}
+{% block pageHeader %}
+    Switchboards Directory
+{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="/u/operator">Operator</a></li>
+{% endblock %}
+
+
+{% block pageContent %}
+
+    <form class="form-inline" action = "/u/newOperator/{{ currentCompany.id }}" method="post" >
+        <div class="form-group">
+            <input type="text" class="form-control" name="name" id="name" placeholder="Name" value="{{ operator.name }}">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name="password" id="password" placeholder="Password" value="{{ operator.password }}">
+        </div>
+
+        <input type="hidden" name="company" value={{ currentCompany.id }}/>
+        {% set token = request.attribute('_csrf') %}
+        <input type="hidden" name="{{ token.parameterName }}" value="{{ token.token }}"/>
+
+        <button type="submit" class="btn btn-default">Sign in</button>
+    </form>
+
+
+    <table id="directory" class="table table-striped">
+        <tr>
+            <th width = "100">Operator ID</th>
+            <th>Name</th>
+            <th>password</th>
+        </tr>
+
+        {% for operator in list %}
+            <tr>
+                <td>{{ operator.oid }}</td>
+                <td>{{ operator.name }} </td>
+                <td>{{ operator.password }} </td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+
+{% endblock %}

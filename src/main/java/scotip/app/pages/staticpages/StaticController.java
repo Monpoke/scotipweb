@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import scotip.app.dao.switchboard.SwitchboardDao;
 import scotip.app.infos.PricingPlan;
 import scotip.app.dao.switchboard.SwitchboardDaoImpl;
+import scotip.app.service.operator.OperatorService;
 import scotip.app.service.switchboard.SwitchboardService;
 
 /**
@@ -41,6 +42,7 @@ public class StaticController {
 
     @Autowired
     private SwitchboardService service;
+
 
     @RequestMapping("/pricings")
     public String pricings(ModelMap model) {
@@ -62,4 +64,6 @@ public class StaticController {
 
         return "pages/static/directory";
     }
+
+
 }
