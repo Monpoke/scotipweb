@@ -24,7 +24,10 @@
 
 package scotip.app.service.sounds;
 
+import scotip.app.dto.MohGroupAdd;
+import scotip.app.model.Company;
 import scotip.app.model.SoundLibrary;
+import scotip.app.model.Switchboard;
 
 import java.util.List;
 
@@ -36,4 +39,8 @@ public interface SoundsService {
     List<SoundLibrary> getLibrarySounds();
 
     List<SoundLibrary> getSoundsFromList(String[] slugs);
+
+    void saveMOHGroup(MohGroupAdd mohGroupAdd, Switchboard switchboard);
+
+    void removeMOHGroup(Switchboard switchboard, int mid);
 }

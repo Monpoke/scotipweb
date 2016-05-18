@@ -24,16 +24,12 @@
 
 package scotip.app.dao.sounds;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import scotip.app.dao.AbstractDao;
 import scotip.app.model.SoundLibrary;
-import scotip.app.model.Switchboard;
-import scotip.app.service.sounds.SoundsService;
 
-import javax.persistence.Entity;
 import java.util.List;
 
 /**

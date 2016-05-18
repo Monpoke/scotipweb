@@ -205,6 +205,7 @@
 
 <script src="/assets/js/app.min.js"></script>
 <script src="/assets/js/scotip.js"></script>
+{{ typeob(request.contextPath) }}
 <script>
     Config.csrfToken = "{{ request.attribute('_crsf').token }}";
 </script>

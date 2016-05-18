@@ -63,6 +63,8 @@ public class CustomViewFunctions implements Extension {
             public Object execute(Map<String, Object> args) {
                 String s = "";
 
+
+
                 Object o = args.get("object");
 
                 if (o != null) {

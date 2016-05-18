@@ -106,6 +106,17 @@ public class SwitchboardController extends SwitchboardAppController {
         return "pages/switchboard/opening";
     }
 
+    @RequestMapping("/u/switchboard/{sid}/config")
+    public String configurationEdit(@PathVariable("sid") int sid, ModelMap modelMap) throws SwitchboardNotFoundException {
+        Switchboard switchboard = getSwitchboard(sid);
+        if (switchboard == null) {
+            throw new SwitchboardNotFoundException();
+        }
+        modelMap.addAttribute("switchboard", switchboard);
+
+        return "pages/switchboard/config";
+    }
+
 
     /*
     ==================================

@@ -29,6 +29,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.async.Callback;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -137,6 +138,8 @@ public class SwitchboardServiceImpl implements SwitchboardService {
 
         // REQUEST COMPANIES ARE SAME
         Switchboard switchboard = switchboardDao.getWithModules(sid);
+        Hibernate.initialize(switchboard.getMohGroups());
+
         if (switchboard != null && switchboard.getCompany().getId() != company.getId()) {
             switchboard = null;
         }

@@ -83,7 +83,7 @@ public class GlobalVariables extends HandlerInterceptorAdapter {
             model.put("isLogged", isLogged);
             model.put("currentUsername", currentUsername);
             model.put("currentCompany", currentLoggedCompany);
-
+            model.put("securityToken", "");
         }
     }
 }

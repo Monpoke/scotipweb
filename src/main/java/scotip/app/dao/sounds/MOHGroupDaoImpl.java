@@ -22,57 +22,35 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.model;
+package scotip.app.dao.sounds;
 
-import javax.persistence.*;
+import org.hibernate.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import scotip.app.dao.AbstractDao;
+import scotip.app.model.MohGroup;
+import scotip.app.model.SoundLibrary;
+import scotip.app.model.Switchboard;
+
+import java.util.List;
 
 /**
- * Created by Pierre on 21/04/2016.
+ * Created by Pierre on 18/05/2016.
  */
-@Entity
-@Table(name = "moh_group")
-public class MohGroup {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "mohgroup_id")
-    private int groupId;
+@Repository("mohDao")
+@Transactional
+public class MOHGroupDaoImpl extends AbstractDao<Integer, MohGroup> implements MOHGroupDao {
 
-    @Column(name = "group_name")
-    private String name;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "switchboard_id", nullable = false)
-    protected Switchboard switchboard;
-
-    public int getGroupId() {
-        return groupId;
+    @Override
+    public void saveGroup(MohGroup newGroup) {
+        getSession().saveOrUpdate(newGroup);
     }
 
-    public void setGroupId(int groupdId) {
-        this.groupId = groupdId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Switchboard getSwitchboard() {
-        return switchboard;
-    }
-
-    public void setSwitchboard(Switchboard switchboard) {
-        this.switchboard = switchboard;
-    }
-
-    public MohGroup() {
-
-    }
-
-    public MohGroup(Switchboard switchboard) {
-        this.switchboard = switchboard;
+    @Override
+    public void removeMOHGroup(Switchboard switchboard, int mid) {
+        Query query = getSession().createQuery("DELETE MohGroup WHERE groupId = :mid AND switchboard = :switchboard");
+        query.setParameter("mid",mid);
+        query.setParameter("switchboard",switchboard);
+        query.executeUpdate();
     }
 }

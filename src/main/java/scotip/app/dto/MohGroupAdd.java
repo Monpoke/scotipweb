@@ -22,57 +22,30 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.model;
+package scotip.app.dto;
 
-import javax.persistence.*;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+import scotip.app.validation.PasswordMatches;
+import scotip.app.validation.ValidEmail;
+
+import javax.validation.constraints.NotNull;
 
 /**
- * Created by Pierre on 21/04/2016.
+ * Created by Pierre on 26/04/2016.
  */
-@Entity
-@Table(name = "moh_group")
-public class MohGroup {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "mohgroup_id")
-    private int groupId;
 
-    @Column(name = "group_name")
-    private String name;
+public class MohGroupAdd {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "switchboard_id", nullable = false)
-    protected Switchboard switchboard;
 
-    public int getGroupId() {
-        return groupId;
+    @Length(min = 3, max=25, message = "Group name can contains between 3 and 25 characters.")
+    private String groupName;
+
+    public String getGroupName() {
+        return groupName;
     }
 
-    public void setGroupId(int groupdId) {
-        this.groupId = groupdId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Switchboard getSwitchboard() {
-        return switchboard;
-    }
-
-    public void setSwitchboard(Switchboard switchboard) {
-        this.switchboard = switchboard;
-    }
-
-    public MohGroup() {
-
-    }
-
-    public MohGroup(Switchboard switchboard) {
-        this.switchboard = switchboard;
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }

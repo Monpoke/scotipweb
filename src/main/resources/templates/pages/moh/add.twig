@@ -1,0 +1,66 @@
+{% extends "../switchboard/layoutSwitch" %}
+
+{% block title %}
+    MOH
+{% endblock %}
+
+{% block pageHeader %}
+    Music on Hold
+    <small>{{ switchboard.name }}</small>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="/u/switchboard">Switchboard</a></li>
+    <li><a href="..">MOH</a></li>
+    <li class="active"><a href="#">Add group</a></li>
+{% endblock %}
+
+{% block pageContent %}
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">List</h3>
+
+                </div><!-- /.box-header -->
+                <div class="box-body">
+
+                    {% if errors is not null %}
+                        <div class="alert alert-danger">
+                            <strong>Oops.</strong><br/>
+                            {% for err in errors %}
+                                {{ err.defaultMessage }}<br/>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <form method="post" class="col-sm-6">
+                        <div class="form-group">
+                            <label for="groupName">Group name:</label>
+                            <input type="text" class="form-control" id="groupName" name="groupName"
+                                   value="{{ dto.groupName }}"
+                                   placeholder="Enter a name for this group">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-success">Add</button>
+                                <a href="../" class="btn btn-default">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+
+
+                </div><!-- ./box-body -->
+
+
+            </div><!-- /.box -->
+        </div><!-- /.col -->
+
+
+    </div><!-- /.row -->
+
+
+{% endblock %}
