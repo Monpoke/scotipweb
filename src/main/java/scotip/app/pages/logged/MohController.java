@@ -33,10 +33,12 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import scotip.app.dto.ModuleUpdateDto;
 import scotip.app.dto.MohGroupAdd;
+import scotip.app.exceptions.MOHNotFoundException;
 import scotip.app.exceptions.ModuleModelNotFoundException;
 import scotip.app.exceptions.ModuleNotFoundException;
 import scotip.app.exceptions.SwitchboardNotFoundException;
 import scotip.app.model.Module;
+import scotip.app.model.MohGroup;
 import scotip.app.model.Switchboard;
 import scotip.app.service.module.ModuleService;
 import scotip.app.service.moduleModel.ModuleModelService;
@@ -108,17 +110,6 @@ public class MohController extends SwitchboardAppController {
     }
 
 
-    @RequestMapping("/u/switchboard/{sid}/moh/{mid}")
-    public String mohGroupsAdd(@PathVariable int sid, @PathVariable int mid, ModelMap modelMap) throws SwitchboardNotFoundException {
-        Switchboard switchboard = getSwitchboard(sid);
-        if (switchboard == null) {
-            throw new SwitchboardNotFoundException();
-        }
-
-
-        return "pages/moh/group";
-    }
-
     @RequestMapping("/u/switchboard/{sid}/moh/{mid}/delete")
     public String mohGroupsDelete(@PathVariable int sid, @PathVariable int mid, ModelMap modelMap) throws SwitchboardNotFoundException {
         Switchboard switchboard = getSwitchboard(sid);
@@ -131,4 +122,16 @@ public class MohController extends SwitchboardAppController {
     }
 
 
+    @RequestMapping("/u/switchboard/{sid}/moh/{mid}")
+    public String mohGroupsList(@PathVariable int sid, @PathVariable int mid, ModelMap modelMap) throws SwitchboardNotFoundException, MOHNotFoundException {
+        MohGroup mohGroup = soundsService.getMohGroupWithIdAndSwitchboard(mid, sid);
+        if(mohGroup==null || mohGroup.getSwitchboard().getCompany().getId() != getCurrentCompany().getId()){
+            throw new MOHNotFoundException();
+        }
+
+        modelMap.put("mohFiles",mohGroup.getFiles());
+
+
+        return "pages/moh/group";
+    }
 }

@@ -25,7 +25,8 @@
 package scotip.app.service.sounds;
 
 import scotip.app.dto.MohGroupAdd;
-import scotip.app.model.Company;
+import scotip.app.exceptions.MOHNotFoundException;
+import scotip.app.model.MohGroup;
 import scotip.app.model.SoundLibrary;
 import scotip.app.model.Switchboard;
 
@@ -43,4 +44,6 @@ public interface SoundsService {
     void saveMOHGroup(MohGroupAdd mohGroupAdd, Switchboard switchboard);
 
     void removeMOHGroup(Switchboard switchboard, int mid);
+
+    MohGroup getMohGroupWithIdAndSwitchboard(int mid, int sid);
 }

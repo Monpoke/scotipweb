@@ -53,4 +53,9 @@ public class MOHGroupDaoImpl extends AbstractDao<Integer, MohGroup> implements M
         query.setParameter("switchboard",switchboard);
         query.executeUpdate();
     }
+
+    @Override
+    public MohGroup findById(int id) {
+        return getByKey(id);
+    }
 }

@@ -38,4 +38,6 @@ public interface MOHGroupDao {
     void saveGroup(MohGroup mohGroup);
 
     void removeMOHGroup(Switchboard switchboard, int mid);
+
+    MohGroup findById(int id);
 }

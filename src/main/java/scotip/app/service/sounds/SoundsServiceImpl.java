@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import scotip.app.dao.sounds.MOHGroupDao;
 import scotip.app.dao.sounds.SoundDao;
 import scotip.app.dto.MohGroupAdd;
-import scotip.app.model.Company;
+import scotip.app.exceptions.MOHNotFoundException;
 import scotip.app.model.MohGroup;
 import scotip.app.model.SoundLibrary;
 import scotip.app.model.Switchboard;
@@ -53,6 +53,7 @@ public class SoundsServiceImpl implements SoundsService {
 
     /**
      * Returns all songs
+     *
      * @return
      */
     @Override
@@ -68,6 +69,7 @@ public class SoundsServiceImpl implements SoundsService {
 
     /**
      * Saves group
+     *
      * @param mohGroupAdd
      * @param switchboard
      */
@@ -83,6 +85,16 @@ public class SoundsServiceImpl implements SoundsService {
     @Override
     public void removeMOHGroup(Switchboard switchboard, int mid) {
         mohGroupDao.removeMOHGroup(switchboard, mid);
+    }
+
+    @Override
+    public MohGroup getMohGroupWithIdAndSwitchboard(int mid, int sid) {
+        MohGroup mohGroup = mohGroupDao.findById(mid);
+        if (mohGroup == null || mohGroup.getSwitchboard().getSid() != sid) {
+            return null;
+        }
+
+        return mohGroup;
     }
 
 

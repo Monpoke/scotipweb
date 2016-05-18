@@ -25,6 +25,7 @@
 package scotip.app.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by Pierre on 21/04/2016.
@@ -43,6 +44,9 @@ public class MohGroup {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "switchboard_id", nullable = false)
     protected Switchboard switchboard;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, mappedBy = "group")
+    protected List<MohFile> files;
 
     public int getGroupId() {
         return groupId;
@@ -68,6 +72,14 @@ public class MohGroup {
         this.switchboard = switchboard;
     }
 
+    public List<MohFile> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<MohFile> files) {
+        this.files = files;
+    }
+
     public MohGroup() {
 
     }
@@ -75,4 +87,5 @@ public class MohGroup {
     public MohGroup(Switchboard switchboard) {
         this.switchboard = switchboard;
     }
+
 }
