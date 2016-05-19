@@ -81,11 +81,12 @@ public class MohController extends SwitchboardAppController {
     }
 
     @RequestMapping(value = "/u/switchboard/{sid}/moh/add", method = RequestMethod.GET)
-    public String mohGroupsAdd(@PathVariable int sid) throws SwitchboardNotFoundException {
+    public String mohGroupsAdd(@PathVariable int sid, ModelMap modelMap) throws SwitchboardNotFoundException {
         Switchboard switchboard = getSwitchboard(sid);
         if (switchboard == null) {
             throw new SwitchboardNotFoundException();
         }
+        modelMap.put("switchboard",switchboard);
 
         return "pages/moh/add";
     }
@@ -96,6 +97,9 @@ public class MohController extends SwitchboardAppController {
         if (switchboard == null) {
             throw new SwitchboardNotFoundException();
         }
+
+        modelMap.put("switchboard",switchboard);
+
 
         if (bindingResult.hasErrors()) {
             modelMap.put("errors", bindingResult.getAllErrors());
@@ -124,11 +128,13 @@ public class MohController extends SwitchboardAppController {
 
     @RequestMapping("/u/switchboard/{sid}/moh/{mid}")
     public String mohGroupsList(@PathVariable int sid, @PathVariable int mid, ModelMap modelMap) throws SwitchboardNotFoundException, MOHNotFoundException {
-        MohGroup mohGroup = soundsService.getMohGroupWithIdAndSwitchboard(mid, sid);
-        if(mohGroup==null || mohGroup.getSwitchboard().getCompany().getId() != getCurrentCompany().getId()){
+        MohGroup mohGroup = soundsService.getMohGroupWithIdAndSwitchboardAndCompany(mid, sid,getCurrentCompany().getId());
+        if(mohGroup==null){
             throw new MOHNotFoundException();
         }
 
+        modelMap.put("switchboard",mohGroup.getSwitchboard());
+        modelMap.put("group",mohGroup);
         modelMap.put("mohFiles",mohGroup.getFiles());
 
 

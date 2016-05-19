@@ -1,3 +1,27 @@
+/*
+ * Copyright (c) 2016. Pierre BOURGEOIS
+ *
+ *  Permission is hereby granted, free of charge, to any person
+ *  obtaining a copy of this software and associated documentation
+ *  files (the "Software"), to deal in the Software without restriction,
+ *  including without limitation the rights to use, copy, modify, merge,
+ *  publish, distribute, sublicense, and/or sell copies of the Software, and
+ *  to permit persons to whom the Software is furnished to do so, subject
+ *  to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package scotip.app.pages.logged;
 
 import org.hibernate.Hibernate;
@@ -13,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 import scotip.app.dto.OperatorDto;
 import scotip.app.model.Operator;
+import scotip.app.pages.AppLogged;
 import scotip.app.service.company.CompanyService;
 import scotip.app.service.operator.OperatorService;
 
@@ -24,7 +49,10 @@ import javax.validation.Valid;
 
 @Controller
 
-public class OperatorController {
+/**
+ * @// TODO: 18/05/2016 Resolve all security breachs...
+ */
+public class OperatorController extends AppLogged {
 
     @Autowired
     private OperatorService operator;
@@ -32,10 +60,10 @@ public class OperatorController {
     @Autowired
     private CompanyService company;
 
-    @RequestMapping("/u/operator/{id}")
-    public String operators(@PathVariable("id") int id, ModelMap model) {
+    @RequestMapping("/u/operator")
+    public String operators(ModelMap model) {
 
-        model.put("list", operator.getAllOperator(id));
+        model.put("list", operator.getAllOperator(getCurrentCompany().getId()));
         OperatorDto operatorDto = new OperatorDto();
         model.addAttribute("operator", operatorDto);
 
@@ -43,26 +71,24 @@ public class OperatorController {
     }
 
 
-    @RequestMapping(value = "/u/newOperator/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/u/newOperator", method = RequestMethod.POST)
 
-    public String newOperators(@PathVariable("id") int id
-            , @ModelAttribute("operator") @Valid OperatorDto accountDto
+    public String newOperators(@ModelAttribute("operator") @Valid OperatorDto accountDto
             , BindingResult result, WebRequest request, Errors errors) {
-        accountDto.setCompany(company.findById(id));
+        accountDto.setCompany(company.findById(getCurrentCompany().getId()));
         operator.registerNewOperator(accountDto);
 
 
-
-        return  "redirect:/u/operator/"+id;
+        return "redirect:/u/operator";
 
     }
 
-    @RequestMapping("/u/delOperator/{idComp}/{id}")
-    public String delOperators(@PathVariable("idComp") int idComp,@PathVariable("id") int id) {
+    @RequestMapping("/u/delOperator/{id}")
+    public String delOperators(@PathVariable("id") int id) {
 
         operator.deleteById(id);
 
-        return  "redirect:/u/operator/"+idComp;
+        return "redirect:/u/operator/" + getCurrentCompany().getId();
 
     }
 

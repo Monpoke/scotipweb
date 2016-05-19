@@ -46,4 +46,6 @@ public interface SoundsService {
     void removeMOHGroup(Switchboard switchboard, int mid);
 
     MohGroup getMohGroupWithIdAndSwitchboard(int mid, int sid);
+
+    MohGroup getMohGroupWithIdAndSwitchboardAndCompany(int mid, int sid, int id);
 }

@@ -24,6 +24,7 @@
 
 package scotip.app.service.sounds;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,6 +92,17 @@ public class SoundsServiceImpl implements SoundsService {
     public MohGroup getMohGroupWithIdAndSwitchboard(int mid, int sid) {
         MohGroup mohGroup = mohGroupDao.findById(mid);
         if (mohGroup == null || mohGroup.getSwitchboard().getSid() != sid) {
+            return null;
+        }
+
+        return mohGroup;
+    }
+
+    @Override
+    public MohGroup getMohGroupWithIdAndSwitchboardAndCompany(int mid, int sid, int companyId) {
+        MohGroup mohGroup = getMohGroupWithIdAndSwitchboard(mid,sid);
+        Hibernate.initialize(mohGroup.getSwitchboard().getCompany());
+        if(mohGroup.getSwitchboard().getCompany().getId() != companyId){
             return null;
         }
 

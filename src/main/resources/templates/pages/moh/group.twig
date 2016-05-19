@@ -46,29 +46,33 @@
                         <tbody>
                         {% for file in mohFiles %}
                             <tr>
-                                <td>{{ group.groupId }}</td>
-                                <td><a href="./moh/{{ group.soundId }}">{{ group.name }}</a></td>
+                                <td>{{ file.soundId }}</td>
+                                <td><a href="./moh/{{ file.soundId }}">{{ file.name }}</a></td>
                                 <td>
-                                    <a href="./moh/{{ group.soundId }}" class="btn btn-primary">
-                                        View
-                                    </a>
-                                    <a href="./moh/{{ group.soundId }}/delete" class="btn btn-danger" onclick="return(confirm('Remove this group?'));">
+                                    <a href="./remove/{{ file.soundId }}/delete" class="btn btn-danger"
+                                       onclick="return(confirm('Remove this sound?'));">
                                         X
                                     </a>
                                 </td>
                             </tr>
                         {% else %}
                             <tr>
-                                <td colspan="3"><em>No group yet</em></td>
+                                <td colspan="3"><em>No file yet</em></td>
                             </tr>
                         {% endfor %}
                         </tbody>
 
                     </table>
                     <br/>
-                    <a href="./moh/add" class="btn btn-success">
-                        <i class="fa fa-plus-circle"></i> Add new group
+                    <button class="btn btn-success" data-toggle="modal" data-target="#uploadSong">
+                        <i class="fa fa-upload"></i> Upload
+                    </button>
+
+                    <br/><br/>
+                    <a href="../moh" class="btn btn-default">
+                        <i class="fa fa-angle-double-left"></i> Back to groups
                     </a>
+
 
                 </div><!-- ./box-body -->
 
@@ -78,6 +82,39 @@
 
 
     </div><!-- /.row -->
+
+
+
+    <div id="uploadSong" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Upload a song for the group <em>{{ group.name }}</em></h4>
+                </div>
+                <div class="modal-body">
+
+
+                    <label for="Name">Name:</label>
+                    <input type="text" name="name" id="Name" class="form-control"/>
+
+
+                    <label for="file">You can upload a <em>WAV</em> file or a <em>MP3</em> file:</label><br/>
+                    <input type="file" name="file" id="file" accept="audio/mpeg,audio/wav,audio/x-wav"/>
+                    <br/>
+                    <progress id="uploadProgress" class="hidden"></progress>
+
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-save><i class="fa fa-upload"></i> Upload</button>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 
 
 {% endblock %}
