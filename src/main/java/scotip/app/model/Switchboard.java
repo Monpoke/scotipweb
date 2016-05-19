@@ -76,6 +76,9 @@ public class Switchboard {
     @OneToMany(mappedBy = "switchboard", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     protected List<MohGroup> mohGroups = new ArrayList<>();
 
+    @OneToMany(mappedBy = "switchboard", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    protected List<Queue> queues = new ArrayList<>();
+
 
     public int getSid() {
         return sid;
@@ -164,6 +167,14 @@ public class Switchboard {
 
     public void setMohGroups(List<MohGroup> mohGroups) {
         this.mohGroups = mohGroups;
+    }
+
+    public List<Queue> getQueues() {
+        return queues;
+    }
+
+    public void setQueues(List<Queue> queues) {
+        this.queues = queues;
     }
 
     public String getCallsTotalDuration(){

@@ -67,7 +67,7 @@ public class OperatorController extends AppLogged {
         OperatorDto operatorDto = new OperatorDto();
         model.addAttribute("operator", operatorDto);
 
-        return "pages/static/operator";
+        return "pages/static/operators/operator";
     }
 
 
