@@ -26,6 +26,7 @@ package scotip.app.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -53,7 +54,7 @@ public class Queue {
 
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "queue_operator", joinColumns = {
             @JoinColumn(name = "queue_id", nullable = false, updatable = false) },
             inverseJoinColumns = { @JoinColumn(name = "operator_id",
@@ -108,7 +109,20 @@ public class Queue {
      * @return
      */
     public boolean hasOperator(Operator operator){
-        return operators.contains(operator);
+        System.out.println("List: " + getOperators().size());
+
+        Iterator<Operator> iterator = getOperators().iterator();
+        while(iterator.hasNext()){
+            Operator operator2 = iterator.next();
+            System.out.println("inlist: " + operator2.toString());
+        }
+
+        System.out.println("For: " + operator.toString());
+        System.out.println("Result: " + (getOperators().contains(operator)));
+
+
+
+        return getOperators().contains(operator);
     }
 }
 

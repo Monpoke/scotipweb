@@ -22,26 +22,27 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.dao.operator;
+package scotip.app.validation;
 
-import scotip.app.model.Company;
-import scotip.app.model.Operator;
-import scotip.app.model.Switchboard;
+import javax.validation.Constraint;
+import javax.validation.Payload;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-import java.util.List;
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Created by svevia on 18/05/2016.
+ * Created by Pierre on 26/04/2016.
  */
-public interface OperatorDao {
-
-    Operator findById(int id);
-    Operator findInitialized(int id);
-    void deleteById(int id);
-    Operator registerNewOperator(Operator operator);
-    List<Operator> getAllOperator(Company comp);
-
-    List<Operator> getOperatorsFromSwitchboard(Switchboard switchboard);
-
-    Operator findOneByName(String name);
+@Target({TYPE,ANNOTATION_TYPE})
+@Retention(RUNTIME)
+@Constraint(validatedBy = ValidPasswordIfNotSkypeValidator.class)
+@Documented
+public @interface ValidPasswordIfNotSkype {
+    String message() default "The password should contains at least 5 characters.";
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
 }

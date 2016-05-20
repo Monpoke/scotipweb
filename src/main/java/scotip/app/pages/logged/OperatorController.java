@@ -24,16 +24,14 @@
 
 package scotip.app.pages.logged;
 
+import com.google.gson.Gson;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import scotip.app.dto.OperatorDto;
 import scotip.app.model.Operator;
@@ -71,15 +69,24 @@ public class OperatorController extends AppLogged {
     }
 
 
-    @RequestMapping(value = "/u/newOperator", method = RequestMethod.POST)
-
+    @RequestMapping(value = "/u/operator/add", method = RequestMethod.POST)
+    @ResponseBody
     public String newOperators(@ModelAttribute("operator") @Valid OperatorDto accountDto
             , BindingResult result, WebRequest request, Errors errors) {
         accountDto.setCompany(company.findById(getCurrentCompany().getId()));
+
+        if(operator.findOneByUsername(accountDto.getName()) != null){
+            result.rejectValue("name", "exists", "This operator name already exists.");
+        }
+
+        if(result.hasErrors()){
+            return new Gson().toJson(result.getAllErrors());
+        }
+
+
         operator.registerNewOperator(accountDto);
 
-
-        return "redirect:/u/operator";
+        return "ok";
 
     }
 

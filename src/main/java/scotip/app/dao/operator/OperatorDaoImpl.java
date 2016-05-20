@@ -26,11 +26,13 @@ package scotip.app.dao.operator;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import scotip.app.dao.AbstractDao;
 import scotip.app.model.Company;
 import scotip.app.model.Operator;
+import scotip.app.model.Switchboard;
 
 import java.util.List;
 
@@ -39,7 +41,7 @@ import java.util.List;
  */
 @Transactional
 @Repository("OperatorDao")
-public class OperatorDaoImpl  extends AbstractDao<Integer, Operator> implements OperatorDao{
+public class OperatorDaoImpl extends AbstractDao<Integer, Operator> implements OperatorDao {
 
     @Override
     public Operator findById(int id) {
@@ -47,9 +49,9 @@ public class OperatorDaoImpl  extends AbstractDao<Integer, Operator> implements 
     }
 
     @Override
-    public Operator findInitialized(int id){
+    public Operator findInitialized(int id) {
         Operator byId = findById(id);
-        if(byId!=null){
+        if (byId != null) {
             Hibernate.initialize(byId.getCompany());
         }
 
@@ -57,19 +59,36 @@ public class OperatorDaoImpl  extends AbstractDao<Integer, Operator> implements 
     }
 
     @Override
-    public void deleteById(int id) {delete(getByKey(id));}
+    public void deleteById(int id) {
+        delete(getByKey(id));
+    }
 
     @Override
     public Operator registerNewOperator(Operator operator) {
-        operator.setOid((int)getSession().save(operator));
+        operator.setOid((int) getSession().save(operator));
         return operator;
     }
 
     @Override
     public List<Operator> getAllOperator(Company comp) {
-        Query query = getSession().createQuery("from Operator o where o.company = :comp");
-        query.setParameter("comp",comp);
+        Query query = getSession().createQuery("FROM Operator o WHERE o.company = :comp");
+        query.setParameter("comp", comp);
         return query.list();
 
+    }
+
+    @Override
+    public List<Operator> getOperatorsFromSwitchboard(Switchboard switchboard) {
+        return null;
+       /* Query query = getSession().createQuery("from Operator o " +
+                "WHERE o.queues = 8");
+        query.setParameter("switchboard",switchboard);
+        return query.list();
+        */
+    }
+
+    @Override
+    public Operator findOneByName(String name) {
+        return (Operator)createEntityCriteria().add(Restrictions.eq("name",name)).uniqueResult();
     }
 }

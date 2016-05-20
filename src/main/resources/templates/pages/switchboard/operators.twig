@@ -76,30 +76,31 @@
 
                         <div class="col-md-12">
 
-                            <ul id="org" class="hidden">
-                                <li>
-                                    Playback
-                                    <ul>
-                                        <li>Beer</li>
-                                        <li>Vegetables
-                                            <ul>
-                                                <li>Pumpkin</li>
-                                                <li><a href="http://tquila.com" target="_blank">Aubergine</a></li>
-                                            </ul>
-                                        </li>
-                                        <li>Bread</li>
-                                        <li>Chocolate
-                                            <ul>
-                                                <li>Topdeck</li>
-                                                <li>Reese's Cups</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
 
 
-                            <div id="configuration"></div>
+                            <table id="directory" class="table table-striped">
+                                <tr>
+                                    <th width = "100">Operator ID</th>
+                                    <th>Name</th>
+                                    <th>password</th>
+                                    <th>delete</th>
+                                </tr>
+
+                                {% for operator in operators %}
+                                    <tr>
+                                        <td>{{ operator.oid }}</td>
+                                        <td>{{ operator.name }} </td>
+                                        <td>{{ operator.password }} </td>
+                                        <td>
+                                            <a href="/u/delOperator/{{ operator.oid }}" class="btn btn-danger">
+                                                Del
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                            </table>
+
 
                         </div><!-- /.col -->
 
@@ -108,42 +109,6 @@
                 </div><!-- ./box-body -->
 
 
-                <div class="box-footer">
-                    <div class="row">
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="description-block border-right">
-                                <span class="description-percentage text-green"><i
-                                            class="fa fa-caret-up"></i> 17%</span>
-                                <h5 class="description-header">£35,210.43</h5>
-                                <span class="description-text">TOTAL REVENUE</span>
-                            </div><!-- /.description-block -->
-                        </div><!-- /.col -->
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="description-block border-right">
-                                <span class="description-percentage text-yellow"><i
-                                            class="fa fa-caret-left"></i> 0%</span>
-                                <h5 class="description-header">£10,390.90</h5>
-                                <span class="description-text">TOTAL COST</span>
-                            </div><!-- /.description-block -->
-                        </div><!-- /.col -->
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="description-block border-right">
-                                <span class="description-percentage text-green"><i
-                                            class="fa fa-caret-up"></i> 20%</span>
-                                <h5 class="description-header">£24,813.53</h5>
-                                <span class="description-text">TOTAL PROFIT</span>
-                            </div><!-- /.description-block -->
-                        </div><!-- /.col -->
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="description-block">
-                                <span class="description-percentage text-red"><i
-                                            class="fa fa-caret-down"></i> 18%</span>
-                                <h5 class="description-header">1200</h5>
-                                <span class="description-text">GOAL COMPLETIONS</span>
-                            </div><!-- /.description-block -->
-                        </div>
-                    </div><!-- /.row -->
-                </div><!-- /.box-footer -->
             </div><!-- /.box -->
         </div><!-- /.col -->
     </div><!-- /.row -->

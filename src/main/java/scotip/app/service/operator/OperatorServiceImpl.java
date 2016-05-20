@@ -62,7 +62,7 @@ public class OperatorServiceImpl implements OperatorService{
         Operator op = new Operator();
         op.setCompany(OperatorDto.getCompany());
         op.setName(OperatorDto.getName());
-        System.out.println(op.getName());
+        op.setSkype(OperatorDto.isSkype());
         op.setPassword(OperatorDto.getPassword());
 
         return dao.registerNewOperator(op);
@@ -88,6 +88,16 @@ public class OperatorServiceImpl implements OperatorService{
     @Override
     public Operator getInitializedOperator(int id) {
         return dao.findInitialized(id);
+    }
+
+    @Override
+    public void getOperatorsFromSwitchboard(Switchboard switchboard) {
+        dao.getOperatorsFromSwitchboard(switchboard);
+    }
+
+    @Override
+    public Operator findOneByUsername(String name) {
+        return dao.findOneByName(name);
     }
 
 

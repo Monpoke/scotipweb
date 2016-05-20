@@ -1,56 +1,135 @@
 {% extends "../../layouts/base" %}
 
 {% block title %}
-    Directory
+    Operators
 {% endblock %}
 {% block pageHeader %}
-    Switchboards Directory
+    Operators list
 {% endblock %}
 
 {% block breadcrumb %}
-    <li><a href="/u/operator/{{ currentCompany.id }}">Operator</a></li>
+    <li><a href="/u/operator">Operators</a></li>
 {% endblock %}
 
 
 {% block pageContent %}
 
-    <form class="form-inline" action = "/u/newOperator" method="post" >
-        <div class="form-group">
-            <input type="text" class="form-control" name="name" id="name" placeholder="Name" value="{{ operator.name }}">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Operators</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+
+                    <table id="directory" class="table table-striped">
+                        <tr>
+                            <th width="100">Operator ID</th>
+                            <th>Name</th>
+                            <th>Password</th>
+                            <th>Actions</th>
+                        </tr>
+
+                        {% for operator in list %}
+                            <tr>
+                                <td>{{ operator.oid }}</td>
+                                <td>{{ operator.name }} </td>
+                                <td>
+                                    {% if operator.skype %}
+                                        <strong>Skype account</strong>
+                                    {% else %}
+                                        {{ operator.password }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="/u/delOperator/{{ operator.oid }}" class="btn btn-danger">
+                                        Del
+                                    </a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4">
+                                    No operator yet.
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+
+                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#addOperator">Add operator</a>
+
+
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <input type="password" class="form-control" name="password" id="password" placeholder="Password" value="{{ operator.password }}">
-        </div>
-
-        {% set token = request.attribute('_csrf') %}
-        <input type="hidden" name="{{ token.parameterName }}" value="{{ token.token }}"/>
-
-        <button type="submit" class="btn btn-default">Register</button>
-    </form>
+    </div>
 
 
-    <table id="directory" class="table table-striped">
-        <tr>
-            <th width = "100">Operator ID</th>
-            <th>Name</th>
-            <th>password</th>
-            <th>delete</th>
-        </tr>
+    <div id="addOperator" class="modal fade" role="dialog">
+        <div class="modal-dialog">
 
-        {% for operator in list %}
-            <tr>
-                <td>{{ operator.oid }}</td>
-                <td>{{ operator.name }} </td>
-                <td>{{ operator.password }} </td>
-                <td>
-                    <a href="/u/delOperator/{{ operator.oid }}" class="btn btn-danger">
-                        Del
-                    </a>
-                </td>
-            </tr>
-        {% endfor %}
+            <div class="modal-content">
 
-    </table>
+                <form action="/u/newOperator" method="post">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Add operator</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="alert alert-info">
+                            You can receive calls on Skype, try it out! <a href="/help#ippiskype" target="_blank">More
+                                info?</a>
+                        </div>
+
+                        <strong>Skype account:</strong><br/>
+
+                        <div class="row text-center">
+                            <div class="col-lg-offset-3 col-lg-3">
+                                <input type="radio" name="skype" value="0" id="skypeBtn_no"/> <label for="skypeBtn_no">No</label>
+
+                            </div>
+
+                            <div class="col-lg-3">
+                                <input type="radio" name="skype" value="1" id="skypeBtn_yes" checked="checked"/> <label
+                                        for="skypeBtn_yes">Yes</label>
+                            </div>
+                        </div>
+
+                        <br/>
+
+                        <label for="name">Account name (or Skype username):</label><br/>
+                        <input autocomplete="off" type="text" class="form-control" name="name" id="name"
+                               placeholder="Name"
+                               value="{{ operator.name }}"/>
+
+                        <div id="passwordArea">
+                            <label for="password">Account password:</label><br/>
+                            <input type="password" class="form-control" name="password" id="password"
+                                   placeholder="Password" value="{{ operator.password }}"/>
+                        </div>
+
+                        {% set token = request.attribute('_csrf') %}
+                        <input type="hidden" name="{{ token.parameterName }}" value="{{ token.token }}"/>
 
 
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success" data-save="queue">Save</button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+{% endblock %}
+
+{% block jsFiles %}
+    <script src="/assets/js/operators.js"></script>
 {% endblock %}

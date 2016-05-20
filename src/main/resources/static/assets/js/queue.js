@@ -28,8 +28,8 @@ $(function () {
     /**
      * Saving changes
      */
-    $("[data-save='queue']").off().click(function (e) {
-
+    $("#addQueue form").submit(function (e) {
+        e.preventDefault();
         var data_post = $("#addQueue form").serialize();
 
 

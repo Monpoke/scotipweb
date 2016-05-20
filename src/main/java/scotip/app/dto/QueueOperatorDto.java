@@ -27,6 +27,7 @@ package scotip.app.dto;
 import scotip.app.model.Operator;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ import java.util.List;
 
 public class QueueOperatorDto {
     @Valid
-    private List<Operator> operators;
+    private List<Operator> operators = new ArrayList<>();
 
     public List<Operator> getOperators() {
         return operators;

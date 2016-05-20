@@ -27,6 +27,7 @@ package scotip.app.service.operator;
 import scotip.app.dto.OperatorDto;
 import scotip.app.model.Company;
 import scotip.app.model.Operator;
+import scotip.app.model.Switchboard;
 
 import java.util.List;
 
@@ -46,4 +47,8 @@ public interface OperatorService {
     void deleteById(int id);
 
     Operator getInitializedOperator(int id);
+
+    void getOperatorsFromSwitchboard(Switchboard switchboard);
+
+    Operator findOneByUsername(String name);
 }

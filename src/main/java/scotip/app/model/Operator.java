@@ -25,6 +25,7 @@
 package scotip.app.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by svevia on 05/05/2016.
@@ -43,11 +44,18 @@ public class Operator {
     @JoinColumn(name = "company_id", nullable = false)
     protected Company company;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     protected String name;
 
     @Column(name = "password")
     protected String password;
+
+    @Column(name = "skype")
+    protected boolean skype = true;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "queue_operator", joinColumns = { @JoinColumn(name ="operator_id") }, inverseJoinColumns = { @JoinColumn(name = "queue_id") })
+    protected List<Queue> queues;
 
 
     public int getOid() {
@@ -82,8 +90,46 @@ public class Operator {
         this.password = password;
     }
 
+    public List<Queue> getQueues() {
+        return queues;
+    }
+
+    public void setQueues(List<Queue> queues) {
+        this.queues = queues;
+    }
+
+    public boolean isSkype() {
+        return skype;
+    }
+
+    public void setSkype(boolean skype) {
+        this.skype = skype;
+    }
+
     public Operator() {
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Operator operator = (Operator) o;
+
+        if (getOid() != operator.getOid()) return false;
+        if (getName() != null ? !getName().equals(operator.getName()) : operator.getName() != null) return false;
+        return getPassword() != null ? getPassword().equals(operator.getPassword()) : operator.getPassword() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getOid();
+        result = 31 * result + (getCompany() != null ? getCompany().hashCode() : 0);
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
+        return result;
     }
 
     @Override

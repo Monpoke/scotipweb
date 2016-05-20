@@ -43,6 +43,7 @@ import scotip.app.service.company.CompanyService;
 import scotip.app.service.line.LineService;
 import scotip.app.service.module.ModuleService;
 import scotip.app.service.moduleModel.ModuleModelService;
+import scotip.app.service.operator.OperatorService;
 import scotip.app.service.sounds.SoundsService;
 import scotip.app.service.switchboard.SwitchboardService;
 
@@ -69,6 +70,9 @@ public class SwitchboardController extends SwitchboardAppController {
     @Autowired
     SoundsService soundsService;
 
+    @Autowired
+    OperatorService operatorService;
+
 
     @RequestMapping("/u/switchboard/{sid}")
     public String switchboardStats(@PathVariable("sid") int sid, ModelMap modelMap) throws SwitchboardNotFoundException {
@@ -91,6 +95,10 @@ public class SwitchboardController extends SwitchboardAppController {
             throw new SwitchboardNotFoundException();
         }
         modelMap.addAttribute("switchboard", switchboard);
+
+        // get all operators attributed to this switchboard
+        operatorService.getOperatorsFromSwitchboard(switchboard);
+
 
         return "pages/switchboard/operators";
     }

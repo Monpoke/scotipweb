@@ -21,34 +21,6 @@
 
 {% block pageContent %}
 
-    {# <!-- Info boxes -->
-     <div class="row">
-
-         <div class="col-md-3 col-sm-6 col-xs-12">
-             <div class="info-box">
-                 <span class="info-box-icon bg-aqua"><i class="fa fa-gear"></i></span>
-                 <div class="info-box-content">
-                     <span class="info-box-text">
-                         Configuration
-                     </span>
-                     <span class="info-box-number"></span>
-                 </div><!-- /.info-box-content -->
-             </div><!-- /.info-box -->
-         </div><!-- /.col -->
-
-         <div class="col-md-3 col-sm-6 col-xs-12">
-             <div class="info-box">
-                 <span class="info-box-icon bg-green"><i class="fa fa-phone-square"></i></span>
-                 <div class="info-box-content">
-                     <span class="info-box-text">Operators</span>
-                     <span class="info-box-number">3/5 <small> online</small></span>
-                 </div><!-- /.info-box-content -->
-             </div><!-- /.info-box -->
-         </div><!-- /.col -->
-
-     </div><!-- /.row -->
-     #}
-
     <div class="row">
         <div class="col-md-12">
             <div class="box">
@@ -114,11 +86,10 @@
 
                     <label for="moduleType">Module type:</label><br/>
                     <select id="moduleType" name="moduleType" class="form-control">
-                        <option selected="selected">Play a file</option>
-                        <option disabled>User input</option>
-                        <option disabled>Call forwarding</option>
-                        <option disabled>Operator</option>
-                        <option disabled>Group operators</option>
+                        <option selected="selected" value="playback">Play a file</option>
+                        <option disabled value="read">User input</option>
+                        <option disabled value="operator">Operator</option>
+                        <option disabled value="queue">Queue</option>
                     </select>
                     <br/><br/>
 

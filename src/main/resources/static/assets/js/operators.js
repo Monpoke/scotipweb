@@ -22,26 +22,51 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.dao.operator;
+$(function () {
 
-import scotip.app.model.Company;
-import scotip.app.model.Operator;
-import scotip.app.model.Switchboard;
+    $("[name='skype']").change(function () {
+        if ($(this).val() === "1") {
+            $("#passwordArea").hide();
+        } else {
+            $("#passwordArea").show();
+        }
+    });
+    $("[name='skype']").trigger('change');
 
-import java.util.List;
+    /**
+     * Saving changes
+     */
+    $("#addOperator form").submit(function (e) {
+        e.preventDefault();
 
-/**
- * Created by svevia on 18/05/2016.
- */
-public interface OperatorDao {
+        var data_post = $("#addOperator form").serialize();
 
-    Operator findById(int id);
-    Operator findInitialized(int id);
-    void deleteById(int id);
-    Operator registerNewOperator(Operator operator);
-    List<Operator> getAllOperator(Company comp);
 
-    List<Operator> getOperatorsFromSwitchboard(Switchboard switchboard);
+        $.post("./operator/add", data_post).success(function (dataPost) {
+            console.log(dataPost);
+            if (dataPost === "ok") {
+                location.reload();
+            } else {
+                try {
+                    var err = $.parseJSON(dataPost);
+                    var alertm = "";
 
-    Operator findOneByName(String name);
-}
+                    for (var i = 0, t = err.length; i < t; i++) {
+                        alertm += err[i].defaultMessage + "\n";
+                    }
+
+                    alert(alertm);
+                } catch (e) {
+                    console.log(dataPost);
+                }
+
+            }
+        }).fail(function (err) {
+
+        });
+
+
+    });
+
+
+});

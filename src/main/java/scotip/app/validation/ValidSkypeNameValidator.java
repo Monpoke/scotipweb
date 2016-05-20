@@ -22,26 +22,26 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.dao.operator;
+package scotip.app.validation;
 
-import scotip.app.model.Company;
-import scotip.app.model.Operator;
-import scotip.app.model.Switchboard;
-
-import java.util.List;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 /**
- * Created by svevia on 18/05/2016.
+ * Created by Pierre on 20/05/2016.
  */
-public interface OperatorDao {
+public class ValidSkypeNameValidator implements ConstraintValidator<ValidSkypeName,Object>{
+    @Override
+    public void initialize(ValidSkypeName validSkypeName) {
 
-    Operator findById(int id);
-    Operator findInitialized(int id);
-    void deleteById(int id);
-    Operator registerNewOperator(Operator operator);
-    List<Operator> getAllOperator(Company comp);
+    }
 
-    List<Operator> getOperatorsFromSwitchboard(Switchboard switchboard);
+    @Override
+    public boolean isValid(Object o, ConstraintValidatorContext constraintValidatorContext) {
+        if(!(o instanceof String)){
+            return false;
+        }
 
-    Operator findOneByName(String name);
+        return ((String) o).matches("^[a-z][a-z0-9\\.,\\-_]{5,31}$");
+    }
 }

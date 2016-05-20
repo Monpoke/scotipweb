@@ -22,26 +22,32 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.dao.operator;
+package scotip.app.validation;
 
-import scotip.app.model.Company;
-import scotip.app.model.Operator;
-import scotip.app.model.Switchboard;
+import scotip.app.dto.OperatorDto;
 
-import java.util.List;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 /**
- * Created by svevia on 18/05/2016.
+ * Created by Pierre on 20/05/2016.
  */
-public interface OperatorDao {
+public class ValidPasswordIfNotSkypeValidator implements ConstraintValidator<ValidPasswordIfNotSkype, Object> {
+    @Override
+    public void initialize(ValidPasswordIfNotSkype validPasswordIfNotSkype) {
 
-    Operator findById(int id);
-    Operator findInitialized(int id);
-    void deleteById(int id);
-    Operator registerNewOperator(Operator operator);
-    List<Operator> getAllOperator(Company comp);
+    }
 
-    List<Operator> getOperatorsFromSwitchboard(Switchboard switchboard);
+    @Override
+    public boolean isValid(Object o, ConstraintValidatorContext constraintValidatorContext) {
+        OperatorDto operatorDto = (OperatorDto)o;
+        if(!operatorDto.isSkype()){
 
-    Operator findOneByName(String name);
+            System.out.println("Password: " + operatorDto.getPassword());
+            return operatorDto.getPassword().length() >= 5 ;
+        }
+
+        operatorDto.setPassword("");
+        return true;
+    }
 }

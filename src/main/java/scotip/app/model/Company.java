@@ -300,4 +300,56 @@ public class Company implements UserDetails {
         setRegistrationDate(new Date());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Company company = (Company) o;
+
+        if (getId() != company.getId()) return false;
+        if (getName() != null ? !getName().equals(company.getName()) : company.getName() != null) return false;
+        if (getAddress() != null ? !getAddress().equals(company.getAddress()) : company.getAddress() != null)
+            return false;
+        if (getAddress2() != null ? !getAddress2().equals(company.getAddress2()) : company.getAddress2() != null)
+            return false;
+        if (getCity() != null ? !getCity().equals(company.getCity()) : company.getCity() != null) return false;
+        if (getPostcode() != null ? !getPostcode().equals(company.getPostcode()) : company.getPostcode() != null)
+            return false;
+        if (getCountry() != null ? !getCountry().equals(company.getCountry()) : company.getCountry() != null)
+            return false;
+        if (getPhoneNumber() != null ? !getPhoneNumber().equals(company.getPhoneNumber()) : company.getPhoneNumber() != null)
+            return false;
+        if (getContactName() != null ? !getContactName().equals(company.getContactName()) : company.getContactName() != null)
+            return false;
+        if (getContactMail() != null ? !getContactMail().equals(company.getContactMail()) : company.getContactMail() != null)
+            return false;
+        if (getContactPhone() != null ? !getContactPhone().equals(company.getContactPhone()) : company.getContactPhone() != null)
+            return false;
+        if (getRegistrationDate() != null ? !getRegistrationDate().equals(company.getRegistrationDate()) : company.getRegistrationDate() != null)
+            return false;
+        if (getPassword() != null ? !getPassword().equals(company.getPassword()) : company.getPassword() != null)
+            return false;
+        return getState() != null ? getState().equals(company.getState()) : company.getState() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId();
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 0);
+        result = 31 * result + (getAddress2() != null ? getAddress2().hashCode() : 0);
+        result = 31 * result + (getCity() != null ? getCity().hashCode() : 0);
+        result = 31 * result + (getPostcode() != null ? getPostcode().hashCode() : 0);
+        result = 31 * result + (getCountry() != null ? getCountry().hashCode() : 0);
+        result = 31 * result + (getPhoneNumber() != null ? getPhoneNumber().hashCode() : 0);
+        result = 31 * result + (getContactName() != null ? getContactName().hashCode() : 0);
+        result = 31 * result + (getContactMail() != null ? getContactMail().hashCode() : 0);
+        result = 31 * result + (getContactPhone() != null ? getContactPhone().hashCode() : 0);
+        result = 31 * result + (getRegistrationDate() != null ? getRegistrationDate().hashCode() : 0);
+        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
+        result = 31 * result + (getState() != null ? getState().hashCode() : 0);
+        return result;
+    }
 }

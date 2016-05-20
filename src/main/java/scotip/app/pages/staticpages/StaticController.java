@@ -58,6 +58,12 @@ public class StaticController {
     }
 
 
+    @RequestMapping("/help")
+    public String help() {
+        return "pages/static/help";
+    }
+
+
     @RequestMapping("/directory")
     public String directory(ModelMap model) {
         model.put("list", service.getAllSwitchboard());
