@@ -22,28 +22,21 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.service.operator;
+package scotip.app.dao.operator;
 
-import scotip.app.dto.OperatorDto;
-import scotip.app.model.Company;
-import scotip.app.model.Operator;
+import scotip.app.model.Queue;
+import scotip.app.model.Switchboard;
 
 import java.util.List;
 
-/**
- * Created by svevia on 18/05/2016.
- */
-public interface OperatorService {
+public interface QueueDao {
+    List<Queue> getQueuesFromSwitchboard(Switchboard switchboard);
 
-    Operator findById(int id);
+    void saveQueue(Queue queue);
 
-    Operator registerNewOperator(OperatorDto OperatorDto);
+    void removeQueue(Queue queue);
 
-    List<Operator> getAllOperators(Company company);
+    Queue getQueueWithSwitchboardAndId(Switchboard switchboard, int qid);
 
-    List<Operator> getAllOperator(int id);
-
-    void deleteById(int id);
-
-    Operator getInitializedOperator(int id);
+    void updateQueue(Queue queue);
 }

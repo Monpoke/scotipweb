@@ -22,28 +22,25 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.service.operator;
+package scotip.app.dto;
 
-import scotip.app.dto.OperatorDto;
-import scotip.app.model.Company;
-import scotip.app.model.Operator;
-
-import java.util.List;
+import org.hibernate.validator.constraints.Length;
 
 /**
- * Created by svevia on 18/05/2016.
+ * Created by Pierre on 26/04/2016.
  */
-public interface OperatorService {
 
-    Operator findById(int id);
+public class QueueDto {
 
-    Operator registerNewOperator(OperatorDto OperatorDto);
 
-    List<Operator> getAllOperators(Company company);
+    @Length(min = 3, max = 25, message = "Queue name can contains between 3 and 25 characters.")
+    private String queueName;
 
-    List<Operator> getAllOperator(int id);
+    public String getQueueName() {
+        return queueName;
+    }
 
-    void deleteById(int id);
-
-    Operator getInitializedOperator(int id);
+    public void setQueueName(String queueName) {
+        this.queueName = queueName;
+    }
 }

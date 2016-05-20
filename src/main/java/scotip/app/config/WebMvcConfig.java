@@ -31,19 +31,13 @@ import com.mitchellbosecke.pebble.loader.Loader;
 import com.mitchellbosecke.pebble.spring4.PebbleViewResolver;
 import com.mitchellbosecke.pebble.spring4.extension.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import scotip.app.converter.OperatorIdToOperatorConverter;
 import scotip.app.converter.SharedLineToLineConverter;
 import scotip.app.injections.GlobalVariables;
 import scotip.app.tools.CustomViewFunctions;
@@ -63,6 +57,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Autowired
     SharedLineToLineConverter sharedLineToLineConverter;
 
+    @Autowired
+    OperatorIdToOperatorConverter operatorIdToOperatorConverter;
+
     /**
      * FOR SOME FORMS
      * @param registry
@@ -70,6 +67,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(sharedLineToLineConverter);
+        registry.addConverter(operatorIdToOperatorConverter);
     }
 
     /**

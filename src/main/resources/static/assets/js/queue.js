@@ -22,28 +22,42 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.service.operator;
+$(function () {
 
-import scotip.app.dto.OperatorDto;
-import scotip.app.model.Company;
-import scotip.app.model.Operator;
 
-import java.util.List;
+    /**
+     * Saving changes
+     */
+    $("[data-save='queue']").off().click(function (e) {
 
-/**
- * Created by svevia on 18/05/2016.
- */
-public interface OperatorService {
+        var data_post = $("#addQueue form").serialize();
 
-    Operator findById(int id);
 
-    Operator registerNewOperator(OperatorDto OperatorDto);
+        $.post("./queues/add", data_post).success(function (dataPost) {
+            console.log(dataPost);
+            if (dataPost === "ok") {
+                location.reload();
+            } else {
+                try {
+                    var err = $.parseJSON(dataPost);
+                    var alertm = "";
 
-    List<Operator> getAllOperators(Company company);
+                    for (var i = 0, t = err.length; i < t; i++) {
+                        alertm += err[i].defaultMessage + "\n";
+                    }
 
-    List<Operator> getAllOperator(int id);
+                    alert(alertm);
+                } catch (e) {
+                    console.log(dataPost);
+                }
 
-    void deleteById(int id);
+            }
+        }).fail(function (err) {
 
-    Operator getInitializedOperator(int id);
-}
+        });
+
+
+    });
+
+
+});

@@ -24,25 +24,27 @@
 
 package scotip.app.service.operator;
 
-import com.sun.org.apache.bcel.internal.generic.SWITCH;
+import com.github.slugify.Slugify;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import scotip.app.dao.operator.OperatorDao;
-import scotip.app.dto.OperatorDto;
-import scotip.app.model.Company;
-import scotip.app.model.Operator;
+import scotip.app.dao.operator.QueueDao;
+import scotip.app.dto.QueueDto;
+import scotip.app.dto.QueueOperatorDto;
+import scotip.app.model.Queue;
 import scotip.app.model.Switchboard;
 import scotip.app.service.company.CompanyService;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
  * Created by svevia on 18/05/2016.
  */
-@Service("OperatorService")
+@Service("QueueService")
 @Transactional
-public class OperatorServiceImpl implements OperatorService{
+public class QueueServiceImpl implements QueueService {
 
     @Autowired
     private OperatorDao dao;
@@ -50,44 +52,38 @@ public class OperatorServiceImpl implements OperatorService{
     @Autowired
     private CompanyService company;
 
-    @Override
-    public Operator findById(int id) {
-       return dao.findById(id);
-    }
-
+    @Autowired
+    private QueueDao queueDao;
 
     @Override
-    public Operator registerNewOperator(OperatorDto OperatorDto) {
-
-        Operator op = new Operator();
-        op.setCompany(OperatorDto.getCompany());
-        op.setName(OperatorDto.getName());
-        System.out.println(op.getName());
-        op.setPassword(OperatorDto.getPassword());
-
-        return dao.registerNewOperator(op);
-
+    public List<Queue> getQueuesFromSwitchboard(Switchboard switchboard) {
+        return queueDao.getQueuesFromSwitchboard(switchboard);
     }
 
     @Override
-    public List<Operator> getAllOperator(int id) {
-        return dao.getAllOperator(company.findById(id));
-    }
+    public void registerNewQueue(Switchboard switchboard, QueueDto queueDto) throws IOException {
+        Queue queue = new Queue();
+        queue.setName(queueDto.getQueueName());
+        queue.setSwitchboard(switchboard);
+        queue.setAsteriskName("QUEUE_S"+switchboard.getSid()+"_"+ (new Slugify().slugify(queueDto.getQueueName())));
 
-
-    @Override
-    public List<Operator> getAllOperators(Company company){
-        return dao.getAllOperator(company);
-    }
-
-    @Override
-    public void deleteById(int id) {
-        dao.deleteById(id);
+        queueDao.saveQueue(queue);
     }
 
     @Override
-    public Operator getInitializedOperator(int id) {
-        return dao.findInitialized(id);
+    public void removeQueue(Queue queue) {
+        queueDao.removeQueue(queue);
+    }
+
+    @Override
+    public Queue getQueueWithSwitchboardAndId(Switchboard switchboard, int qid) {
+        return queueDao.getQueueWithSwitchboardAndId(switchboard,qid);
+    }
+
+    @Override
+    public void saveOperators(Queue queue, QueueOperatorDto queueOperatorDto) {
+        queue.setOperators(queueOperatorDto.getOperators());
+        queueDao.updateQueue(queue);
     }
 
 

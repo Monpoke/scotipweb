@@ -167,4 +167,5 @@ public class SwitchboardServiceImpl implements SwitchboardService {
     public List<Switchboard> getAllSwitchboard(){
         return switchboardDao.getAllSwitchboard();
     }
+
 }

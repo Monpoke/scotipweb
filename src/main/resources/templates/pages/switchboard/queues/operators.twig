@@ -1,0 +1,139 @@
+{% extends "../../../layouts/base" %}
+
+{% block title %}
+    Queue {{ queue.name }}
+{% endblock %}
+
+{% block pageHeader %}
+    Queue {{ queue.name }} operators
+    <small>{{ switchboard.name }}</small>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="/u/switchboard">Switchboard</a></li>
+    <li><a href="..">Queues</a></li>
+    <li class="active"><a href="#">Operators</a></li>
+{% endblock %}
+
+{# CHANGE SIDEBAR #}
+{% block sidebar %}
+    {% include "../sidebar/menu" %}
+{% endblock %}
+
+{% block pageContent %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Queues list</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+
+                        <div class="col-md-12">
+
+                            {% if success == "true" %}
+                            <div class="alert alert-success">
+                                Changes have been saved!
+                            </div>
+                            {% endif %}
+
+                            {% if errors != null %}
+                            <div class="alert alert-danger">
+                                {% for error in errors %}
+                                    {{ error.defaultMessage }}<br/>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            <form method="post">
+                                <table class="table table-condensed">
+                                    <tr>
+                                        <th class="col-md-1">
+                                            Add
+                                        </th>
+                                        <th>
+                                            Name
+                                        </th>
+                                    </tr>
+
+                                    {% set k=0 %}
+                                    {% for  operator in operators %}
+                                        <tr>
+                                            <td class="col-md-1">
+                                                <input type="checkbox" id="operator_{{ operator.oid }}"
+                                                       name="operators[{{ k }}]" value="{{ operator.oid }}" {% if queue.hasOperator(operator) %} checked="checked"{% endif %}/>
+                                            </td>
+                                            <td>
+                                                <label for="operator_{{ operator.oid }}">
+                                                    {{ operator.name }}
+                                                </label>
+                                            </td>
+
+                                        </tr>
+                                        {% set k = k+1 %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="alert alert-info">
+                                                    <a href="/u/operators">You have to add some operators before.</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+
+                                </table>
+                                <br/><br/>
+
+                                <button class="btn btn-success" type="submit">
+                                    <i class="fa fa-check"></i> Save
+                                </button>
+
+                            </form>
+                        </div><!-- /.col -->
+
+
+                    </div><!-- /.row -->
+                </div><!-- ./box-body -->
+
+
+            </div><!-- /.box -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+
+
+
+
+    <div id="addQueue" class="modal fade" role="dialog" data-switchboard-id="{{ switchboard.sid }}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Add queue</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form method="post">
+                        <label for="queueName">
+                            Queue name:
+                        </label>
+                        <input type="text" class="form-control" name="queueName" id="queueName"/>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" data-save="queue">Save</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+{% endblock %}
+
+{% block jsFiles %}
+    <script src="/assets/js/queue.js"></script>
+{% endblock %}

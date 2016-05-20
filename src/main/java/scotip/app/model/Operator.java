@@ -86,5 +86,13 @@ public class Operator {
 
     }
 
+    @Override
+    public String toString() {
+        return "Operator{" +
+                "oid=" + oid +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }
 

@@ -14,7 +14,7 @@
 
 {% block pageContent %}
 
-    <form class="form-inline" action = "/u/newOperator/{{ currentCompany.id }}" method="post" >
+    <form class="form-inline" action = "/u/newOperator" method="post" >
         <div class="form-group">
             <input type="text" class="form-control" name="name" id="name" placeholder="Name" value="{{ operator.name }}">
         </div>
@@ -22,7 +22,6 @@
             <input type="password" class="form-control" name="password" id="password" placeholder="Password" value="{{ operator.password }}">
         </div>
 
-        <input type="hidden" name="company" value={{ currentCompany.id }}/>
         {% set token = request.attribute('_csrf') %}
         <input type="hidden" name="{{ token.parameterName }}" value="{{ token.token }}"/>
 
@@ -43,7 +42,11 @@
                 <td>{{ operator.oid }}</td>
                 <td>{{ operator.name }} </td>
                 <td>{{ operator.password }} </td>
-                <td><a href="/u/delOperator/{{ currentCompany.id }}/{{ operator.oid }}"><img src="/assets/img/delete.png" alt="delete"></a></td>
+                <td>
+                    <a href="/u/delOperator/{{ operator.oid }}" class="btn btn-danger">
+                        Del
+                    </a>
+                </td>
             </tr>
         {% endfor %}
 

@@ -22,28 +22,26 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.service.operator;
+package scotip.app.dto;
 
-import scotip.app.dto.OperatorDto;
-import scotip.app.model.Company;
 import scotip.app.model.Operator;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
- * Created by svevia on 18/05/2016.
+ * Created by Pierre on 26/04/2016.
  */
-public interface OperatorService {
 
-    Operator findById(int id);
+public class QueueOperatorDto {
+    @Valid
+    private List<Operator> operators;
 
-    Operator registerNewOperator(OperatorDto OperatorDto);
+    public List<Operator> getOperators() {
+        return operators;
+    }
 
-    List<Operator> getAllOperators(Company company);
-
-    List<Operator> getAllOperator(int id);
-
-    void deleteById(int id);
-
-    Operator getInitializedOperator(int id);
+    public void setOperators(List<Operator> operators) {
+        this.operators = operators;
+    }
 }

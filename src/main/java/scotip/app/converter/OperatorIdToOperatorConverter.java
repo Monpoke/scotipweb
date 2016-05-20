@@ -22,28 +22,38 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.service.operator;
+package scotip.app.converter;
 
-import scotip.app.dto.OperatorDto;
-import scotip.app.model.Company;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+import scotip.app.model.Line;
 import scotip.app.model.Operator;
-
-import java.util.List;
+import scotip.app.service.line.LineService;
+import scotip.app.service.operator.OperatorService;
 
 /**
- * Created by svevia on 18/05/2016.
+ * Created by Pierre on 29/04/2016.
  */
-public interface OperatorService {
+@Component
+public class OperatorIdToOperatorConverter implements Converter<Object, Operator> {
 
-    Operator findById(int id);
+    @Autowired
+    OperatorService operatorService;
 
-    Operator registerNewOperator(OperatorDto OperatorDto);
 
-    List<Operator> getAllOperators(Company company);
+    @Override
+    public Operator convert(Object element) {
+        Operator operator = null;
 
-    List<Operator> getAllOperator(int id);
+        try {
+            Integer id = Integer.parseInt((String) element);
+            operator = operatorService.findById(id);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
 
-    void deleteById(int id);
-
-    Operator getInitializedOperator(int id);
+        return operator;
+    }
 }

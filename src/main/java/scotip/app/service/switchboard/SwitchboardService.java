@@ -41,4 +41,5 @@ public interface SwitchboardService {
     void notifyServerDialplanReload(Switchboard switchboard);
 
     List<Switchboard> getAllSwitchboard();
+
 }

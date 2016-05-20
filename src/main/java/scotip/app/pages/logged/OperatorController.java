@@ -67,7 +67,7 @@ public class OperatorController extends AppLogged {
         OperatorDto operatorDto = new OperatorDto();
         model.addAttribute("operator", operatorDto);
 
-        return "pages/static/operators/operator";
+        return "pages/operators/operator";
     }
 
 
@@ -88,7 +88,7 @@ public class OperatorController extends AppLogged {
 
         operator.deleteById(id);
 
-        return "redirect:/u/operator/" + getCurrentCompany().getId();
+        return "redirect:/u/operator";
 
     }
 

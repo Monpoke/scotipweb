@@ -22,57 +22,49 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.dao.switchboard;
+package scotip.app.dao.operator;
 
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import scotip.app.dao.AbstractDao;
+import scotip.app.model.Queue;
 import scotip.app.model.Switchboard;
 
 import java.util.List;
 
-/**
- * Created by Pierre on 29/04/2016.
- */
-@Repository("switchboardDao")
 @Transactional
-public class SwitchboardDaoImpl extends AbstractDao<Integer, Switchboard>  implements SwitchboardDao {
+@Repository("QueueDao")
+public class QueueDaoImpl extends AbstractDao<Integer, Queue> implements QueueDao {
 
 
-    /**
-     * Save to switchboard
-     * @param switchboard
-     * @return
-     */
     @Override
-    public Switchboard saveSwitchboard(Switchboard switchboard) {
-        switchboard.setSid((int)getSession().save(switchboard));
-        return switchboard;
+    public List<Queue> getQueuesFromSwitchboard(Switchboard switchboard) {
+        Query query = getSession().createQuery("from Queue WHERE switchboard = :switchboard");
+        query.setParameter("switchboard", switchboard);
+        return query.list();
     }
 
     @Override
-    public Switchboard get(int sid) {
-        return getByKey(sid);
+    public void saveQueue(Queue queue) {
+        getSession().save(queue);
     }
 
     @Override
-    public Switchboard getWithModules(int sid) {
-        Switchboard switchboard = get(sid);
-        Hibernate.initialize(switchboard.getModules());
-        Hibernate.initialize(switchboard.getCallLogs());
-        return switchboard;
-    }
-
-    public List<Switchboard> getAllSwitchboard(){
-        return getSession().createCriteria(Switchboard.class).list();
+    public void removeQueue(Queue queue) {
+        getSession().delete(queue);
     }
 
     @Override
-    public void initQueues(Switchboard switchboard) {
-        Session session = getSession();
-        Hibernate.initialize(switchboard.getQueues());
-        session.close();
+    public Queue getQueueWithSwitchboardAndId(Switchboard switchboard, int qid) {
+        Query query = getSession().createQuery("from Queue WHERE switchboard = :switchboard AND qid = :qid");
+        query.setParameter("switchboard",switchboard);
+        query.setParameter("qid",qid);
+        return (Queue) query.uniqueResult();
+    }
+
+    @Override
+    public void updateQueue(Queue queue) {
+        getSession().update(queue);
     }
 }

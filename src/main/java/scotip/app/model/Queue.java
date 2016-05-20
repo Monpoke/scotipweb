@@ -25,6 +25,7 @@
 package scotip.app.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,12 +53,12 @@ public class Queue {
 
 
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(name = "queue_operator", joinColumns = {
             @JoinColumn(name = "queue_id", nullable = false, updatable = false) },
             inverseJoinColumns = { @JoinColumn(name = "operator_id",
                     nullable = false, updatable = false) })
-    protected List<Operator> operators;
+    protected List<Operator> operators = new ArrayList<>();
 
 
     public int getQid() {
@@ -98,6 +99,16 @@ public class Queue {
 
     public void setOperators(List<Operator> operators) {
         this.operators = operators;
+    }
+
+
+    /**
+     * Returns true if the current queue contains the operator.
+     * @param operator
+     * @return
+     */
+    public boolean hasOperator(Operator operator){
+        return operators.contains(operator);
     }
 }
 

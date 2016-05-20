@@ -54,20 +54,25 @@
                                         <td>{{ queue.name }}</td>
                                         <td>{{ queue.operators.size() }}</td>
                                         <td>
-                                            <a href="#" data-toggle="modal" data-target="#variables">Operators</a>
+                                            <a href="./queues/{{ queue.qid }}/operators" class="btn btn-primary">Operators</a>
+                                            <a href="./queues/{{ queue.qid }}/remove" onclick="return(confirm('Confirm suppression of this queue?'));" class="btn btn-danger">Delete</a>
                                         </td>
                                     </tr>
                                 {% else %}
                                     <tr>
                                         <td colspan="4">
-                                            No logs yet.
+                                            There is no queue yet!
                                         </td>
                                     </tr>
                                 {% endfor %}
 
 
                             </table>
+                            <br/><br/>
 
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#addQueue"><i
+                                        class="fa fa-add"></i> Add queue
+                            </button>
 
                         </div><!-- /.col -->
 
@@ -83,21 +88,27 @@
 
 
 
-    <div id="variables" class="modal fade" role="dialog">
+    <div id="addQueue" class="modal fade" role="dialog" data-switchboard-id="{{ switchboard.sid }}">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Call variables</h4>
+                    <h4 class="modal-title">Add queue</h4>
                 </div>
                 <div class="modal-body">
 
-                    Some things...
+                    <form method="post">
+                        <label for="queueName">
+                            Queue name:
+                        </label>
+                        <input type="text" class="form-control" name="queueName" id="queueName"/>
 
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" data-save="queue">Save</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -105,3 +116,6 @@
 
 {% endblock %}
 
+{% block jsFiles %}
+<script src="/assets/js/queue.js"></script>
+{% endblock %}

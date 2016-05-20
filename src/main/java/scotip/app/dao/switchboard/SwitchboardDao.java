@@ -38,4 +38,6 @@ public interface SwitchboardDao {
     Switchboard getWithModules(int sid);
 
     List<Switchboard> getAllSwitchboard();
+
+    void initQueues(Switchboard switchboard);
 }
