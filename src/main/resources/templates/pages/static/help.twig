@@ -24,8 +24,43 @@
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <p>
-                       To accept calls on Skype account, you will have to add the following contact: <em><a href="skype:skype2ippi">skype2ippi</a></em>
+                        To accept calls on Skype account, you will have to add the following contact: <em><a
+                                    href="skype:skype2ippi">skype2ippi</a></em>
                     </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="userinputCheck">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">How to check an user input using an URI?</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <p>
+                        To valid an user input, you can provide an URI where the input will be send. This URI will have
+                        to return <strong>ok</strong> if the provided input is correct
+                        or else, <strong>error</strong>.<br/>
+                        You can also use variables declared previously to check a serie of input. (Username/password...)<br/>
+                        <br/>
+                        <strong style="text-decoration: underline;">Available variables:</strong>
+                    </p>
+
+                    <ul>
+                        <li>
+                            <em>${INPUT}</em>: contains the user input
+                        </li>
+
+                        <li>
+                            <em>${SWITCHBOARD_ID}</em>: contains the switchboard id
+                        </li>
+
+                        <li>
+                            <em>${anythingYouWant}</em>: one of your variable name
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

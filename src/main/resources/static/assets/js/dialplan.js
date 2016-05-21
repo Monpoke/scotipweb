@@ -1,3 +1,27 @@
+/*
+ * Copyright (c) 2016. Pierre BOURGEOIS
+ *
+ *  Permission is hereby granted, free of charge, to any person
+ *  obtaining a copy of this software and associated documentation
+ *  files (the "Software"), to deal in the Software without restriction,
+ *  including without limitation the rights to use, copy, modify, merge,
+ *  publish, distribute, sublicense, and/or sell copies of the Software, and
+ *  to permit persons to whom the Software is furnished to do so, subject
+ *  to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 $(function () {
 
     $(document).on('click', '.addModule', function (e) {
@@ -38,6 +62,50 @@ $(function () {
                 });
         });
 
+        var somethingChanged = false;
+
+        $(document).on('change', '#moduleConfig input, #moduleConfig select', function () {
+            if ($(this).attr('id') === "moduleType") return;
+            somethingChanged = true;
+        })
+
+        $('#moduleType').off().change(function (e) {
+            if (somethingChanged == true) {
+                if (!confirm("Are you sure to change to this type? Previous modifications will be lost!")) {
+                    return;
+                }
+            }
+            somethingChanged = false;
+
+            var mod = $(this).val();
+            var target = "#dynamicForm";
+            $(target).html("");
+            switch (mod) {
+                case "playback":
+                    new ModPlayback(target, data);
+                    break;
+                case "operator":
+                    new ModOperator(target, data);
+                    break;
+                case "queue":
+                    new ModQueue(target, data);
+                    break;
+                case "userinput":
+                    new ModUserInput(target,data);
+                    break;
+            }
+        });
+
+        $('#moduleType').trigger('change');
+
+        // for phone key
+        $('#modulePhoneKeyDisable').off().change(function (e) {
+            if ($("#modulePhoneKeyDisable").is(':checked')) {
+                $("#modulePhoneKey").attr('disabled', 'disabled');
+            } else {
+                $("#modulePhoneKey").removeAttr('disabled');
+            }
+        });
 
         /**
          * Function to upload a file.
@@ -168,7 +236,7 @@ function updateModalWithData(data) {
             model: $("[name='moduleType']").val(),
             libraryFile: $("[name='libraryFile']").val(),
             description: $("[name='description']").val(),
-            phoneKey: $("[name='phoneKey']").val()*1,
+            phoneKey: $("[name='phoneKey']").val() * 1,
             canSkipFile: ($("[name='canSkip']").is(':checked')) ? 1 : 0,
             moduleId: data.module.mid,
         };

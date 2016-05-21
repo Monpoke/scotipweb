@@ -68,9 +68,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            <button class="btn btn-lg btn-primary" data-toggle="modal" data-target="#accessLine"><i
-                        class="fa fa-info-circle"></i> How to test?
-            </button>
+            <button class="btn btn-lg btn-primary" data-toggle="modal" data-target="#accessLine"><i class="fa fa-info-circle"></i> How to test?</button>
         </div>
     </div>
 
@@ -89,24 +87,76 @@
                     <label for="moduleType">Module type:</label><br/>
                     <select id="moduleType" name="moduleType" class="form-control">
                         <option selected="selected" value="playback">Play a file</option>
-                        <option value="operator">Operator</option>
-                        <option value="queue">Queue</option>
-                        <option value="userinput">User input</option>
+                        <option disabled value="read">User input</option>
+                        <option disabled value="operator">Operator</option>
+                        <option disabled value="queue">Queue</option>
                     </select>
                     <br/><br/>
 
-                    <label for="moduleDescription">Module description:</label><br/>
-                    <input type="text" id="moduleDescription" name="moduleType" class="form-control"/>
-                    <br/><br/>
+                    <label for="moduleDescription">Description:</label>
+                    <input type="text" name="description" id="moduleDescription" class="form-control"/>
 
-                    <label for="modulePhoneKey">Module phone key:</label>
-                    <label for="modulePhoneKeyDisable" class="text-sm">Disable:</label> <input type="checkbox" id="modulePhoneKeyDisable" name="modulePhoneKeyDisable" /><br />
-                    <input type="number" min="1" max="9" id="modulePhoneKey" name="modulePhoneKey" class="form-control"/>
 
-                    <br/><br/>
+                    <div id="moduleConfig_configs">
+                        <div id="moduleConfig_configs_settings">
+                            loading
+                        </div>
+                        <br/>
 
-                    <div id="dynamicForm">
+                        <h3>Options</h3>
 
+                        <div class="libraryFileGroup hidden">
+                            <label for="libraryFileL">Library file:</label>
+                            <input type="text" name="libraryFile" value="" class="form-control"/>
+                        </div>
+
+                        <div class="phoneKeyGroup">
+                            <label for="phoneKey">Phone key:</label>
+                            <input type="number" class="form-control" name="phoneKey" size="1" maxlength="1" max="9"
+                                   min="1"/><br/>
+                        </div>
+
+                        <br/>
+                        <hr/>
+
+                        <fieldset>
+                            <legend>Library song</legend>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#songLibraryModal">
+                                Click here
+                            </button>
+
+                        </fieldset>
+
+                        <br/><br/>
+
+
+                        <fieldset>
+                            <legend>Upload</legend>
+                            <form id="uploadForm" method="post" action="/upload" enctype="multipart/form-data">
+                                You can upload a <em>WAV</em> file or a <em>MP3</em> file:<br/>
+                                <input type="file" name="file" id="file" accept="audio/mpeg,audio/wav,audio/x-wav"/>
+                                <br/>
+                                <button class="btn btn-warning btn-sm" data-upload>
+                                    <i class="fa fa-upload"></i> Upload
+                                </button>
+                                <progress id="uploadProgress" class="hidden"></progress>
+                            </form>
+                        </fieldset>
+                        
+                        <br/><br/>
+
+                        <fieldset>
+                            <legend>Recording</legend>
+                            <ol>
+                                <li>Call this service number: <strong>+33(0)3.62.72.90.20</strong></li>
+                                <li>Type the service code: <strong>20</strong></li>
+                                <li>Type this dialplan code: <strong>{{ switchboard.sid }}</strong></li>
+                                <li>Then, type this module code: <strong data-set="moduleCode">00</strong></li>
+                                <li><em>Ready to record!</em></li>
+                            </ol>
+                        </fieldset>
 
                     </div>
 
@@ -181,48 +231,6 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <div id="changeSong" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Update a song</h4>
-                </div>
-                <div class="modal-body">
-                    <fieldset>
-                        <legend>Upload</legend>
-                        <form id="uploadForm" method="post" action="/upload" enctype="multipart/form-data">
-                            You can upload a <em>WAV</em> file or a <em>MP3</em> file:<br/>
-                            <input type="file" name="file" id="file" accept="audio/mpeg,audio/wav,audio/x-wav"/>
-                            <br/>
-                            <button class="btn btn-warning btn-sm" data-upload>
-                                <i class="fa fa-upload"></i> Upload
-                            </button>
-                            <progress id="uploadProgress" class="hidden"></progress>
-                        </form>
-                    </fieldset>
-
-                    <br/><br/>
-
-                    <fieldset>
-                        <legend>Recording</legend>
-                        <ol>
-                            <li>Call this service number: <strong>+33(0)3.62.72.90.20</strong></li>
-                            <li>Type the service code: <strong>20</strong></li>
-                            <li>Type this dialplan code: <strong>{{ switchboard.sid }}</strong></li>
-                            <li>Then, type this module code: <strong data-set="moduleCode">00</strong></li>
-                            <li><em>Ready to record!</em></li>
-                        </ol>
-                    </fieldset>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 
     <div id="accessLine" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -274,16 +282,9 @@
 
 {% block jsFiles %}
     {{ parent() }}
-
     <script src="/assets/libs/jorgchart/jorgchart.js"></script>
     <script src="/assets/libs/plugins/select2/select2.full.min.js"></script>
     <script src="/assets/js/dialplan.js"></script>
-    <script src="/assets/js/modules/common.js"></script>
-    <script src="/assets/js/modules/playback.js"></script>
-    <script src="/assets/js/modules/operator.js"></script>
-    <script src="/assets/js/modules/queue.js"></script>
-    <script src="/assets/js/modules/userinput.js"></script>
-
     <script>
         $(function () {
             $("#dialplan").jOrgChart({
