@@ -139,6 +139,7 @@ public class SwitchboardServiceImpl implements SwitchboardService {
         // REQUEST COMPANIES ARE SAME
         Switchboard switchboard = switchboardDao.getWithModules(sid);
         Hibernate.initialize(switchboard.getMohGroups());
+        Hibernate.initialize(switchboard.getQueues());
 
         if (switchboard != null && switchboard.getCompany().getId() != company.getId()) {
             switchboard = null;

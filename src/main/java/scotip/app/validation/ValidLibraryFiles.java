@@ -43,7 +43,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = ValidLibraryFilesValidator.class)
 @Documented
 public @interface ValidLibraryFiles {
-    String message() default "Library files string is invalid.";
+    String message() default "Invalid files detected.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

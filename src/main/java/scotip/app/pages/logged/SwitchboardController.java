@@ -167,36 +167,4 @@ public class SwitchboardController extends SwitchboardAppController {
     }
 
 
-    @RequestMapping(path = "/u/module/update/{module}", method = RequestMethod.POST)
-    @ResponseBody
-    public String updateModule(@Valid ModuleUpdateDto moduleUpdateDto, BindingResult bindingResult) {
-
-        try {
-            /**
-             * There is no error, so we can save
-             */
-            if (!bindingResult.hasErrors()) {
-
-                Module module = moduleService.findByIdAndCompany(moduleUpdateDto.getModuleId(), getCurrentCompany());
-
-                if (module == null) {
-                    throw new ModuleNotFoundException();
-                }
-
-
-                // save the file
-                moduleService.saveUpdate(module, moduleUpdateDto);
-                return "ok";
-
-            } else {
-                List<ObjectError> allErrors = bindingResult.getAllErrors();
-                return new Gson().toJson(allErrors);
-            }
-
-        } catch (ModuleNotFoundException mnfe) {
-            mnfe.printStackTrace();
-            return "notfound";
-        }
-    }
-
 }

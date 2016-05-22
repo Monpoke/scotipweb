@@ -103,7 +103,11 @@ public class Company implements UserDetails {
      * @TODO HACK Fetch LAZY
      */
     @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    private Set<Switchboard> switchboards = new HashSet<>();
+    private List<Switchboard> switchboards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    private List<Operator> operators = new ArrayList<>();
+
 
 
     public int getId() {
@@ -291,8 +295,35 @@ public class Company implements UserDetails {
         this.password = password;
     }
 
+    public void setState(String state) {
+        this.state = state;
+    }
 
-    public Set<Switchboard> getSwitchboards() {
+    public void setCompanyProfiles(Set<CompanyProfile> companyProfiles) {
+        this.companyProfiles = companyProfiles;
+    }
+
+    public void setSwitchboards(List<Switchboard> switchboards) {
+        this.switchboards = switchboards;
+    }
+
+    public List<Operator> getOperators() {
+        return operators;
+    }
+
+    public void setOperators(List<Operator> operators) {
+        this.operators = operators;
+    }
+
+    public String getTmpMD5_mail() {
+        return tmpMD5_mail;
+    }
+
+    public void setTmpMD5_mail(String tmpMD5_mail) {
+        this.tmpMD5_mail = tmpMD5_mail;
+    }
+
+    public List<Switchboard> getSwitchboards() {
         return switchboards;
     }
 

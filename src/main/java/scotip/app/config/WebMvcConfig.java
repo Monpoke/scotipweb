@@ -37,9 +37,9 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import scotip.app.converter.OperatorIdToOperatorConverter;
-import scotip.app.converter.SharedLineToLineConverter;
+import scotip.app.converter.*;
 import scotip.app.injections.GlobalVariables;
+import scotip.app.model.ModuleModel;
 import scotip.app.tools.CustomViewFunctions;
 
 
@@ -60,6 +60,15 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Autowired
     OperatorIdToOperatorConverter operatorIdToOperatorConverter;
 
+    @Autowired
+    ModuleModelConverter moduleModelConverter;
+
+    @Autowired
+    MOHIdToMohConverter mohIdToMohConverter;
+
+    @Autowired
+    QueueIDToQueueConverter queueIDToQueueConverter;
+
     /**
      * FOR SOME FORMS
      * @param registry
@@ -68,6 +77,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(sharedLineToLineConverter);
         registry.addConverter(operatorIdToOperatorConverter);
+        registry.addConverter(moduleModelConverter);
+        registry.addConverter(mohIdToMohConverter);
+        registry.addConverter(queueIDToQueueConverter);
     }
 
     /**

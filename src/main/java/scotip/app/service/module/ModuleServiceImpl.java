@@ -29,12 +29,11 @@ import org.springframework.core.OrderComparator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import scotip.app.dao.model.ModuleDao;
-import scotip.app.dto.ModuleUpdateDto;
+import scotip.app.dto.ModuleDto;
 import scotip.app.exceptions.OperationException;
 import scotip.app.model.Company;
 import scotip.app.model.Module;
 import scotip.app.model.ModuleModel;
-import scotip.app.model.Switchboard;
 import scotip.app.service.moduleModel.ModuleModelService;
 import scotip.app.service.switchboard.SwitchboardService;
 import scotip.app.tools.CreateDefaultModule;
@@ -42,6 +41,7 @@ import scotip.app.tools.CreateDefaultModule;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Pierre on 13/05/2016.
@@ -115,22 +115,72 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
-    public void saveUpdate(Module module, ModuleUpdateDto moduleUpdateDto) {
+    public void saveUpdate(Module module, ModuleDto moduleUpdateDto) {
+        boolean isRoot = module.isRootModule();
+
 
         /**
          * @todo have to check if files exists
          */
         checkDifferentKey(module, moduleUpdateDto);
 
-        // set fields
-        module.setPhoneKey(moduleUpdateDto.getPhoneKey());
-        module.setDescription(moduleUpdateDto.getDescription());
+        String modelSlug = moduleUpdateDto.getModuleType().getSlug();
 
-        // library not empty
-        if (!moduleUpdateDto.getLibraryFile().isEmpty()) {
-            String replace = moduleUpdateDto.getLibraryFile().replace("library/", "");
-            module.getSettings().put("file", replace);
+        // set fields
+        if(moduleUpdateDto.isModulePhoneKeyDisable()){
+            module.setPhoneKey(0);
+            module.setPhoneKeyDisabled(true);
+        } else {
+            module.setPhoneKey(moduleUpdateDto.getModulePhoneKey());
+            module.setPhoneKeyDisabled(false);
         }
+
+        module.setDescription(moduleUpdateDto.getModuleDescription());
+        module.setModuleModel(moduleUpdateDto.getModuleType());
+
+
+        // OPERATOR
+        if (modelSlug.equals("operator")) {
+            module.setOperator(moduleUpdateDto.getOperator());
+        } else {
+            module.setOperator(null);
+        }
+
+
+        // QUEUE
+        if(modelSlug.equals("queue")){
+            module.setQueue(moduleUpdateDto.getQueue());
+        } else {
+            module.setQueue(null);
+        }
+
+        // QUEUE OR OPERATOR
+        if(modelSlug.equals("queue") ||modelSlug.equals("operator")){
+            module.setMohGroup(moduleUpdateDto.getMoh());
+        } else {
+            module.setMohGroup(null);
+        }
+
+        // USER INPUT
+        if(modelSlug.equals("userinput")){
+            Map<String, String> settings = module.getSettings();
+            settings.put("variable",moduleUpdateDto.getVariable());
+            settings.put("uri",moduleUpdateDto.getUrlCheck());
+            settings.put("numberFormatMin",""+moduleUpdateDto.getNumberFormatMin());
+            settings.put("numberFormatMax",""+moduleUpdateDto.getNumberFormatMax());
+
+        }
+
+        // FILES
+        safeModuleFilesSyntax(moduleUpdateDto.getFiles());
+        module.setFiles(moduleUpdateDto.getFiles());
+
+        // RESET ROOT MODULE
+        if(isRoot == true){
+            module.setRootModule(true);
+            module.setPhoneKeyDisabled(true);
+        }
+
 
         save(module);
 
@@ -138,14 +188,28 @@ public class ModuleServiceImpl implements ModuleService {
         switchboardService.notifyServerDialplanReload(module.getSwitchboard());
     }
 
-    private void checkDifferentKey(Module module, ModuleUpdateDto moduleUpdateDto) {
-        if (module.isRootModule()) {
+    private void safeModuleFilesSyntax(Map<String, String> files) {
+        Iterator<Map.Entry<String, String>> iterator = files.entrySet().iterator();
+        while(iterator.hasNext()){
+            Map.Entry<String, String> next = iterator.next();
+
+            String val = next.getValue();
+            // just remove last &
+            if(val.length() > 0 && val.charAt(val.length()-1)=='&'){
+                files.put(next.getKey(),val.substring(0,val.length()-1));
+            }
+        }
+    }
+
+
+    private void checkDifferentKey(Module module, ModuleDto moduleUpdateDto) {
+        if (module.isRootModule() || moduleUpdateDto.isModulePhoneKeyDisable()) {
             return;
         }
 
-        if (module.getPhoneKey() != moduleUpdateDto.getPhoneKey()) {
+        if (module.getPhoneKey() != moduleUpdateDto.getModulePhoneKey()) {
             // have to switch key
-            moduleDao.updatePhoneKeyFrom(module.getSwitchboard(), moduleUpdateDto.getPhoneKey(), module.getPhoneKey());
+            moduleDao.updatePhoneKeyFrom(module.getSwitchboard(), moduleUpdateDto.getModulePhoneKey(), module.getPhoneKey());
         }
 
     }
@@ -169,5 +233,11 @@ public class ModuleServiceImpl implements ModuleService {
         integers.sort(new OrderComparator());
         Object[] objects = integers.toArray();
         module.setPhoneKey(Integer.parseInt((String) objects[0]));
+    }
+
+    private void removeIfContains(Map<String,Object> kvMap, String key){
+        if(kvMap.containsKey(key)){
+            kvMap.remove(key);
+        }
     }
 }

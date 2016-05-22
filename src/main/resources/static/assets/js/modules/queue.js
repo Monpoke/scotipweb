@@ -25,10 +25,10 @@
 /**
  * Created by Pierre on 21/05/2016.
  */
-function ModQueue(rootElem, data){
+function ModQueue(rootElem, data) {
     this.rootElem = rootElem;
     this.data = data;
-    this.common = new ModCommon(rootElem,data);
+    this.common = new ModCommon(rootElem, data);
     this.messages();
     this.module();
 }
@@ -45,12 +45,24 @@ ModQueue.prototype.messages = function () {
 };
 
 
-ModQueue.prototype.module = function(){
+ModQueue.prototype.module = function () {
     $(this.rootElem).append("<h2>Queue</h2>");
+
+
+    var queuesOptions = "";
+    var queues = $.parseJSON($("[data-queues]").attr('data-queues'));
+    for (var i = 0, t = queues.length; i < t; i++) {
+        queuesOptions += "<option value='" + queues[i].qid + "'>"+ queues[i].name +"</option>" + "\n";
+    }
 
     // operator select
     $(this.rootElem).append("<label for='queue'>Queue:</label> " +
-        "<select id='queue' name='queue'><option value=''>Default1</option></select><br />");
+        "<select id='queue' name='queue'>" + queuesOptions + "</select><br />");
+
+    // QUEUE
+    if(typeof this.data.module.queue != 'undefined'){
+        $('[name="queue"]').val(this.data.module.queue);
+    }
 
     this.common.moh();
 };

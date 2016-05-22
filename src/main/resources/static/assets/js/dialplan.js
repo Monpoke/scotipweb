@@ -48,6 +48,9 @@ $(function () {
         $('#moduleConfig').modal('show');
 
         $('#deleteButton').off().click(function (e) {
+            if (!confirm('Remove this module?')) {
+                return;
+            }
 
             $.get("/u/module/delete/" + data.module.mid).success(function (data) {
                     if (data == "ok") {
@@ -63,7 +66,6 @@ $(function () {
         });
 
         var somethingChanged = false;
-
         $(document).on('change', '#moduleConfig input, #moduleConfig select', function () {
             if ($(this).attr('id') === "moduleType") return;
             somethingChanged = true;
@@ -91,11 +93,10 @@ $(function () {
                     new ModQueue(target, data);
                     break;
                 case "userinput":
-                    new ModUserInput(target,data);
+                    new ModUserInput(target, data);
                     break;
             }
         });
-
         $('#moduleType').trigger('change');
 
         // for phone key
@@ -106,6 +107,93 @@ $(function () {
                 $("#modulePhoneKey").removeAttr('disabled');
             }
         });
+        $('#modulePhoneKeyDisable').trigger('change');
+
+
+        /**
+         * Saving changes
+         */
+        $('#moduleConfig form').off().submit(function (e) {
+            e.preventDefault();
+
+            // libraryFile
+            console.log(data);
+            var data_post = $(this).serialize();
+
+
+            $.post("/u/module/update/" + data.module.mid, data_post).success(function (dataPost) {
+                $("input").attr('disabled','disabled');
+                console.log(dataPost);
+                if (dataPost === "ok") {
+                    location.reload();
+                    //alert("ok");
+                } else {
+                    try {
+                        var err = $.parseJSON(dataPost);
+                        var alertm = "";
+
+                        for (var i = 0, t = err.length; i < t; i++) {
+                            alertm += err[i].defaultMessage + "\n";
+                        }
+
+                        alert(alertm);
+                    } catch (e) {
+                        console.log(dataPost);
+                    }
+
+                }
+            }).fail(function (err) {
+
+            });
+
+
+        });
+
+        $("[data-openLibrary]").off().click(function () {
+            var destName = $(this).attr('data-openLibrary');
+            $("#songLibraryModal").modal('show');
+            /**
+             * Choose a library song
+             */
+            $('[data-choose-library]').click(function (e) {
+                var val = $("#songLibrary").val();
+
+                var split = ("" + val).split(",");
+                var allFiles = "library/" + split.join('&library/');
+
+                $("#file_" + destName).val(allFiles);
+                $("#songLibraryModal").modal('hide');
+            });
+
+        });
+
+    });
+
+    $(document).on('click', '[data-btnUpload]', function (e) {
+        e.preventDefault();
+
+        var modId = $(this).attr('data-btnUpload');
+        var modSlug = $(this).attr('data-name');
+        var modMsgId = -1;
+        switch (modSlug) {
+            case "message":
+                modMsgId = 1;
+                break;
+            case "inputError":
+                modMsgId = 2;
+                break;
+            case "unavailable":
+                modMsgId = 3;
+                break;
+            default:
+                alert("Unsupported");
+        }
+
+        if (modMsgId == -1) return;
+
+        var code = ("" + modMsgId).length + "" + modMsgId + "" + modId;
+        $("#changeSong [data-set='moduleCodeAst']").text(code);
+
 
         /**
          * Function to upload a file.
@@ -115,7 +203,7 @@ $(function () {
             var formData = new FormData($('#uploadForm')[0]);
 
             $.ajax({
-                url: '/u/module/upload/' + data.module.mid,  //Server script to process data
+                url: '/u/module/upload/' + code,  //Server script to process data
                 type: 'POST',
                 xhr: function () {  // Custom XMLHttpRequest
                     var myXhr = $.ajaxSettings.xhr();
@@ -127,8 +215,12 @@ $(function () {
                 //Ajax events
                 success: function (data) {
                     console.log(data);
-                    if (data === "ok") {
-                        alert('success');
+                    var da = $.parseJSON(data);
+
+                    if (da.status === "ok") {
+                        alert('Upload successful!');
+                        $("[data-fieldname='" + modSlug + "']").val(da.filename);
+                        $("#changeSong").modal('hide');
                     }
                 },
                 error: function (err) {
@@ -152,26 +244,8 @@ $(function () {
         });
 
 
+        $("#changeSong").modal('show');
     });
-
-    /**
-     * Choose a library song
-     */
-    $(document).on('click', '[data-choose-library]', function (e) {
-        var val = $("#songLibrary").val();
-
-        var split = ("" + val).split(",");
-        var allFiles = "library/" + split.join('&library/');
-
-        $(".libraryFileGroup").removeClass('hidden');
-        $("[name='libraryFile']").val(allFiles);
-
-
-        $("[data-id='opt_change_file']").html("<strong>Modification into</strong> <em>" + allFiles + "</em>");
-        $("#songLibraryModal").modal('hide');
-    });
-
-
 });
 
 /**
@@ -191,87 +265,34 @@ function getData(element) {
 }
 
 
+/**
+ * Set Globals data
+ * @param data
+ */
 function updateModalWithData(data) {
-    $("[name='description']").text(data.module.description);
     $("[data-set='moduleCode']").text(data.module.mid);
 
-    console.log(data);
+    $("[name='moduleType']").val(data.model.slug);
+    $("[name='moduleDescription']").val(data.module.description);
+    $("[data-set='moduleCode']").val(data.module.mid);
+
     if (data.module.root) {
-        $(".phoneKeyGroup").hide();
+        $("#phoneKeyGroup").hide();
+        $("#phoneKeyGroup input").attr('disabled', 'disabled');
     } else {
-        $(".phoneKeyGroup").show();
-        $("input[name='phoneKey']").val(data.module.phoneKey);
+        $("#phoneKeyGroup").show();
+        $("#phoneKeyGroup input").removeAttr('disabled');
+        $("input[name='modulePhoneKeyDisable']").prop('checked', data.module.phoneKeyDisabled);
+        $("input[name='modulePhoneKey']").val(data.module.phoneKey);
     }
-
-    // foreach sur settings
-    $("#moduleConfig_configs_settings").html("");
-    $.each(data.module.settings, function (key, value) {
-        var keyName;
-        switch (key) {
-            case "file":
-                keyName = "File";
-
-                // replace default selected
-                if ($("#songLibrary option[data-path='" + value + "']").length == 1) {
-                    $("#songLibrary option[data-path='" + value + "']").attr('')
-                }
-
-                break;
-            default:
-                keyName = "Unknown";
-        }
-
-        $("#moduleConfig_configs_settings").append("<strong>" + keyName + ":</strong> \"" + value + "\"<div class='text-warning' data-id='opt_change_" + key + "'></div><br />");
-    });
-
-
-    /**
-     * Saving changes
-     */
-    $('[data-save]').off().click(function (e) {
-
-        // libraryFile
-        console.log(data);
-        var data_post = {
-            model: $("[name='moduleType']").val(),
-            libraryFile: $("[name='libraryFile']").val(),
-            description: $("[name='description']").val(),
-            phoneKey: $("[name='phoneKey']").val() * 1,
-            canSkipFile: ($("[name='canSkip']").is(':checked')) ? 1 : 0,
-            moduleId: data.module.mid,
-        };
-
-
-        $.post("/u/module/update/" + data_post.moduleId, data_post).success(function (dataPost) {
-            console.log(dataPost);
-            if (dataPost === "ok") {
-                location.reload();
-            } else {
-                try {
-                    var err = $.parseJSON(dataPost);
-                    var alertm = "";
-
-                    for (var i = 0, t = err.length; i < t; i++) {
-                        alertm += err[i].defaultMessage + "\n";
-                    }
-
-                    alert(alertm);
-                } catch (e) {
-                    console.log(dataPost);
-                }
-
-            }
-        }).fail(function (err) {
-
-        });
-
-
-    });
 
 
 }
 
-
+/**
+ * Create a new module.
+ * @param data
+ */
 function createNewModule(data) {
     $(".moduleParentName").text("#" + data.module.mid);
     $("#createNewModuleButton").off().on('click', function () {

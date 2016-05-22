@@ -25,11 +25,11 @@
 /**
  * Created by Pierre on 21/05/2016.
  */
-function ModOperator(rootElem, data){
+function ModOperator(rootElem, data) {
     this.rootElem = rootElem;
     this.data = data;
 
-    this.common = new ModCommon(rootElem,data);
+    this.common = new ModCommon(rootElem, data);
     this.messages();
     this.module();
 }
@@ -45,12 +45,25 @@ ModOperator.prototype.messages = function () {
     this.common.messages(customMessages);
 };
 
-ModOperator.prototype.module = function(){
+ModOperator.prototype.module = function () {
     $(this.rootElem).append("<h2>Operator</h2>");
+
+
+    var operatorsOptions = "";
+    var operators = $.parseJSON($("[data-operators]").attr('data-operators'));
+    for (var i = 0, t = operators.length; i < t; i++) {
+        operatorsOptions += "<option value='" + operators[i].oid + "'>" + operators[i].name + (operators[i].skype ? " (Skype account) " :"") + "</option>" + "\n";
+    }
+
 
     // operator select
     $(this.rootElem).append("<label for='operator'>Operator:</label> " +
-        "<select id='operator' name='operator'><option value=''>@monpoke_wwp (Skype)</option></select><br/>");
+        "<select id='operator' name='operator'>" + operatorsOptions + "</select><br />");
+
+    // QUEUE
+    if(typeof this.data.module.operator != 'undefined'){
+        $('[name="operator"]').val(this.data.module.operator);
+    }
 
     this.common.moh();
 };

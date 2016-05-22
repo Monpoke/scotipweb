@@ -42,4 +42,5 @@ public interface SwitchboardService {
 
     List<Switchboard> getAllSwitchboard();
 
+    void notifyServerReload(Company company);
 }

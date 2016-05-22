@@ -25,13 +25,20 @@
 package scotip.app.service.operator;
 
 import com.github.slugify.Slugify;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.async.Callback;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import scotip.app.config.MainConfig;
 import scotip.app.dao.operator.OperatorDao;
 import scotip.app.dao.operator.QueueDao;
 import scotip.app.dto.QueueDto;
 import scotip.app.dto.QueueOperatorDto;
+import scotip.app.model.MohGroup;
 import scotip.app.model.Queue;
 import scotip.app.model.Switchboard;
 import scotip.app.service.company.CompanyService;
@@ -68,11 +75,33 @@ public class QueueServiceImpl implements QueueService {
         queue.setAsteriskName("QUEUE_S"+switchboard.getSid()+"_"+ (new Slugify().slugify(queueDto.getQueueName())));
 
         queueDao.saveQueue(queue);
+
+        notifyServerReload(switchboard);
+    }
+
+    public void notifyServerReload(Switchboard switchboard) {
+
+
+        Unirest.get(MainConfig.NODESPAS_URL + "/queues/" + switchboard.getSid()).asJsonAsync(new Callback<JsonNode>() {
+            @Override
+            public void completed(HttpResponse<JsonNode> httpResponse) {
+            }
+
+            @Override
+            public void failed(UnirestException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void cancelled() {
+            }
+        });
     }
 
     @Override
     public void removeQueue(Queue queue) {
         queueDao.removeQueue(queue);
+        notifyServerReload(queue.getSwitchboard());
     }
 
     @Override
@@ -84,6 +113,13 @@ public class QueueServiceImpl implements QueueService {
     public void saveOperators(Queue queue, QueueOperatorDto queueOperatorDto) {
         queue.setOperators(queueOperatorDto.getOperators());
         queueDao.updateQueue(queue);
+
+        notifyServerReload(queue.getSwitchboard());
+    }
+
+    @Override
+    public Queue getQueueFromId(Integer id) {
+        return queueDao.findById(id);
     }
 
 

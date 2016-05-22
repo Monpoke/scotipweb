@@ -60,7 +60,10 @@ public class Module {
     @Column(name = "phone_key")
     private int phoneKey;
 
-    @Column(name="description")
+    @Column(name = "phoneKeyDisabled")
+    private boolean phoneKeyDisabled;
+
+    @Column(name = "description")
     private String description = "";
 
 
@@ -78,6 +81,24 @@ public class Module {
     @CollectionTable(name = "module_settings", joinColumns = @JoinColumn(name = "module_id"))
     @Column(name = "setting")
     protected Map<String, String> settings = new HashMap<>();
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "module_files", joinColumns = @JoinColumn(name = "module_id"))
+    @Column(name = "files")
+    protected Map<String, String> files = new HashMap<>();
+
+
+    // MOD OPERATOR
+    @ManyToOne(fetch = FetchType.EAGER)
+    protected Operator operator;
+
+    // MOD QUEUE
+    @ManyToOne(fetch = FetchType.EAGER)
+    protected Queue queue;
+
+    // BOTH OPERATOR AND QUEUE
+    @ManyToOne(fetch = FetchType.EAGER)
+    protected MohGroup mohGroup;
 
 
     public int getMid() {
@@ -158,12 +179,58 @@ public class Module {
         return (getPhoneKey() == -1 && getModuleLevel() <= 1);
     }
 
+    public void setRootModule(boolean status){
+        if(!status) return;
+        setPhoneKey(-1);
+        setModuleLevel(1);
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isPhoneKeyDisabled() {
+        return phoneKeyDisabled;
+    }
+
+    public void setPhoneKeyDisabled(boolean phoneKeyDisabled) {
+        this.phoneKeyDisabled = phoneKeyDisabled;
+    }
+
+    public Map<String, String> getFiles() {
+        return files;
+    }
+
+    public void setFiles(Map<String, String> files) {
+        this.files = files;
+    }
+
+    public Operator getOperator() {
+        return operator;
+    }
+
+    public void setOperator(Operator operator) {
+        this.operator = operator;
+    }
+
+    public Queue getQueue() {
+        return queue;
+    }
+
+    public void setQueue(Queue queue) {
+        this.queue = queue;
+    }
+
+    public MohGroup getMohGroup() {
+        return mohGroup;
+    }
+
+    public void setMohGroup(MohGroup mohGroup) {
+        this.mohGroup = mohGroup;
     }
 
     public Module() {
@@ -194,9 +261,23 @@ public class Module {
         properties.put("mid", mid);
         properties.put("sid", getSwitchboard().getSid());
         properties.put("root", isRootModule());
+        properties.put("phoneKeyDisabled", isPhoneKeyDisabled());
         properties.put("phoneKey", phoneKey);
         properties.put("description", description);
         properties.put("settings", getPublicSettings());
+        properties.put("files", getFiles());
+
+        if(operator!=null){
+            properties.put("operator",operator.getOid());
+        }
+
+        if(queue!=null){
+            properties.put("queue",queue.getQid());
+        }
+
+        if(mohGroup!=null){
+            properties.put("moh",mohGroup.getGroupId());
+        }
 
         return properties;
     }
@@ -213,6 +294,21 @@ public class Module {
 
         if (realSettings.containsKey("file")) {
             sett.put("file", PublicDataMask.getFile(realSettings.get("file")));
+        }
+
+
+        // USERINPUT
+        if (realSettings.containsKey("variable")) {
+            sett.put("variable", realSettings.get("variable"));
+        }
+        if (realSettings.containsKey("uri")) {
+            sett.put("uri", realSettings.get("uri"));
+        }
+        if (realSettings.containsKey("numberFormatMin")) {
+            sett.put("numberFormatMin", realSettings.get("numberFormatMin"));
+        }
+        if (realSettings.containsKey("numberFormatMax")) {
+            sett.put("numberFormatMax", realSettings.get("numberFormatMax"));
         }
 
         return sett;

@@ -22,29 +22,38 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
+package scotip.app.converter;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+import scotip.app.model.MohGroup;
+import scotip.app.model.Queue;
+import scotip.app.service.operator.QueueService;
+import scotip.app.service.sounds.SoundsService;
+
 /**
- * Created by Pierre on 21/05/2016.
+ * Created by Pierre on 29/04/2016.
  */
+@Component
+public class QueueIDToQueueConverter implements Converter<Object, Queue> {
 
-function ModPlayback(rootElem, data) {
-    this.rootElem = rootElem;
-    this.data = data;
-    this.common = new ModCommon(rootElem,data);
+    @Autowired
+    QueueService queueService;
 
-    this.messages();
-}
 
-ModPlayback.prototype.messages = function () {
-    var customMessages = [
-        {
-            msg: "Message",
-            name: "message"
-        },
+    @Override
+    public Queue convert(Object element) {
+        Queue queue = null;
 
-        {
-            msg: "Error message (for input errors)",
-            name: "inputError"
+        try {
+            Integer id = Integer.parseInt((String) element);
+            queue = queueService.getQueueFromId(id);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
-    ];
-    this.common.messages(customMessages);
-};
+
+        return queue;
+    }
+}

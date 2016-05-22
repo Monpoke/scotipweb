@@ -22,29 +22,38 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
+package scotip.app.converter;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+import scotip.app.model.MohGroup;
+import scotip.app.model.Operator;
+import scotip.app.service.operator.OperatorService;
+import scotip.app.service.sounds.SoundsService;
+
 /**
- * Created by Pierre on 21/05/2016.
+ * Created by Pierre on 29/04/2016.
  */
+@Component
+public class MOHIdToMohConverter implements Converter<Object, MohGroup> {
 
-function ModPlayback(rootElem, data) {
-    this.rootElem = rootElem;
-    this.data = data;
-    this.common = new ModCommon(rootElem,data);
+    @Autowired
+    SoundsService soundsService;
 
-    this.messages();
-}
 
-ModPlayback.prototype.messages = function () {
-    var customMessages = [
-        {
-            msg: "Message",
-            name: "message"
-        },
+    @Override
+    public MohGroup convert(Object element) {
+        MohGroup mohGroup = null;
 
-        {
-            msg: "Error message (for input errors)",
-            name: "inputError"
+        try {
+            Integer id = Integer.parseInt((String) element);
+            mohGroup = soundsService.getMohGroup(id);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
-    ];
-    this.common.messages(customMessages);
-};
+
+        return mohGroup;
+    }
+}

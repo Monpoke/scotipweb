@@ -33,6 +33,8 @@ import scotip.app.validation.ValidLibraryFiles;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Pierre on 26/04/2016.
@@ -60,6 +62,9 @@ public class ModuleUpdateDto {
 
     @NotNull(message="Skip file can't be null")
     private boolean canSkipFile;
+
+    @ValidLibraryFiles
+    private Map<String, String> files;
 
     @Min(value=1, message = "Module id should be provided.")
     private int moduleId;
@@ -110,6 +115,14 @@ public class ModuleUpdateDto {
 
     public void setPhoneKey(int phoneKey) {
         this.phoneKey = phoneKey;
+    }
+
+    public Map<String, String> getFiles() {
+        return files;
+    }
+
+    public void setFiles(Map<String, String> files) {
+        this.files = files;
     }
 
     @Override

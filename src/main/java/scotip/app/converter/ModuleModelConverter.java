@@ -22,29 +22,39 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
+package scotip.app.converter;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+import scotip.app.exceptions.ModuleModelNotFoundException;
+import scotip.app.model.Module;
+import scotip.app.model.ModuleModel;
+import scotip.app.model.Operator;
+import scotip.app.service.moduleModel.ModuleModelService;
+import scotip.app.service.operator.OperatorService;
+
 /**
- * Created by Pierre on 21/05/2016.
+ * Created by Pierre on 29/04/2016.
  */
+@Component
+public class ModuleModelConverter implements Converter<Object, ModuleModel> {
 
-function ModPlayback(rootElem, data) {
-    this.rootElem = rootElem;
-    this.data = data;
-    this.common = new ModCommon(rootElem,data);
+    @Autowired
+    ModuleModelService moduleModelService;
 
-    this.messages();
-}
 
-ModPlayback.prototype.messages = function () {
-    var customMessages = [
-        {
-            msg: "Message",
-            name: "message"
-        },
+    @Override
+    public ModuleModel convert(Object element) {
+        ModuleModel operator = null;
 
-        {
-            msg: "Error message (for input errors)",
-            name: "inputError"
+        try {
+            operator = moduleModelService.getEnabledModuleBySlug(((String) element));
+        } catch (ModuleModelNotFoundException e) {
+            e.printStackTrace();
         }
-    ];
-    this.common.messages(customMessages);
-};
+
+        return operator;
+    }
+}

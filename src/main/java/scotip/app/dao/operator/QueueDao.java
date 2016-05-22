@@ -24,6 +24,7 @@
 
 package scotip.app.dao.operator;
 
+import scotip.app.model.MohGroup;
 import scotip.app.model.Queue;
 import scotip.app.model.Switchboard;
 
@@ -39,4 +40,6 @@ public interface QueueDao {
     Queue getQueueWithSwitchboardAndId(Switchboard switchboard, int qid);
 
     void updateQueue(Queue queue);
+
+    Queue findById(int id);
 }

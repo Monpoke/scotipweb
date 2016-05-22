@@ -48,4 +48,8 @@ public interface SoundsService {
     MohGroup getMohGroupWithIdAndSwitchboard(int mid, int sid);
 
     MohGroup getMohGroupWithIdAndSwitchboardAndCompany(int mid, int sid, int id);
+
+    MohGroup getMohGroup(int mid);
+
+    SoundLibrary getSoundSlug(String s);
 }

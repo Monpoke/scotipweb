@@ -25,9 +25,7 @@
 package scotip.app.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by svevia on 05/05/2016.
@@ -42,7 +40,7 @@ public class Queue {
     @Column(name = "qid")
     protected int qid;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "switchboard_id", nullable = false)
     protected Switchboard switchboard;
 
@@ -53,13 +51,13 @@ public class Queue {
     protected String asteriskName;
 
 
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "queue_operator", joinColumns = {
-            @JoinColumn(name = "queue_id", nullable = false, updatable = false) },
-            inverseJoinColumns = { @JoinColumn(name = "operator_id",
-                    nullable = false, updatable = false) })
+            @JoinColumn(name = "queue_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "operator_id",
+                    nullable = false, updatable = false)})
     protected List<Operator> operators = new ArrayList<>();
+    private HashMap<String, Object> publicData;
 
 
     public int getQid() {
@@ -105,24 +103,19 @@ public class Queue {
 
     /**
      * Returns true if the current queue contains the operator.
+     *
      * @param operator
      * @return
      */
-    public boolean hasOperator(Operator operator){
-        System.out.println("List: " + getOperators().size());
-
-        Iterator<Operator> iterator = getOperators().iterator();
-        while(iterator.hasNext()){
-            Operator operator2 = iterator.next();
-            System.out.println("inlist: " + operator2.toString());
-        }
-
-        System.out.println("For: " + operator.toString());
-        System.out.println("Result: " + (getOperators().contains(operator)));
-
-
-
+    public boolean hasOperator(Operator operator) {
         return getOperators().contains(operator);
+    }
+
+    public HashMap<String, Object> getPublicData() {
+        HashMap<String, Object> properties = new HashMap<>();
+        properties.put("qid", qid);
+        properties.put("name", name);
+        return properties;
     }
 }
 

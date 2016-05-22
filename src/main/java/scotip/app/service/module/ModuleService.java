@@ -24,6 +24,7 @@
 
 package scotip.app.service.module;
 
+import scotip.app.dto.ModuleDto;
 import scotip.app.dto.ModuleUpdateDto;
 import scotip.app.exceptions.OperationException;
 import scotip.app.model.Company;
@@ -41,5 +42,5 @@ public interface ModuleService {
 
     Module removeModule(int parentId, Company currentCompany) throws OperationException;
 
-    void saveUpdate(Module module, ModuleUpdateDto moduleUpdateDto);
+    void saveUpdate(Module module, ModuleDto moduleUpdateDto);
 }

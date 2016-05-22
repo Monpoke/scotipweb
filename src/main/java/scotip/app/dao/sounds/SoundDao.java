@@ -35,4 +35,6 @@ public interface SoundDao {
     List<SoundLibrary> getAllLibrary();
 
     List<SoundLibrary> getSoundsFromList(String[] slugs);
+
+    SoundLibrary getFromSlug(String s);
 }

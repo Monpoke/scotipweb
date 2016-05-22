@@ -25,6 +25,7 @@
 package scotip.app.model;
 
 import javax.persistence.*;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -41,7 +42,7 @@ public class MohGroup {
     @Column(name = "group_name")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "switchboard_id", nullable = false)
     protected Switchboard switchboard;
 
@@ -88,4 +89,11 @@ public class MohGroup {
         this.switchboard = switchboard;
     }
 
+    public HashMap<String, Object> getPublicData() {
+        HashMap<String, Object> publicData = new HashMap<>();
+        publicData.put("groupId",groupId);
+        publicData.put("name",name);
+
+        return publicData;
+    }
 }

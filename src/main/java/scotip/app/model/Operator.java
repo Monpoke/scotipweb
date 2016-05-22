@@ -25,7 +25,9 @@
 package scotip.app.model;
 
 import javax.persistence.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by svevia on 05/05/2016.
@@ -40,7 +42,7 @@ public class Operator {
     @Column(name = "oid")
     protected int oid;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id", nullable = false)
     protected Company company;
 
@@ -54,7 +56,7 @@ public class Operator {
     protected boolean skype = true;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "queue_operator", joinColumns = { @JoinColumn(name ="operator_id") }, inverseJoinColumns = { @JoinColumn(name = "queue_id") })
+    @JoinTable(name = "queue_operator", joinColumns = {@JoinColumn(name = "operator_id")}, inverseJoinColumns = {@JoinColumn(name = "queue_id")})
     protected List<Queue> queues;
 
 
@@ -139,6 +141,16 @@ public class Operator {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    public HashMap<String, Object> getPublicData() {
+
+        HashMap<String, Object> properties = new HashMap<>();
+        properties.put("oid", oid);
+        properties.put("skype", skype);
+        properties.put("name",name);
+
+        return properties;
     }
 }
 

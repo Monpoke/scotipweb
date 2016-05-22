@@ -28,6 +28,7 @@ import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import scotip.app.dao.AbstractDao;
+import scotip.app.model.MohGroup;
 import scotip.app.model.Queue;
 import scotip.app.model.Switchboard;
 
@@ -66,5 +67,10 @@ public class QueueDaoImpl extends AbstractDao<Integer, Queue> implements QueueDa
     @Override
     public void updateQueue(Queue queue) {
         getSession().update(queue);
+    }
+
+    @Override
+    public Queue findById(int id) {
+        return getByKey(id);
     }
 }

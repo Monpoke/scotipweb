@@ -32,7 +32,10 @@ import scotip.app.service.sounds.SoundsService;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Created by Pierre on 26/04/2016.
@@ -50,24 +53,73 @@ public class ValidLibraryFilesValidator implements ConstraintValidator<ValidLibr
 
     /**
      * Checks if files exists in database as library.
+     *
      * @param obj
      * @param context
      * @return
      */
     @Override
     public boolean isValid(Object obj, ConstraintValidatorContext context) {
-        if (!(obj instanceof String)) {
+        if (!(obj instanceof Map)) {
             return false;
         }
 
-        String files = (String) obj;
+        Map<String, String> files = (Map<String, String>) obj;
+
         if (files.isEmpty()) {
             return true;
         }
 
-        String[] allFiles = files.split("&");
+        for (Iterator<Map.Entry<String, String>> it = files.entrySet().iterator();
+             it.hasNext(); ) {
+            Map.Entry<String, String> entry = it.next();
 
-        List<SoundLibrary> soundsFromList = soundsService.getSoundsFromList(allFiles);
-        return soundsFromList.size() == allFiles.length;
+            // FILENAME
+            String fileName = entry.getKey();
+            if(!fileName.matches("(inputError|message|unavailable)")){ return false; }
+
+            // VALUE
+            String value = entry.getValue();
+
+            // SKIP
+            if(value.isEmpty()){
+                continue;
+            }
+
+            // SPLIT ON CONTINUOUS CHAIN
+            String[] chains = value.split("&");
+
+            for (int i = 0, t = chains.length; i < t; i++) {
+                // PREVENT LAST &
+                if(chains[i].trim().isEmpty()){
+                    return false;
+                }
+                System.out.println("chain"+i+" =>" + chains[i]);
+
+                // IF CUSTOM
+                String[] split = chains[i].split("/");
+                if (split.length != 2 || !split[0].matches("(library|custom)")) {
+                    System.out.println("!=2 or != library/custom : " + split[0] + "" + split.length);
+                    return false;
+                }
+
+                if (split[0].equals("custom")) {
+                    if (!split[1].matches("(inputError|message|unavailable)")) {
+                        System.out.println("Custom invalid");
+                        return false;
+                    }
+                } else {
+                    // LIBRARY
+                    if (split[1].trim().isEmpty() || soundsService.getSoundSlug("library/" + split[1]) == null) {
+                        System.out.println("library file invalid -> " + split[1]);
+                        return false;
+                    }
+                }
+
+            }
+
+        }
+
+        return true;
     }
 }

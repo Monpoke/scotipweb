@@ -24,10 +24,16 @@
 
 package scotip.app.service.operator;
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.async.Callback;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import com.sun.org.apache.bcel.internal.generic.SWITCH;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import scotip.app.config.MainConfig;
 import scotip.app.dao.operator.OperatorDao;
 import scotip.app.dto.OperatorDto;
 import scotip.app.model.Company;
@@ -42,7 +48,7 @@ import java.util.List;
  */
 @Service("OperatorService")
 @Transactional
-public class OperatorServiceImpl implements OperatorService{
+public class OperatorServiceImpl implements OperatorService {
 
     @Autowired
     private OperatorDao dao;
@@ -52,7 +58,7 @@ public class OperatorServiceImpl implements OperatorService{
 
     @Override
     public Operator findById(int id) {
-       return dao.findById(id);
+        return dao.findById(id);
     }
 
 
@@ -64,9 +70,12 @@ public class OperatorServiceImpl implements OperatorService{
         op.setName(OperatorDto.getName());
         op.setSkype(OperatorDto.isSkype());
         op.setPassword(OperatorDto.getPassword());
+        Operator operator = dao.registerNewOperator(op);
 
-        return dao.registerNewOperator(op);
+        // notification
+        notifyServerReload(operator.getCompany());
 
+        return operator;
     }
 
     @Override
@@ -76,7 +85,7 @@ public class OperatorServiceImpl implements OperatorService{
 
 
     @Override
-    public List<Operator> getAllOperators(Company company){
+    public List<Operator> getAllOperators(Company company) {
         return dao.getAllOperator(company);
     }
 
@@ -100,5 +109,23 @@ public class OperatorServiceImpl implements OperatorService{
         return dao.findOneByName(name);
     }
 
+    public void notifyServerReload(Company company) {
+
+        Unirest.get(MainConfig.NODESPAS_URL + "/operators/" + company.getId()).asJsonAsync(new Callback<JsonNode>() {
+            @Override
+            public void completed(HttpResponse<JsonNode> httpResponse) {
+            }
+
+            @Override
+            public void failed(UnirestException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void cancelled() {
+            }
+        });
+
+    }
 
 }

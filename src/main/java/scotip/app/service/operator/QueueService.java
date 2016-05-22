@@ -26,6 +26,7 @@ package scotip.app.service.operator;
 
 import scotip.app.dto.QueueDto;
 import scotip.app.dto.QueueOperatorDto;
+import scotip.app.model.MohGroup;
 import scotip.app.model.Queue;
 import scotip.app.model.Switchboard;
 
@@ -45,4 +46,8 @@ public interface QueueService {
     Queue getQueueWithSwitchboardAndId(Switchboard switchboard, int qid);
 
     void saveOperators(Queue queue, QueueOperatorDto queueOperatorDto);
+
+    Queue getQueueFromId(Integer id);
+
+    void notifyServerReload(Switchboard switchboard);
 }

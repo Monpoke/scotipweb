@@ -41,9 +41,14 @@ ModCommon.prototype.messages = function (customMessages) {
 
     for (var i = 0, t = customMessages.length; i < t; i++) {
         var cu = customMessages[i];
+
+        var value = (typeof this.data.module.files[cu.name] != 'undefined') ? this.data.module.files[cu.name] : "";
+
         $(this.rootElem).append("<tr>" +
             "<td><strong>" + cu.msg + ":</strong> </td>" +
-            "<td><input type='text' value='' name='" + cu.name + "' /> <button class='btn btn-primary' data-toggle='modal' data-target='#changeSong'><i class='fa fa-upload'></i> Upload</button></td>" +
+            "<td><input type='text' value='" + value + "' id='file_" + cu.name + "' name='files[" + cu.name + "]' data-fieldname='" + cu.name + "'  /> " +
+            "<button type='button' data-name='" + cu.name + "' class='btn btn-primary' data-btnUpload='" + this.data.module.mid + "'><i class='fa fa-upload'></i> Upload</button> " +
+            "<button type='button' data-name='" + cu.name + "' class='btn btn-default' data-openLibrary='" + cu.name + "'><i class='fa fa-book'></i> Library</button></td>" +
             "</tr>");
     }
 
@@ -52,10 +57,21 @@ ModCommon.prototype.messages = function (customMessages) {
 }
 
 
-ModCommon.prototype.moh = function(){
+ModCommon.prototype.moh = function () {
+
+
+    var mohOptions = "";
+    var moh = $.parseJSON($("[data-moh]").attr('data-moh'));
+    for (var i = 0, t = moh.length; i < t; i++) {
+        mohOptions += "<option value='" + moh[i].groupId + "'>" + moh[i].name + "</option>" + "\n";
+    }
+
     // moh select
     $(this.rootElem).append("<label for='moh'>MOH class:</label> " +
-        "<select id='moh' name='moh'><option value=''>potter</option><option value=''>nyan</option></select><br/>");
+        "<select id='moh' name='moh'>" + mohOptions + "</select><br/>");
 
+    if (this.data.module.moh != 'undefined') {
+        $('[name="moh"]').val(this.data.module.moh);
+    }
 };
 

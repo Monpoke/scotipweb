@@ -25,6 +25,7 @@
 package scotip.app.dao.sounds;
 
 import org.hibernate.Query;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import scotip.app.dao.AbstractDao;
@@ -53,5 +54,10 @@ public class SoundDaoImpl extends AbstractDao<Integer, SoundLibrary>  implements
         query.setParameterList("slugs", slugs);
         System.out.println(query.getQueryString());
         return query.list();
+    }
+
+    @Override
+    public SoundLibrary getFromSlug(String s) {
+        return (SoundLibrary) createEntityCriteria().add(Restrictions.eq("slug",s)).uniqueResult();
     }
 }

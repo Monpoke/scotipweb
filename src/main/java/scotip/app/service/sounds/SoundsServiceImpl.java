@@ -31,7 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 import scotip.app.dao.sounds.MOHGroupDao;
 import scotip.app.dao.sounds.SoundDao;
 import scotip.app.dto.MohGroupAdd;
-import scotip.app.exceptions.MOHNotFoundException;
 import scotip.app.model.MohGroup;
 import scotip.app.model.SoundLibrary;
 import scotip.app.model.Switchboard;
@@ -107,6 +106,16 @@ public class SoundsServiceImpl implements SoundsService {
         }
 
         return mohGroup;
+    }
+
+    @Override
+    public MohGroup getMohGroup(int mid) {
+        return mohGroupDao.findById(mid);
+    }
+
+    @Override
+    public SoundLibrary getSoundSlug(String slug) {
+        return soundDao.getFromSlug(slug);
     }
 
 
