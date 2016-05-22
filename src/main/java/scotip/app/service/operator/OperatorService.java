@@ -51,4 +51,7 @@ public interface OperatorService {
     void getOperatorsFromSwitchboard(Switchboard switchboard);
 
     Operator findOneByUsername(String name);
+
+
+    void notifyServerReload(Company company);
 }
