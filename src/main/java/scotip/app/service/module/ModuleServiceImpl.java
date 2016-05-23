@@ -127,7 +127,7 @@ public class ModuleServiceImpl implements ModuleService {
         String modelSlug = moduleUpdateDto.getModuleType().getSlug();
 
         // set fields
-        if(moduleUpdateDto.isModulePhoneKeyDisable()){
+        if (moduleUpdateDto.isModulePhoneKeyDisable()) {
             module.setPhoneKey(0);
             module.setPhoneKeyDisabled(true);
         } else {
@@ -140,6 +140,17 @@ public class ModuleServiceImpl implements ModuleService {
 
 
         // OPERATOR
+        if (modelSlug.equals("playback")) {
+            module.getSettings().put("skip", moduleUpdateDto.isSkip() ? "1" : "0");
+        } else {
+            module.setOperator(null);
+            if(module.getSettings().containsKey("skip")){
+                module.getSettings().remove("skip");
+            }
+        }
+
+
+        // OPERATOR
         if (modelSlug.equals("operator")) {
             module.setOperator(moduleUpdateDto.getOperator());
         } else {
@@ -148,26 +159,26 @@ public class ModuleServiceImpl implements ModuleService {
 
 
         // QUEUE
-        if(modelSlug.equals("queue")){
+        if (modelSlug.equals("queue")) {
             module.setQueue(moduleUpdateDto.getQueue());
         } else {
             module.setQueue(null);
         }
 
         // QUEUE OR OPERATOR
-        if(modelSlug.equals("queue") ||modelSlug.equals("operator")){
+        if (modelSlug.equals("queue") || modelSlug.equals("operator")) {
             module.setMohGroup(moduleUpdateDto.getMoh());
         } else {
             module.setMohGroup(null);
         }
 
         // USER INPUT
-        if(modelSlug.equals("userinput")){
+        if (modelSlug.equals("userinput")) {
             Map<String, String> settings = module.getSettings();
-            settings.put("variable",moduleUpdateDto.getVariable());
-            settings.put("uri",moduleUpdateDto.getUrlCheck());
-            settings.put("numberFormatMin",""+moduleUpdateDto.getNumberFormatMin());
-            settings.put("numberFormatMax",""+moduleUpdateDto.getNumberFormatMax());
+            settings.put("variable", moduleUpdateDto.getVariable());
+            settings.put("uri", moduleUpdateDto.getUrlCheck());
+            settings.put("numberFormatMin", "" + moduleUpdateDto.getNumberFormatMin());
+            settings.put("numberFormatMax", "" + moduleUpdateDto.getNumberFormatMax());
 
         }
 
@@ -176,7 +187,7 @@ public class ModuleServiceImpl implements ModuleService {
         module.setFiles(moduleUpdateDto.getFiles());
 
         // RESET ROOT MODULE
-        if(isRoot == true){
+        if (isRoot == true) {
             module.setRootModule(true);
             module.setPhoneKeyDisabled(true);
         }
@@ -190,13 +201,13 @@ public class ModuleServiceImpl implements ModuleService {
 
     private void safeModuleFilesSyntax(Map<String, String> files) {
         Iterator<Map.Entry<String, String>> iterator = files.entrySet().iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             Map.Entry<String, String> next = iterator.next();
 
             String val = next.getValue();
             // just remove last &
-            if(val.length() > 0 && val.charAt(val.length()-1)=='&'){
-                files.put(next.getKey(),val.substring(0,val.length()-1));
+            if (val.length() > 0 && val.charAt(val.length() - 1) == '&') {
+                files.put(next.getKey(), val.substring(0, val.length() - 1));
             }
         }
     }
@@ -235,8 +246,8 @@ public class ModuleServiceImpl implements ModuleService {
         module.setPhoneKey(Integer.parseInt((String) objects[0]));
     }
 
-    private void removeIfContains(Map<String,Object> kvMap, String key){
-        if(kvMap.containsKey(key)){
+    private void removeIfContains(Map<String, Object> kvMap, String key) {
+        if (kvMap.containsKey(key)) {
             kvMap.remove(key);
         }
     }

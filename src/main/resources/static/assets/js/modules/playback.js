@@ -32,6 +32,7 @@ function ModPlayback(rootElem, data) {
     this.common = new ModCommon(rootElem,data);
 
     this.messages();
+    this.module();
 }
 
 ModPlayback.prototype.messages = function () {
@@ -48,3 +49,19 @@ ModPlayback.prototype.messages = function () {
     ];
     this.common.messages(customMessages);
 };
+
+
+ModPlayback.prototype.module = function () {
+    $(this.rootElem).append("<h2>Queue</h2>");
+
+    var value = (typeof this.data.module.settings['skip'] != 'undefined') ? this.data.module.settings['skip'] : false;
+
+    // operator select
+    $(this.rootElem).append("<label for='skip'>Skip possible:</label> " +
+        "<input id='skip' name='skip' name=''skip' /><br />");
+
+    $("#skip").prop('checked',value);
+
+    this.common.moh();
+};
+

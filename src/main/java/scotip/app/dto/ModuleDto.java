@@ -70,6 +70,8 @@ public class ModuleDto {
     private String numberFormatMax;
     private String urlCheck;
 
+    // PLAYBACK
+    private boolean skip;
 
     // RESERVED FIELDS
     private Switchboard switchboard;
@@ -193,6 +195,14 @@ public class ModuleDto {
 
     public void setFiles(Map<String, String> files) {
         this.files = files;
+    }
+
+    public boolean isSkip() {
+        return skip;
+    }
+
+    public void setSkip(boolean skip) {
+        this.skip = skip;
     }
 
     @Override
