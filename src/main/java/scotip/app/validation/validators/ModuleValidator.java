@@ -44,6 +44,11 @@ public class ModuleValidator implements Validator {
     public void validate(Object o, Errors errors) {
         ModuleDto moduleDto = (ModuleDto) o;
 
+        if(moduleDto.getModuleType() == null){
+            errors.rejectValue("modelType","modelType","The model type is invalid.");
+            return;
+        }
+
         switch (moduleDto.getModuleType().getSlug()) {
             case "userinput":
                 checkUserinput(moduleDto, errors);
