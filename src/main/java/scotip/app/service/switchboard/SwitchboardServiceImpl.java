@@ -106,22 +106,25 @@ public class SwitchboardServiceImpl implements SwitchboardService {
         Module rootModule = new Module(switchboard);
         rootModule.setPhoneKey(-1);
         rootModule.setModuleLevel(1);
-        rootModule.setModuleModel(modulesBySlugsAndMap.get("read"));
-        rootModule.setModuleSetting("file", "scotip/200/EN_Welcome");
+        rootModule.setDescription("My first module.");
+        rootModule.setModuleModel(modulesBySlugsAndMap.get("playback"));
+        rootModule.getSettings().put("message", "library/hello-world");
 
         Module module_key1 = new Module(switchboard);
         module_key1.setPhoneKey(1);
         module_key1.setModuleLevel(2);
+        module_key1.setDescription("My second module.");
         module_key1.setModuleModel(modulesBySlugsAndMap.get("playback"));
-        module_key1.setModuleSetting("file", "hello-world");
+        module_key1.getSettings().put("message", "library/hello-world");
         rootModule.addChildModule(module_key1);
 
 
         Module module_key3 = new Module(switchboard);
         module_key3.setPhoneKey(2);
         module_key3.setModuleLevel(2);
+        module_key3.setDescription("My third module.");
         module_key3.setModuleModel(modulesBySlugsAndMap.get("playback"));
-        module_key3.setModuleSetting("file", "scotip/200/EN_About");
+        module_key3.getSettings().put("message", "library/hello-world");
         rootModule.addChildModule(module_key3);
 
 
@@ -167,6 +170,11 @@ public class SwitchboardServiceImpl implements SwitchboardService {
 
     public List<Switchboard> getAllSwitchboard(){
         return switchboardDao.getAllSwitchboard();
+    }
+
+    @Override
+    public List<Switchboard> getAllSwitchboardFromCompany(Company currentCompany) {
+        return switchboardDao.getAllSwitchboardFromCompany(currentCompany);
     }
 
 }

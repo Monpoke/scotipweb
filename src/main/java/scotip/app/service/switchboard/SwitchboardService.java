@@ -42,4 +42,5 @@ public interface SwitchboardService {
 
     List<Switchboard> getAllSwitchboard();
 
+    List<Switchboard> getAllSwitchboardFromCompany(Company currentCompany);
 }

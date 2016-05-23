@@ -26,8 +26,10 @@ package scotip.app.model;
 
 import com.google.gson.Gson;
 import scotip.app.tools.PublicDataMask;
-import scotip.app.tools.modules.Playback;
-import scotip.app.tools.modules.Read;
+import scotip.app.tools.modules.ModOperator;
+import scotip.app.tools.modules.ModPlayback;
+import scotip.app.tools.modules.ModQueue;
+import scotip.app.tools.modules.ModUserInput;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -54,7 +56,7 @@ public class Module {
     @ManyToOne(fetch = FetchType.EAGER)
     private Module moduleParent;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "moduleParent", cascade = {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "moduleParent", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<Module> moduleChilds = new ArrayList<>();
 
     @Column(name = "phone_key")
@@ -296,6 +298,10 @@ public class Module {
             sett.put("file", PublicDataMask.getFile(realSettings.get("file")));
         }
 
+        if (realSettings.containsKey("skip")) {
+            sett.put("skip", realSettings.get("skip"));
+        }
+
 
         // USERINPUT
         if (realSettings.containsKey("variable")) {
@@ -334,10 +340,16 @@ public class Module {
         String retu;
         switch (getModuleModel().getSlug()) {
             case "playback":
-                retu = new Playback(this).textDisplay();
+                retu = new ModPlayback(this).textDisplay();
                 break;
-            case "read":
-                retu = new Read(this).textDisplay();
+            case "userinput":
+                retu = new ModUserInput(this).textDisplay();
+                break;
+            case "operator":
+                retu = new ModOperator(this).textDisplay();
+                break;
+            case "queue":
+                retu = new ModQueue(this).textDisplay();
                 break;
             default:
                 retu = "Unknown module.";

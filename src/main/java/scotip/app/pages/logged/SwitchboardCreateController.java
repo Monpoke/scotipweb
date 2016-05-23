@@ -91,10 +91,9 @@ public class SwitchboardCreateController extends SwitchboardAppController {
         }
 
         // Refresh company
-        companyService.refresh(currentCompany);
+        List<Switchboard> switchboardList = switchboardService.getAllSwitchboardFromCompany(currentCompany);
 
-
-        modelMap.addAttribute("companySwitchboards", currentCompany.getSwitchboards());
+        modelMap.addAttribute("companySwitchboards", switchboardList);
 
 
         return ("pages/switchboard/choose");

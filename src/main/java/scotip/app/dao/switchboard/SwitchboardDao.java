@@ -24,6 +24,7 @@
 
 package scotip.app.dao.switchboard;
 
+import scotip.app.model.Company;
 import scotip.app.model.Switchboard;
 import java.util.List;
 
@@ -40,4 +41,6 @@ public interface SwitchboardDao {
     List<Switchboard> getAllSwitchboard();
 
     void initQueues(Switchboard switchboard);
+
+    List<Switchboard> getAllSwitchboardFromCompany(Company currentCompany);
 }

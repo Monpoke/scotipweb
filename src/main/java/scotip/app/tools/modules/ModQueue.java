@@ -29,11 +29,11 @@ import scotip.app.model.Module;
 /**
  * Created by Pierre on 15/05/2016.
  */
-public class Playback implements ModuleInterf {
+public class ModQueue implements ModuleInterf {
 
     private Module module;
 
-    public Playback(Module module) {
+    public ModQueue(Module module) {
         this.module = module;
     }
 
@@ -42,8 +42,8 @@ public class Playback implements ModuleInterf {
      * @return
      */
     public String textDisplay() {
-        String toReturn = "Plays an audio file. No skip.<br />"
-                + "File: " + module.getSettings().get("file");
+        String toReturn = "Joins queue.<br />"
+                + "<strong>Queue:</strong> " + module.getQueue().getName();
 
         return toReturn;
     }

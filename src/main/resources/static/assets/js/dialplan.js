@@ -73,7 +73,6 @@ $(function () {
         })
 
         $('#moduleType').off().change(function (e) {
-            console.log("jj");
             if (somethingChanged == true) {
                 if (!confirm("Are you sure to change to this type? Previous modifications will be lost!")) {
                     return;
@@ -101,6 +100,24 @@ $(function () {
                     break;
             }
 
+
+            $("[data-openLibrary]").off().click(function () {
+                var destName = $(this).attr('data-openLibrary');
+                $("#songLibraryModal").modal('show');
+                /**
+                 * Choose a library song
+                 */
+                $('[data-choose-library]').click(function (e) {
+                    var val = $("#songLibrary").val();
+
+                    var split = ("" + val).split(",");
+                    var allFiles = "library/" + split.join('&library/');
+
+                    $("#file_" + destName).val(allFiles);
+                    $("#songLibraryModal").modal('hide');
+                });
+
+            });
         });
         $('#moduleType').trigger('change');
 
@@ -124,11 +141,11 @@ $(function () {
             // libraryFile
             var data_post = $(this).serialize();
 
-            $("input").attr('disabled','disabled');
+            $("input").attr('disabled', 'disabled');
 
             $.post("/u/module/update/" + data.module.mid, data_post).success(function (dataPost) {
                 if (dataPost === "ok") {
-                    $("input").attr('disabled','disabled');
+                    $("input").attr('disabled', 'disabled');
                     location.reload();
                 } else {
                     $("input").removeAttr('disabled');
@@ -150,24 +167,6 @@ $(function () {
 
             });
 
-
-        });
-
-        $("[data-openLibrary]").off().click(function () {
-            var destName = $(this).attr('data-openLibrary');
-            $("#songLibraryModal").modal('show');
-            /**
-             * Choose a library song
-             */
-            $('[data-choose-library]').click(function (e) {
-                var val = $("#songLibrary").val();
-
-                var split = ("" + val).split(",");
-                var allFiles = "library/" + split.join('&library/');
-
-                $("#file_" + destName).val(allFiles);
-                $("#songLibraryModal").modal('hide');
-            });
 
         });
 
@@ -305,9 +304,18 @@ function createNewModule(data) {
 
         $.get("/u/module/create/" + data.module.mid + "/" + mod).success(function (data) {
                 if (data == "ok") {
+
+                    $("#configuration").html("");
+
+
                     location.reload();
                 }
                 else {
+                    $("#newRefreshing").remove();
+                    $("#dialplan").jOrgChart({
+                        chartElement: "#configuration",
+                        dragAndDrop: true
+                    });
                     alert("Hm. Error! " + data);
                 }
             })
@@ -316,15 +324,12 @@ function createNewModule(data) {
                 alert("Error!");
             });
 
+        $("#submods_" + data.module.mid).append('<li id="newRefreshing">Refreshing...</li>');
 
-        $("#submods_" + data.module.mid).append('<li>Refreshing...</li>');
-
-        $("#configuration").html("");
         $("#dialplan").jOrgChart({
             chartElement: "#configuration",
             dragAndDrop: true
         });
-
 
         $("#moduleCreate").modal('hide');
     });

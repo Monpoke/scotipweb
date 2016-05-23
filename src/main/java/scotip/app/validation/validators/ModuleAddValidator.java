@@ -22,44 +22,37 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
+package scotip.app.validation.validators;
+
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+import scotip.app.dto.ModuleDto;
+import scotip.app.model.Module;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by Pierre on 21/05/2016.
  */
+public class ModuleAddValidator implements Validator {
+    private Module module;
 
-function ModPlayback(rootElem, data) {
-    this.rootElem = rootElem;
-    this.data = data;
-    this.common = new ModCommon(rootElem,data);
+    public ModuleAddValidator(Module module) {
 
-    this.messages();
-    this.module();
+        this.module = module;
+    }
+
+    @Override
+    public boolean supports(Class<?> aClass) {
+        return ModuleDto.class.equals(aClass);
+    }
+
+    @Override
+    public void validate(Object o, Errors errors) {
+        ModuleDto moduleDto = (ModuleDto) o;
+
+
+    }
+
 }
-
-ModPlayback.prototype.messages = function () {
-    var customMessages = [
-        {
-            msg: "Message",
-            name: "message"
-        },
-
-        {
-            msg: "Error message (for input errors)",
-            name: "inputError"
-        }
-    ];
-    this.common.messages(customMessages);
-};
-
-
-ModPlayback.prototype.module = function () {
-    $(this.rootElem).append("<h2>Playback</h2>");
-
-    var value = (typeof this.data.module.settings['skip'] != 'undefined') ? (this.data.module.settings['skip']=="1"?true:false) : false;
-    // operator select
-    $(this.rootElem).append("<label for='skip'>Skip possible:</label> " +
-        "<input id='skip' name='skip' type='checkbox' name=''skip' /><br />");
-
-    $("#skip").prop('checked',value);
-
-};
-

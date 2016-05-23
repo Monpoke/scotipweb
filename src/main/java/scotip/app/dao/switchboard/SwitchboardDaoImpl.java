@@ -26,9 +26,11 @@ package scotip.app.dao.switchboard;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import scotip.app.dao.AbstractDao;
+import scotip.app.model.Company;
 import scotip.app.model.Switchboard;
 
 import java.util.List;
@@ -74,5 +76,10 @@ public class SwitchboardDaoImpl extends AbstractDao<Integer, Switchboard>  imple
         Session session = getSession();
         Hibernate.initialize(switchboard.getQueues());
         session.close();
+    }
+
+    @Override
+    public List<Switchboard> getAllSwitchboardFromCompany(Company currentCompany) {
+        return createEntityCriteria().add(Restrictions.eq("company",currentCompany)).list();
     }
 }

@@ -22,44 +22,28 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
+package scotip.app.tools.modules;
+
+import scotip.app.model.Module;
+
 /**
- * Created by Pierre on 21/05/2016.
+ * Created by Pierre on 15/05/2016.
  */
+public class ModPlayback implements ModuleInterf {
 
-function ModPlayback(rootElem, data) {
-    this.rootElem = rootElem;
-    this.data = data;
-    this.common = new ModCommon(rootElem,data);
+    private Module module;
 
-    this.messages();
-    this.module();
+    public ModPlayback(Module module) {
+        this.module = module;
+    }
+
+    /**
+     * Returns a HTML description.
+     * @return
+     */
+    public String textDisplay() {
+        String toReturn = "Playback. " + (module.getSettings().get("skip") == "1" ? "Skip enabled." :"") +"<br />";
+
+        return toReturn;
+    }
 }
-
-ModPlayback.prototype.messages = function () {
-    var customMessages = [
-        {
-            msg: "Message",
-            name: "message"
-        },
-
-        {
-            msg: "Error message (for input errors)",
-            name: "inputError"
-        }
-    ];
-    this.common.messages(customMessages);
-};
-
-
-ModPlayback.prototype.module = function () {
-    $(this.rootElem).append("<h2>Playback</h2>");
-
-    var value = (typeof this.data.module.settings['skip'] != 'undefined') ? (this.data.module.settings['skip']=="1"?true:false) : false;
-    // operator select
-    $(this.rootElem).append("<label for='skip'>Skip possible:</label> " +
-        "<input id='skip' name='skip' type='checkbox' name=''skip' /><br />");
-
-    $("#skip").prop('checked',value);
-
-};
-

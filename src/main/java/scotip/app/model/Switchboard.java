@@ -65,7 +65,7 @@ public class Switchboard {
     protected Line line;
 
 
-    @OneToMany(mappedBy = "switchboard", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "switchboard", cascade = {CascadeType.ALL}, orphanRemoval = true)
     @OrderBy(value = "phoneKey")
     protected List<Module> modules = new ArrayList<>();
 

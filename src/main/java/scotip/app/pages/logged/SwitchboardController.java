@@ -126,45 +126,5 @@ public class SwitchboardController extends SwitchboardAppController {
     }
 
 
-    /*
-    ==================================
-              CREATE METHODS
-    ==================================
-     */
-    @RequestMapping("/u/module/create/{parent}/{model}")
-    @ResponseBody
-    public String createModule(@PathVariable("parent") int parentId, @PathVariable("model") String modelSlug, ModelMap modelMap) throws ModuleModelNotFoundException {
-
-        try {
-            Module newModule = moduleService.createNewModule(parentId, modelSlug, getCurrentCompany());
-
-            // reload dialplan
-            switchboardService.notifyServerDialplanReload(newModule.getSwitchboard());
-
-            return "ok";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return e.getMessage();
-        }
-
-    }
-
-    @RequestMapping("/u/module/delete/{parent}")
-    @ResponseBody
-    public String deleteModule(@PathVariable("parent") int parentId, ModelMap modelMap) throws ModuleModelNotFoundException {
-
-        try {
-            Module oldModule = moduleService.removeModule(parentId, getCurrentCompany());
-            // reload dialplan
-            switchboardService.notifyServerDialplanReload(oldModule.getSwitchboard());
-
-            return "ok";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return e.getMessage();
-        }
-
-    }
-
 
 }

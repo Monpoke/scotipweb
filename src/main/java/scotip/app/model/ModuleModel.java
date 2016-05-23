@@ -51,9 +51,6 @@ public class ModuleModel {
     @Column(name = "enabled")
     private boolean enabled = false;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "moduleModel")
-    private List<Module> modules = new ArrayList<>();
-
 
     public int getModelId() {
         return modelId;
@@ -87,13 +84,6 @@ public class ModuleModel {
         this.enabled = enabled;
     }
 
-    public List<Module> getModules() {
-        return modules;
-    }
-
-    public void setModules(List<Module> modules) {
-        this.modules = modules;
-    }
 
     public Map<String,Object> getPublicData(){
         HashMap<String, Object> properties = new HashMap<>();

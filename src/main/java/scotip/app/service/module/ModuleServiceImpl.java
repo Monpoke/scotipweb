@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import scotip.app.dao.model.ModuleDao;
 import scotip.app.dto.ModuleDto;
+import scotip.app.exceptions.ModuleModelNotFoundException;
 import scotip.app.exceptions.OperationException;
 import scotip.app.model.Company;
 import scotip.app.model.Module;
@@ -66,12 +67,28 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
-    public Module createNewModule(int parentId, String modelSlug, Company currentCompany) throws Exception {
+    public Module createNewModule(int parentId, String modelSlug, Company currentCompany) throws ModuleModelNotFoundException, OperationException {
 
         ModuleModel moduleModel = moduleModelService.getEnabledModuleBySlug(modelSlug);
 
+        // ONLY CAN CREATE PLAYBACK
+        if(!moduleModel.getSlug().equals("playback")){
+           throw new OperationException("Only can create playback.");
+        }
+
         // parent
         Module parentModule = findByIdAndCompany(parentId, currentCompany);
+
+        // CHECK CAN't create model IF
+        // parent module is operator or queue
+        if(parentModule.getModuleModel().getSlug().matches("queue|operator")){
+            throw new OperationException("parentIsLast");
+        }
+
+        // parent module have one disabled key child
+        if(parentModule.getModuleChilds().size() == 1 && parentModule.getModuleChilds().get(0).isPhoneKeyDisabled()){
+           throw new OperationException("childKeyDisabled");
+        }
 
         // Module
         Module module = CreateDefaultModule.create(moduleModel, parentModule);
@@ -95,13 +112,13 @@ public class ModuleServiceImpl implements ModuleService {
     /**
      * Removes a module
      *
-     * @param parentId
+     * @param moduleId
      * @param currentCompany
      * @return
      */
     @Override
-    public Module removeModule(int parentId, Company currentCompany) throws OperationException {
-        Module module = findByIdAndCompany(parentId, currentCompany);
+    public Module removeModule(int moduleId, Company currentCompany) throws OperationException {
+        Module module = findByIdAndCompany(moduleId, currentCompany);
 
         if (module.isRootModule()) {
             throw new OperationException("Can't remove root module!");
@@ -109,8 +126,17 @@ public class ModuleServiceImpl implements ModuleService {
             throw new OperationException("Please remove child modules");
         }
 
-        module.getModuleParent().getModuleChilds().remove(module);
+        if(module.getModuleParent() != null) {
+            module.getModuleParent().getModuleChilds().remove(module);
+        }
+
+
+        module.getFiles().clear();
+        module.getSettings().clear();
+
         moduleDao.remove(module);
+
+
         return module;
     }
 
@@ -131,7 +157,9 @@ public class ModuleServiceImpl implements ModuleService {
             module.setPhoneKey(0);
             module.setPhoneKeyDisabled(true);
         } else {
-            module.setPhoneKey(moduleUpdateDto.getModulePhoneKey());
+            if(!module.isRootModule()) {
+                module.setPhoneKey(moduleUpdateDto.getModulePhoneKey());
+            }
             module.setPhoneKeyDisabled(false);
         }
 
@@ -225,7 +253,7 @@ public class ModuleServiceImpl implements ModuleService {
 
     }
 
-    private void setPhoneKey(Module module, Iterator<Module> parentModuleModuleChildren) throws Exception {
+    private void setPhoneKey(Module module, Iterator<Module> parentModuleModuleChildren) throws OperationException {
         List<String> integers = new ArrayList<>();
         for (int i = 1; i <= 10; i++) {
             integers.add("" + i);
@@ -237,7 +265,7 @@ public class ModuleServiceImpl implements ModuleService {
         }
 
         if (integers.size() == 0) {
-            throw new Exception("All phone keys are used");
+            throw new OperationException("All phone keys are used");
         }
 
         // find the lowest one

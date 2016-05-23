@@ -29,11 +29,11 @@ import scotip.app.model.Module;
 /**
  * Created by Pierre on 15/05/2016.
  */
-public class Read implements ModuleInterf {
+public class ModUserInput implements ModuleInterf {
 
     private Module module;
 
-    public Read(Module module) {
+    public ModUserInput(Module module) {
         this.module = module;
     }
 
@@ -42,8 +42,8 @@ public class Read implements ModuleInterf {
      * @return
      */
     public String textDisplay() {
-        String toReturn = "Plays an audio file. Skipping possible.<br />"
-                + "<strong>File:</strong> " + module.getSettings().get("file");
+        String toReturn = "UserInput.<br />"
+                + "<strong>Var:</strong> " + module.getSettings().get("variable");
 
         return toReturn;
     }

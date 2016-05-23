@@ -199,7 +199,7 @@ public class DialplanController extends SwitchboardAppController {
 
 
         // CREATE A CUSTOM VALIDATOR
-        ModuleValidator moduleValidator = new ModuleValidator();
+        ModuleValidator moduleValidator = new ModuleValidator(module);
         moduleValidator.validate(moduleDto, bindingResult);
 
         /**
@@ -324,8 +324,8 @@ public class DialplanController extends SwitchboardAppController {
 
 
                 Map<String, String> map = new HashMap<>();
-                map.put("status","ok");
-                map.put("filename",filename);
+                map.put("status", "ok");
+                map.put("filename", filename);
                 return new Gson().toJson(map);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -380,5 +380,50 @@ public class DialplanController extends SwitchboardAppController {
         }
     }
 
+
+    @RequestMapping("/u/module/delete/{parent}")
+    @ResponseBody
+    public String deleteModule(@PathVariable("parent") int parentId, ModelMap modelMap) throws ModuleModelNotFoundException {
+
+        try {
+            Module oldModule = moduleService.removeModule(parentId, getCurrentCompany());
+
+            // reload dialplan
+            //      switchboardService.notifyServerDialplanReload(oldModule.getSwitchboard());
+
+            return "ok";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+
+    }
+
+    @RequestMapping("/u/module/create/{parent}/{model}")
+    @ResponseBody
+    public String createModule(@PathVariable("parent") int parentId, @PathVariable("model") String modelSlug, ModelMap modelMap) throws ModuleModelNotFoundException {
+
+        try {
+            Module newModule = moduleService.createNewModule(parentId, modelSlug, getCurrentCompany());
+
+            // reload dialplan
+            switchboardService.notifyServerDialplanReload(newModule.getSwitchboard());
+
+            return "ok";
+        } catch (OperationException oe) {
+            switch (oe.getMessage()) {
+                case "childKeyDisabled":
+                    return "Can't add a module to this parent: it has a child with phone key disabled!";
+                case "parentIsLast":
+                    return "Can't add a module to a Queue or Operator module!";
+                default:
+                    return oe.getMessage();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+
+    }
 
 }

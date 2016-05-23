@@ -27,6 +27,7 @@ package scotip.app.validation.validators;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import scotip.app.dto.ModuleDto;
+import scotip.app.model.Module;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,6 +36,13 @@ import java.util.regex.Pattern;
  * Created by Pierre on 21/05/2016.
  */
 public class ModuleValidator implements Validator {
+    private Module module;
+
+    public ModuleValidator(Module module) {
+
+        this.module = module;
+    }
+
     @Override
     public boolean supports(Class<?> aClass) {
         return ModuleDto.class.equals(aClass);
@@ -44,14 +52,16 @@ public class ModuleValidator implements Validator {
     public void validate(Object o, Errors errors) {
         ModuleDto moduleDto = (ModuleDto) o;
 
-        if(moduleDto==null){
-            errors.rejectValue("modelType","modelType","Invalid form.");
+        if (moduleDto == null) {
+            errors.rejectValue("modelType", "modelType", "Invalid form.");
             return;
         }
-        if(moduleDto.getModuleType() == null){
-            errors.rejectValue("modelType","modelType","The model type is invalid.");
+        if (moduleDto.getModuleType() == null) {
+            errors.rejectValue("modelType", "modelType", "The model type is invalid.");
             return;
         }
+
+        globalCheckAboutParent(moduleDto, errors);
 
         switch (moduleDto.getModuleType().getSlug()) {
             case "userinput":
@@ -71,6 +81,33 @@ public class ModuleValidator implements Validator {
     }
 
     /**
+     * Check about parent.
+     *
+     * @param moduleDto
+     * @param errors
+     */
+    private void globalCheckAboutParent(ModuleDto moduleDto, Errors errors) {
+        // Can't have operator and queue as parent
+        if (module.getModuleChilds().size() > 0 && moduleDto.getModuleType().getSlug().matches("queue|operator")) {
+            errors.rejectValue("moduleType", "moduleType", "Please remove children modules to use a Queue or Operator.");
+        }
+
+        if (module.getModuleParent() != null && module.getModuleParent().getModuleModel().getSlug().matches("queue|operator")) {
+            errors.rejectValue("moduleType", "moduleType", "Parent module could not be a queue or an operator.");
+        }
+
+        // check if keyDisabled is alone on range
+        if (!module.isRootModule() && moduleDto.isModulePhoneKeyDisable()) {
+
+            if (module.getModuleParent() != null && module.getModuleParent().getModuleChilds().size() != 1) {
+                errors.rejectValue("modulePhoneKeyDisable","modulePhoneKeyDisable","You can't disable the access key because the parent module doesn't have only one child.");
+            }
+
+        }
+
+    }
+
+    /**
      * To check userInput module!
      *
      * @param moduleDto
@@ -79,7 +116,7 @@ public class ModuleValidator implements Validator {
     private void checkUserinput(ModuleDto moduleDto, Errors errors) {
         if (moduleDto.getVariable() == null || moduleDto.getVariable().isEmpty()) {
             errors.rejectValue("variable", "variable", "A variable name should be provided!");
-        } else if(!moduleDto.getVariable().matches("[A-Z0-9_]{3,10}")){
+        } else if (!moduleDto.getVariable().matches("[A-Z0-9_]{3,10}")) {
             errors.rejectValue("variable", "variable", "Only between 3 and 10 characters are allowed in the following list: \"A-Za-z0-9_\".");
         }
 
@@ -89,7 +126,6 @@ public class ModuleValidator implements Validator {
         try {
             numberFormatMin = Integer.parseInt(moduleDto.getNumberFormatMin());
             numberFormatMax = Integer.parseInt(moduleDto.getNumberFormatMax());
-
 
 
             if (numberFormatMin < 1) {
