@@ -122,17 +122,16 @@ $(function () {
             e.preventDefault();
 
             // libraryFile
-            console.log(data);
             var data_post = $(this).serialize();
 
+            $("input").attr('disabled','disabled');
 
             $.post("/u/module/update/" + data.module.mid, data_post).success(function (dataPost) {
-                $("input").attr('disabled','disabled');
-                console.log(dataPost);
                 if (dataPost === "ok") {
+                    $("input").attr('disabled','disabled');
                     location.reload();
-                    //alert("ok");
                 } else {
+                    $("input").removeAttr('disabled');
                     try {
                         var err = $.parseJSON(dataPost);
                         var alertm = "";

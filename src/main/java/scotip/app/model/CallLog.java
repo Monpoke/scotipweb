@@ -48,7 +48,6 @@ public class CallLog {
     @JoinColumn(name = "switchboard_id", nullable = false)
     protected Switchboard switchboard;
 
-
     @Column(name="caller_number")
     protected String caller_number;
 
@@ -61,6 +60,8 @@ public class CallLog {
     @Column(name="finished")
     protected boolean finished = false;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    protected Operator replyer;
 
     @ElementCollection()
     @CollectionTable(name="call_logs_actions", joinColumns = @JoinColumn(name = "calllog_id"))
@@ -135,5 +136,13 @@ public class CallLog {
 
     public void setVariables(Map<String, String> variables) {
         this.variables = variables;
+    }
+
+    public Operator getReplyer() {
+        return replyer;
+    }
+
+    public void setReplyer(Operator replyer) {
+        this.replyer = replyer;
     }
 }

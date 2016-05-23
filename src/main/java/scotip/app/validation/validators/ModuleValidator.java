@@ -44,6 +44,10 @@ public class ModuleValidator implements Validator {
     public void validate(Object o, Errors errors) {
         ModuleDto moduleDto = (ModuleDto) o;
 
+        if(moduleDto==null){
+            errors.rejectValue("modelType","modelType","Invalid form.");
+            return;
+        }
         if(moduleDto.getModuleType() == null){
             errors.rejectValue("modelType","modelType","The model type is invalid.");
             return;
@@ -73,8 +77,10 @@ public class ModuleValidator implements Validator {
      * @param errors
      */
     private void checkUserinput(ModuleDto moduleDto, Errors errors) {
-        if (moduleDto.getVariable().isEmpty()) {
+        if (moduleDto.getVariable() == null || moduleDto.getVariable().isEmpty()) {
             errors.rejectValue("variable", "variable", "A variable name should be provided!");
+        } else if(!moduleDto.getVariable().matches("[A-Z0-9_]{3,10}")){
+            errors.rejectValue("variable", "variable", "Only between 3 and 10 characters are allowed in the following list: \"A-Za-z0-9_\".");
         }
 
         int numberFormatMin = -1;

@@ -50,6 +50,9 @@ public class Queue {
     @Column(name = "asteriskName")
     protected String asteriskName;
 
+    @Column(name = "announce_frequency")
+    protected int announceFrequency = 0;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "queue_operator", joinColumns = {
@@ -57,7 +60,6 @@ public class Queue {
             inverseJoinColumns = {@JoinColumn(name = "operator_id",
                     nullable = false, updatable = false)})
     protected List<Operator> operators = new ArrayList<>();
-    private HashMap<String, Object> publicData;
 
 
     public int getQid() {
@@ -100,6 +102,13 @@ public class Queue {
         this.operators = operators;
     }
 
+    public int getAnnounceFrequency() {
+        return announceFrequency;
+    }
+
+    public void setAnnounceFrequency(int announceFrequency) {
+        this.announceFrequency = announceFrequency;
+    }
 
     /**
      * Returns true if the current queue contains the operator.

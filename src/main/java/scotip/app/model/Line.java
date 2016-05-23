@@ -55,6 +55,10 @@ public class Line {
     @OneToMany(mappedBy = "line")
     private Set<Switchboard> switchboards = new HashSet<>();
 
+    // IF NOT SHARED
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Company company;
+
 
     public int getLineId() {
         return lineId;
