@@ -47,6 +47,7 @@ $(function () {
 
         $('#moduleConfig').modal('show');
 
+        console.log("icic");
         $('#deleteButton').off().click(function (e) {
             if (!confirm('Remove this module?')) {
                 return;
@@ -72,6 +73,7 @@ $(function () {
         })
 
         $('#moduleType').off().change(function (e) {
+            console.log("jj");
             if (somethingChanged == true) {
                 if (!confirm("Are you sure to change to this type? Previous modifications will be lost!")) {
                     return;
@@ -80,8 +82,10 @@ $(function () {
             somethingChanged = false;
 
             var mod = $(this).val();
+
             var target = "#dynamicForm";
-            $(target).html("");
+            $(target).html("")
+
             switch (mod) {
                 case "playback":
                     new ModPlayback(target, data);
@@ -96,6 +100,7 @@ $(function () {
                     new ModUserInput(target, data);
                     break;
             }
+
         });
         $('#moduleType').trigger('change');
 
