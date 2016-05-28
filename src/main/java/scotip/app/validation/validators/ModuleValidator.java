@@ -99,7 +99,7 @@ public class ModuleValidator implements Validator {
         // check if keyDisabled is alone on range
         if (!module.isRootModule() && moduleDto.isModulePhoneKeyDisable()) {
 
-            if (module.getModuleParent() != null && module.getModuleParent().getModuleChilds().size() != 1) {
+            if (module.getModuleParent() != null && module.getModuleParent().getModuleChilds().size() > 1) {
                 errors.rejectValue("modulePhoneKeyDisable","modulePhoneKeyDisable","You can't disable the access key because the parent module doesn't have only one child.");
             }
 

@@ -22,37 +22,17 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.service.sounds;
+package scotip.app.dao.sounds;
 
-import scotip.app.dto.MohGroupAdd;
-import scotip.app.exceptions.MOHNotFoundException;
-import scotip.app.model.*;
-
-import java.util.List;
+import scotip.app.model.MohFile;
+import scotip.app.model.MohGroup;
+import scotip.app.model.Switchboard;
 
 /**
- * Created by Pierre on 14/05/2016.
+ * Created by Pierre on 29/04/2016.
  */
-public interface SoundsService {
-
-    List<SoundLibrary> getLibrarySounds();
-
-    List<SoundLibrary> getSoundsFromList(String[] slugs);
-
-    void saveMOHGroup(MohGroupAdd mohGroupAdd, Switchboard switchboard);
-
-    void removeMOHGroup(Switchboard switchboard, int mid);
-
-    MohGroup getMohGroupWithIdAndSwitchboard(int mid, int sid);
-
-    MohGroup getMohGroupWithIdAndSwitchboardAndCompany(int mid, int sid, int id);
-
-    MohGroup getMohGroup(int mid);
-
-    SoundLibrary getSoundSlug(String s);
-
-
-    void notifyServerReload(Company company);
+public interface MOHFileDao {
 
     int saveMohFILE(MohFile mohFile);
+
 }

@@ -32,10 +32,7 @@ import scotip.app.tools.modules.ModQueue;
 import scotip.app.tools.modules.ModUserInput;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -57,7 +54,7 @@ public class Module {
     private Module moduleParent;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "moduleParent", cascade = {CascadeType.ALL}, orphanRemoval = true)
-    private List<Module> moduleChilds = new ArrayList<>();
+    private Set<Module> moduleChilds = new HashSet<>();
 
     @Column(name = "phone_key")
     private int phoneKey;
@@ -151,11 +148,11 @@ public class Module {
         this.moduleModel = moduleModel;
     }
 
-    public List<Module> getModuleChilds() {
+    public Set<Module> getModuleChilds() {
         return moduleChilds;
     }
 
-    public void setModuleChilds(List<Module> moduleChilds) {
+    public void setModuleChilds(Set<Module> moduleChilds) {
         this.moduleChilds = moduleChilds;
     }
 

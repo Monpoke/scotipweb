@@ -88,33 +88,47 @@
     <div id="uploadSong" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Upload a song for the group <em>{{ group.name }}</em></h4>
-                </div>
-                <div class="modal-body">
+                <form method="post" enctype="application/x-www-form-urlencoded">
+
+                    <input type="hidden" name="sid" value="{{ switchboard.sid }}" />
+                    <input type="hidden" name="mohid" value="{{ group.groupId }}" />
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Upload a song for the group <em>{{ group.name }}</em></h4>
+                    </div>
+                    <div class="modal-body">
 
 
-                    <label for="Name">Name:</label>
-                    <input type="text" name="name" id="Name" class="form-control"/>
+                        <label for="Name">Name:</label>
+                        <input type="text" name="name" id="Name" class="form-control"/>
 
 
-                    <label for="file">You can upload a <em>WAV</em> file or a <em>MP3</em> file:</label><br/>
-                    <input type="file" name="file" id="file" accept="audio/mpeg,audio/wav,audio/x-wav"/>
-                    <br/>
-                    <progress id="uploadProgress" class="hidden"></progress>
+                        <label for="file">You can upload a <em>WAV</em> file or a <em>MP3</em> file:</label><br/>
+                        <input type="file" name="file" id="file" accept="audio/mpeg,audio/wav,audio/x-wav"/>
+                        <br/>
+                        <progress id="uploadProgress" class="hidden"></progress>
 
-                </div>
+                    </div>
 
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-save><i class="fa fa-upload"></i> Upload</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" data-save><i class="fa fa-upload"></i> Upload
+                        </button>
+                    </div>
+                </form>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 
 
 {% endblock %}
+
+{% block jsFiles %}
+    {{ parent() }}
+    <script src="/assets/js/moh.js"></script>
+{% endblock %}
+
+

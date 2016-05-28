@@ -22,37 +22,25 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.service.sounds;
+package scotip.app.dao.sounds;
 
-import scotip.app.dto.MohGroupAdd;
-import scotip.app.exceptions.MOHNotFoundException;
-import scotip.app.model.*;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import scotip.app.dao.AbstractDao;
+import scotip.app.model.MohFile;
+import scotip.app.model.MohGroup;
 
-import java.util.List;
+import java.io.Serializable;
 
 /**
- * Created by Pierre on 14/05/2016.
+ * Created by Pierre on 28/05/2016.
  */
-public interface SoundsService {
-
-    List<SoundLibrary> getLibrarySounds();
-
-    List<SoundLibrary> getSoundsFromList(String[] slugs);
-
-    void saveMOHGroup(MohGroupAdd mohGroupAdd, Switchboard switchboard);
-
-    void removeMOHGroup(Switchboard switchboard, int mid);
-
-    MohGroup getMohGroupWithIdAndSwitchboard(int mid, int sid);
-
-    MohGroup getMohGroupWithIdAndSwitchboardAndCompany(int mid, int sid, int id);
-
-    MohGroup getMohGroup(int mid);
-
-    SoundLibrary getSoundSlug(String s);
-
-
-    void notifyServerReload(Company company);
-
-    int saveMohFILE(MohFile mohFile);
+@Repository("mohFileDao")
+@Transactional
+public class MOHFileDaoImpl extends AbstractDao<Integer, MohFile> implements MOHFileDao {
+    @Override
+    public int saveMohFILE(MohFile mohFile) {
+        int id = (int)getSession().save(mohFile);
+        return id;
+    }
 }

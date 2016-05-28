@@ -24,16 +24,21 @@
 
 package scotip.app.service.sounds;
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.async.Callback;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import scotip.app.config.MainConfig;
+import scotip.app.dao.sounds.MOHFileDao;
 import scotip.app.dao.sounds.MOHGroupDao;
 import scotip.app.dao.sounds.SoundDao;
 import scotip.app.dto.MohGroupAdd;
-import scotip.app.model.MohGroup;
-import scotip.app.model.SoundLibrary;
-import scotip.app.model.Switchboard;
+import scotip.app.model.*;
 
 import java.util.List;
 
@@ -49,6 +54,9 @@ public class SoundsServiceImpl implements SoundsService {
 
     @Autowired
     MOHGroupDao mohGroupDao;
+
+    @Autowired
+    MOHFileDao mohFileDao;
 
 
     /**
@@ -80,11 +88,16 @@ public class SoundsServiceImpl implements SoundsService {
         mohGroup.setName(mohGroupAdd.getGroupName());
 
         mohGroupDao.saveGroup(mohGroup);
+
+        this.notifyServerReload(switchboard.getCompany());
     }
 
     @Override
     public void removeMOHGroup(Switchboard switchboard, int mid) {
         mohGroupDao.removeMOHGroup(switchboard, mid);
+
+        // server reload
+        this.notifyServerReload(switchboard.getCompany());
     }
 
     @Override
@@ -116,6 +129,28 @@ public class SoundsServiceImpl implements SoundsService {
     @Override
     public SoundLibrary getSoundSlug(String slug) {
         return soundDao.getFromSlug(slug);
+    }
+
+    @Override
+    public void notifyServerReload(Company company) {
+
+        Unirest.get(MainConfig.NODESPAS_URL + "/moh/" + company.getId()).asJsonAsync(new Callback<JsonNode>() {
+            @Override
+            public void completed(HttpResponse<JsonNode> httpResponse) {
+            }
+            @Override
+            public void failed(UnirestException e) {
+                e.printStackTrace();
+            }
+            @Override
+            public void cancelled() {
+            }
+        });
+    }
+
+    @Override
+    public int saveMohFILE(MohFile mohFile) {
+        return mohFileDao.saveMohFILE(mohFile);
     }
 
 

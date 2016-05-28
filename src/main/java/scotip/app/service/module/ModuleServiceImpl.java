@@ -79,14 +79,26 @@ public class ModuleServiceImpl implements ModuleService {
         // parent
         Module parentModule = findByIdAndCompany(parentId, currentCompany);
 
+        if(parentModule==null){
+            throw new OperationException("unknownParent");
+        }
+
         // CHECK CAN't create model IF
         // parent module is operator or queue
         if(parentModule.getModuleModel().getSlug().matches("queue|operator")){
             throw new OperationException("parentIsLast");
         }
 
+
+        System.out.println("Size: " + parentModule.getModuleChilds().size());
+
+        Iterator<Module> iterator = parentModule.getModuleChilds().iterator();
+        while(iterator.hasNext()){
+            System.out.println(iterator.next().getMid());
+        }
+
         // parent module have one disabled key child
-        if(parentModule.getModuleChilds().size() == 1 && parentModule.getModuleChilds().get(0).isPhoneKeyDisabled()){
+        if(parentModule.getModuleChilds().size() == 1 && parentModule.getModuleChilds().iterator().next().isPhoneKeyDisabled()){
            throw new OperationException("childKeyDisabled");
         }
 

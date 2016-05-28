@@ -22,37 +22,37 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.service.sounds;
+package scotip.app.dto;
 
-import scotip.app.dto.MohGroupAdd;
-import scotip.app.exceptions.MOHNotFoundException;
-import scotip.app.model.*;
-
-import java.util.List;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 /**
- * Created by Pierre on 14/05/2016.
+ * Created by Pierre on 26/04/2016.
  */
-public interface SoundsService {
 
-    List<SoundLibrary> getLibrarySounds();
-
-    List<SoundLibrary> getSoundsFromList(String[] slugs);
-
-    void saveMOHGroup(MohGroupAdd mohGroupAdd, Switchboard switchboard);
-
-    void removeMOHGroup(Switchboard switchboard, int mid);
-
-    MohGroup getMohGroupWithIdAndSwitchboard(int mid, int sid);
-
-    MohGroup getMohGroupWithIdAndSwitchboardAndCompany(int mid, int sid, int id);
-
-    MohGroup getMohGroup(int mid);
-
-    SoundLibrary getSoundSlug(String s);
+public class MohUploadDto {
 
 
-    void notifyServerReload(Company company);
+    @Length(min = 3, max = 25, message = "The name should contains between 3 and 25 characters.")
+    private String name;
 
-    int saveMohFILE(MohFile mohFile);
+    private MultipartFile file;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
 }
