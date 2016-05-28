@@ -229,6 +229,7 @@ public class MohController extends SwitchboardAppController {
 
             b.close();
 
+            System.out.println("Notify server reload");
             // RELOAD
             soundsService.notifyServerReload(getCurrentCompany());
 
