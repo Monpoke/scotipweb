@@ -41,6 +41,7 @@ public interface CompanyService {
     Company findById(int id);
     Company findByMail(String mail);
     Company registerNewCompany(CompanyDto companyDto) throws EmailExistsException;
+    Company update(Company c);
 
     PasswordEncoder getPasswordEncoder();
 
