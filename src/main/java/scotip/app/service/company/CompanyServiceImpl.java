@@ -61,6 +61,11 @@ public class CompanyServiceImpl implements CompanyService {
         c.setPhoneNumber(companyDto.getPhoneNumber());
         c.setPostcode(companyDto.getPostcode());
 
+        if(!companyDto.getPassword().equals(c.getPassword())){
+            c.setPassword(getPasswordEncoder().encode(companyDto.getPassword()));
+        }
+
+
         return dao.update(c);}
 
     @Override
@@ -78,7 +83,7 @@ public class CompanyServiceImpl implements CompanyService {
     public Company registerNewCompany(CompanyDto companyDto) throws EmailExistsException {
 
         if (emailExists(companyDto.getContactMail())) {
-            throw new EmailExistsException("There is an account with that email adress: " +
+            throw new EmailExistsException("There is an account with that email address: " +
                     companyDto.getContactMail());
         }
 
