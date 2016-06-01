@@ -26,12 +26,14 @@ package scotip.app.pages.logged;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import scotip.app.pages.App;
+import scotip.app.pages.AppLogged;
 
 /**
  * Created by Pierre on 18/04/2016.
  */
 @Controller
-public class DashboardController {
+public class DashboardController extends AppLogged {
 
 
     @RequestMapping({"/u","/u/dashboard"})
