@@ -35,6 +35,7 @@ import javax.validation.ConstraintValidatorContext;
 public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, Object> {
     @Override
     public void initialize(PasswordMatches constraintAnnotation) {
+        // empty
     }
     @Override
     public boolean isValid(Object obj, ConstraintValidatorContext context){

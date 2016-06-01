@@ -35,7 +35,7 @@ import scotip.app.exceptions.OperationException;
 import scotip.app.model.Company;
 import scotip.app.model.Module;
 import scotip.app.model.ModuleModel;
-import scotip.app.service.moduleModel.ModuleModelService;
+import scotip.app.service.modulemodel.ModuleModelService;
 import scotip.app.service.switchboard.SwitchboardService;
 import scotip.app.tools.CreateDefaultModule;
 

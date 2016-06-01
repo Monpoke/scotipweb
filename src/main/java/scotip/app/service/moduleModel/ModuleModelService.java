@@ -22,15 +22,11 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.service.moduleModel;
+package scotip.app.service.modulemodel;
 
-import scotip.app.dto.SwitchboardDto;
 import scotip.app.exceptions.ModuleModelNotFoundException;
-import scotip.app.model.Company;
 import scotip.app.model.ModuleModel;
-import scotip.app.model.Switchboard;
 
-import java.util.List;
 import java.util.Map;
 
 /**

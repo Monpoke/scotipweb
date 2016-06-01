@@ -22,18 +22,14 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.service.moduleModel;
+package scotip.app.service.modulemodel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import scotip.app.dao.model.ModuleModelDao;
-import scotip.app.dao.switchboard.SwitchboardDao;
-import scotip.app.dto.SwitchboardDto;
 import scotip.app.exceptions.ModuleModelNotFoundException;
-import scotip.app.model.Company;
 import scotip.app.model.ModuleModel;
-import scotip.app.model.Switchboard;
 
 import java.util.HashMap;
 import java.util.Iterator;

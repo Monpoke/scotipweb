@@ -40,7 +40,7 @@ import scotip.app.model.MohFile;
 import scotip.app.model.MohGroup;
 import scotip.app.model.Switchboard;
 import scotip.app.service.module.ModuleService;
-import scotip.app.service.moduleModel.ModuleModelService;
+import scotip.app.service.modulemodel.ModuleModelService;
 import scotip.app.service.sounds.SoundsService;
 import scotip.app.service.switchboard.SwitchboardService;
 

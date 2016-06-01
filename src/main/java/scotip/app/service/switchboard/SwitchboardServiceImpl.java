@@ -40,9 +40,8 @@ import scotip.app.model.Company;
 import scotip.app.model.Module;
 import scotip.app.model.ModuleModel;
 import scotip.app.model.Switchboard;
-import scotip.app.service.moduleModel.ModuleModelService;
+import scotip.app.service.modulemodel.ModuleModelService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -156,6 +155,7 @@ public class SwitchboardServiceImpl implements SwitchboardService {
         Unirest.get(MainConfig.NODESPAS_URL + "/switchboards/" + switchboard.getSid()).asJsonAsync(new Callback<JsonNode>() {
             @Override
             public void completed(HttpResponse<JsonNode> httpResponse) {
+                // useless
             }
             @Override
             public void failed(UnirestException e) {
@@ -163,6 +163,7 @@ public class SwitchboardServiceImpl implements SwitchboardService {
             }
             @Override
             public void cancelled() {
+                // useless
             }
         });
     }

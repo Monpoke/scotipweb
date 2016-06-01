@@ -29,11 +29,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import scotip.app.exceptions.ModuleModelNotFoundException;
-import scotip.app.model.Module;
 import scotip.app.model.ModuleModel;
-import scotip.app.model.Operator;
-import scotip.app.service.moduleModel.ModuleModelService;
-import scotip.app.service.operator.OperatorService;
+import scotip.app.service.modulemodel.ModuleModelService;
 
 /**
  * Created by Pierre on 29/04/2016.

@@ -26,34 +26,24 @@ package scotip.app.pages.logged;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.PropertiesEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import scotip.app.dto.ModuleUpdateDto;
 import scotip.app.dto.QueueDto;
 import scotip.app.dto.QueueOperatorDto;
-import scotip.app.exceptions.ModuleModelNotFoundException;
-import scotip.app.exceptions.ModuleNotFoundException;
 import scotip.app.exceptions.NotFoundException;
 import scotip.app.exceptions.SwitchboardNotFoundException;
-import scotip.app.model.Module;
 import scotip.app.model.Operator;
 import scotip.app.model.Queue;
 import scotip.app.model.Switchboard;
 import scotip.app.service.module.ModuleService;
-import scotip.app.service.moduleModel.ModuleModelService;
+import scotip.app.service.modulemodel.ModuleModelService;
 import scotip.app.service.operator.OperatorService;
 import scotip.app.service.operator.QueueService;
-import scotip.app.service.sounds.SoundsService;
 import scotip.app.service.switchboard.SwitchboardService;
 
 import javax.validation.Valid;
-import java.beans.PropertyEditor;
-import java.beans.PropertyEditorSupport;
 import java.io.IOException;
 import java.util.List;
 

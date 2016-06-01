@@ -27,20 +27,13 @@ package scotip.app.pages.logged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import scotip.app.dto.ModuleUpdateDto;
-import scotip.app.exceptions.ModuleModelNotFoundException;
-import scotip.app.exceptions.ModuleNotFoundException;
 import scotip.app.exceptions.SwitchboardNotFoundException;
-import scotip.app.model.Module;
 import scotip.app.model.Switchboard;
 import scotip.app.service.module.ModuleService;
-import scotip.app.service.moduleModel.ModuleModelService;
+import scotip.app.service.modulemodel.ModuleModelService;
 import scotip.app.service.sounds.SoundsService;
 import scotip.app.service.switchboard.SwitchboardService;
-
-import javax.validation.Valid;
 
 /**
  * Created by Pierre on 18/04/2016.

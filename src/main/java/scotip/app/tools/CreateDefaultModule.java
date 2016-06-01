@@ -54,11 +54,11 @@ public abstract  class CreateDefaultModule {
      */
     private static void provisioning(Module toReturn, ModuleModel moduleModel) {
         if(moduleModel.getSlug().equals("playback")){
-            module_playback(toReturn);
+            modulePlayback(toReturn);
         }
     }
 
-    private static void module_playback(Module toReturn) {
+    private static void modulePlayback(Module toReturn) {
         toReturn.getSettings().put("file","hello-world");
     }
 }

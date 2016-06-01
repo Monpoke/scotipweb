@@ -57,12 +57,6 @@ public class SwitchboardCreateController extends SwitchboardAppController {
      */
     public final static int MAX_SWITCHBOARDS = 10;
 
-
-    @ModelAttribute("MAX")
-    private int getMaximumSwitchboards() {
-        return MAX_SWITCHBOARDS;
-    }
-
     /**
      * SERVICES
      */
@@ -75,6 +69,11 @@ public class SwitchboardCreateController extends SwitchboardAppController {
     @Autowired
     private SwitchboardService switchboardService;
 
+
+    @ModelAttribute("MAX")
+    private int getMaximumSwitchboards() {
+        return MAX_SWITCHBOARDS;
+    }
 
     /**
      * Page to choose a board.

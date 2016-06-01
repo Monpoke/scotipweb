@@ -315,14 +315,6 @@ public class Company implements UserDetails {
         this.operators = operators;
     }
 
-    public String getTmpMD5_mail() {
-        return tmpMD5_mail;
-    }
-
-    public void setTmpMD5_mail(String tmpMD5_mail) {
-        this.tmpMD5_mail = tmpMD5_mail;
-    }
-
     public List<Switchboard> getSwitchboards() {
         return switchboards;
     }

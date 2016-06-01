@@ -37,6 +37,7 @@ import java.io.File;
 public class Application  extends SpringBootServletInitializer {
 
     public static final String UPLOAD_DIR = "uploads";
+    private static Class<Application> applicationClass = Application.class;
 
 
     public static void main(String[] args) throws Exception {
@@ -47,8 +48,6 @@ public class Application  extends SpringBootServletInitializer {
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(applicationClass);
     }
-
-    private static Class<Application> applicationClass = Application.class;
 
     @Bean
     CommandLineRunner init() {
