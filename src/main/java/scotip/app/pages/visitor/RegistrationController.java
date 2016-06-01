@@ -93,7 +93,7 @@ public class RegistrationController {
             registered = createUserAccount(accountDto, result);
         }
         if (registered == null) {
-            result.rejectValue("email", "message.regError");
+            result.rejectValue("ContactMail", "message.regError");
         }
 
 

@@ -48,6 +48,9 @@ public class CompanyServiceImpl implements CompanyService {
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
+    public Company update(Company c){return dao.update(c);}
+
+    @Override
     public Company findById(int id) {
         return dao.findById(id);
     }

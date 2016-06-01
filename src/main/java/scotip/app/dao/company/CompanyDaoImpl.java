@@ -35,6 +35,11 @@ import scotip.app.model.Company;
 @Repository("companyDao")
 public class CompanyDaoImpl extends AbstractDao<Integer, Company> implements CompanyDao {
 
+    public Company update(Company company) {
+        getSession().update(company);
+        return company;
+    }
+
     public Company findById(int id) {
         return getByKey(id);
     }
