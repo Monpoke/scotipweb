@@ -73,7 +73,7 @@ public class CompanyDto {
     private String ContactPhone;
 
     @NotNull(message = "A password should be setted.")
-    @Length(min = 4, max = 25, message = "The password should contains between 4 and 25 characters.")
+    @Length(min = 4, message = "The password should contains more than 4 characters.")
     private String password;
     private String matchingPassword;
 

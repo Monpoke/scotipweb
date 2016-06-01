@@ -77,6 +77,7 @@ public class DashboardController extends AppLogged {
         companyDto.setCountry(c.getCountry());
         companyDto.setPhoneNumber(c.getPhoneNumber());
         companyDto.setPostcode(c.getPostcode());
+        companyDto.setPassword(c.getPassword());
 
         model.addAttribute("company", companyDto);
 
@@ -102,6 +103,7 @@ public class DashboardController extends AppLogged {
 
         if (!result.hasErrors()) {
             company.update(getCurrentCompany(),companyDto);
+            company.refresh(getCurrentCompany());
         }
 
         // REST HERE
