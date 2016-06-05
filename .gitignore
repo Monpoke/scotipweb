@@ -1,3 +1,10 @@
+*.aux
+*.out
+*.pdf
+*.toc
+uploads/
+*.gz
+
 # Created by .ignore support plugin (hsz.mobi)
 ### NetBeans template
 nbproject/private/
