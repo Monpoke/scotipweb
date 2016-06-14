@@ -9,6 +9,10 @@ Because lot of these PBX are managed by a web GUI interface, we discovered \text
 \section{Server compilation}
 Because \textit{Asterisk} is provided as open source server, we had to download the server sources and then compile them with the following commands:
 \begin{lstlisting}[language=bash,caption={bash}]
+$ ./configure
+$ make menuconfig
+$ make
+$ make install
 \end{lstlisting}
 
 One of the most important command in the above list was \textit{make menuselect}: this command allows to enable and disable unwanted modules. It is there we can enable for example the MP3 support.
@@ -20,7 +24,7 @@ On Asterisk, all phone activities are based on contexts. It means when a phone i
 
 
 \textit{ScotIP} purposes two kinds of lines: the dedicated line and the shared lines.
-Shared lines will share the same starting context. It is a vocal service where all incoming calls will be redirected. This vocal service will ask the caller to enter the switchboard access code, and if it exists, then the caller will be redirected on the switchboard context.
+Shared lines will share the same starting context. This context is called \textbf{ScotIPHome}. It is a vocal service where all incoming calls will be redirected. This vocal service will ask the caller to enter the switchboard access code, and if it exists, then the caller will be redirected on the switchboard context.
 
 
 This is possible thanks to variables, conditions and functions provided in Asterisk. When the caller will press his phone keys, the number will be stored in a temporary variable. Then, thanks to the function \textbf{DIALPLAN\_EXISTS(name)} the caller can be redirected on the right context. Otherwise, the call will be hang up. 
@@ -28,15 +32,34 @@ This is possible thanks to variables, conditions and functions provided in Aster
 \includegraphics[width=1\textwidth]{img/context_scotiphome.png}
 
 
-\subsection{Files}
+\subsection{Files and \#include directive}
 
+Because Asterisk configuration have to be located in \textit{/etc/asterisk} directory, the configuration can't be flexible. However, one directive exists to bypass this obligation. \textbf{\#include}. Thanks to this directive, we could organize our server architecture in many subdirectories. This directive allows also the use of \textit{jokers}, represented by this character: \textbf{*}. In our application, we chose to save all these files to the directory \textit{/usr/scotip}.
+
+Each directory will match one type of configuration file. For example, we have to save the dialplans for the company switchboards, music on hold files, extensions configuration... 
+
+\includegraphics[scale=1]{img/files_struct_conf.png}
 
 \section{SIP}
 
 \subsection{SIP peers}
-Parler ici des connexions OVH, IPPI
+In order to emit and receive calls, we have to register on the network on our providers. To use these networks, there are two important steps. 
+
+
+First, we have to write a registration string of this kind: \textit{register => username@provider.dot.ltd}. This line allows to register our server to use the provider network. The state of this connection through the command line: \textit{sip show registry}
+
+\includegraphics[width=1\textwidth]{img/sipshowregistry.png}
+
+
+For the second step, we have to tell Asterisk in which context the incoming calls have to be redirected, and also make some settings on the connection. (Eg: monitoring, incoming host...)
+Because on our project we only made possible incoming calls, we will not talk about outgoing calls in this report. For all these calls, they will be redirected on a local context called \textbf{phone\_incoming}, then redirected on a global context for all the project: \textbf{ScotIPHome}, which have been previously described.
+
+\includegraphics[width=1\textwidth]{img/contextsphones.png}
+
 \subsection{Extensions}
 Create operators, phones...
+
+\subsection{Calling Skype account}
 
 
 \section{Dialplan}
