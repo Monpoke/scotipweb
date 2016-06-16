@@ -1,19 +1,24 @@
 \chapter{Website}
 
-In this project, the only objective of the website was to collect information from the user, and stock them in the database.
-So we try to simplify this website to facilitate 
+\section{Overview}
+In this project, the website had to be the only way to interact with the server. Through a simplified website, the users have to fill required informations, then they are saved into a database.
+\newline
 
-
-The website is based on the Spring technology,  it follow the MVC rule (Model-View-Controller). the view is separated from the controller and the model.
+The website is based on \textbf{Spring} technology,  it follows the MVC convention (\textit{Model-View-Controller}). Each layer has its own role in this convention.
 
 \begin{itemize}  
-\item The view are the static web pages, in HTML and CSS, with pebble there are in .twig files
-\item The controllers are files, coded in Java, which send data to the view
-\item The model is like a kernel, he stock the informations, process them...
+\item The views represents the content the users will be able to see. In our implementation, these files contains special HTML and special tags to allow dynamic contents. 
+\item The controllers corresponds to global files 
+\item The model represents the database data. It will perform SQL queries to get some data in order to return them as a simplified object to a controller.
 
 \end{itemize}  
 
 Here is a schematic representation of the website architecture
+
+\iffalse 
+DON't WORKING THIS FUCKING SHIT
+ \fi
+
 
 \begin{figure}[!ht]
   \caption{MVC.}
@@ -22,11 +27,33 @@ Here is a schematic representation of the website architecture
 \end{figure}
 
 
+\section{Spring application}
+
+\subsection{Boot}
+
+Talk about Spring application boot.
+
+\subsection{Annotations...}
+
+Parler du système d'annotations
+
+\subsubsection{@Autowired}
+Annotation présente un peu partout, on doit l'expliquer ici
 
 
-\section{DAO}
 
-The DAO are the link between the program and the database. There are managed by the Hibernate technologie, coded in java.
+
+
+\section{Application structure}
+
+\subsection{Configuration}
+
+
+\subsection{Controllers}
+
+\subsection{Hibernate and Models}
+
+The DAO are the link between the program and the database. There are managed by the Hibernate technology, coded in JAVA.
 In fact, we have one DAO per entity (switchboard, company...), those files contains functions which returns informations from the database.
 \\
 \\
@@ -36,14 +63,22 @@ and we can manipulate this object, transfer it by the session and it will be sav
 
 
 
-\section{.twig}
+\subsection{View}
 
 The .twig files are an evolution of the HTML files, there are managed by pebble and represents the view of the website.
 A .twig file can represent a file, or a part of a file (a layout), like a that we don't have to code every time the same code (like the menu...)
 .twig offer something more than a classical html file, it allow to use Java object inside the view, so we can transfer a list and process it directly inside the view.
 
 
-\section{Design}
+
+
+\subsection{Services}
+
+\subsection{Converters}
+\subsection{DTO and Validator}
+
+\subsection{Exceptions}
+
 
 Due to our inability to make a real design, we chose to download a free open-source design. We found the excellent \textit{AdminLTE2} template suitable for a website like our.
 \newline
