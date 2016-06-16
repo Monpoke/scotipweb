@@ -29,8 +29,12 @@ Shared lines will share the same starting context. This context is called \textb
 
 This is possible thanks to variables, conditions and functions provided in Asterisk. When the caller will press his phone keys, the number will be stored in a temporary variable. Then, thanks to the function \textbf{DIALPLAN\_EXISTS(name)} the caller can be redirected on the right context. Otherwise, the call will be hang up. 
 
-\includegraphics[width=1\textwidth]{img/context_scotiphome.png}
 
+\begin{figure}[!ht]
+  \caption{ScotIPHOME context.}
+  \centering
+    \includegraphics[width=0.5\textwidth]{img/context_scotiphome.png}
+\end{figure}
 
 \subsection{Files and \#include directive}
 
@@ -38,7 +42,12 @@ Because Asterisk configuration have to be located in \textit{/etc/asterisk} dire
 
 Each directory will match one type of configuration file. For example, we have to save the dialplans for the company switchboards, music on hold files, extensions configuration... 
 
-\includegraphics[scale=1]{img/files_struct_conf.png}
+\begin{figure}[!ht]
+  \caption{Directory structure.}
+  \centering
+    \includegraphics[width=0.5\textwidth]{img/files_struct_conf.png}
+\end{figure}
+
 
 \section{SIP}
 
@@ -48,13 +57,22 @@ In order to emit and receive calls, we have to register on the network on our pr
 
 First, we have to write a registration string of this kind: \textit{register => username:password@provider.dot.ltd}. This line allows to register our server to use the provider network. The state of this connection through the command line: \textit{sip show registry}
 
-\includegraphics[width=1\textwidth]{img/sipshowregistry.png}
+\begin{figure}[!ht]
+  \caption{SIP registrations.}
+  \centering
+    \includegraphics[width=1\textwidth]{img/sipshowregistry.png}
+\end{figure}
+
 
 
 For the second step, we have to tell Asterisk in which context the incoming calls have to be redirected, and also make some settings on the connection. (Eg: monitoring, incoming host...)
 Because on our project we only made possible incoming calls, we will not talk about outgoing calls in this report. For all these calls, they will be redirected on a local context called \textbf{phone\_incoming}, then redirected on a global context for all the project: \textbf{ScotIPHome}, which have been previously described.
 
-\includegraphics[width=1\textwidth]{img/contextsphones.png}
+\begin{figure}[!ht]
+  \caption{Incoming contexts.}
+  \centering
+    \includegraphics[width=0.5\textwidth]{img/contextsphones.png}
+\end{figure}
 
 \subsection{Extensions}
 
