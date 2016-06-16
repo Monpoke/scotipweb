@@ -1,9 +1,19 @@
 \chapter{Website}
-
+\section{Features}
 In this project, the only objective of the website was to collect information from the user, and stock them in the database.
-So we try to simplify this website to facilitate 
+
+When a user went for the first time on the website, he have to sign up, so we can collect informations about the company. After this operation he can access to his control panel where he can:
+\begin{itemize}  
+\item Create or edit their switchboard
+\item Manage operators (the operator are people who will receive the call from the switchboard)
+\item Manage the Company's informations
+\end{itemize}  
 
 
+
+
+
+\section{MVC}
 The website is based on the Spring technologie,  it follow the MVC rule (Model-View-Controler). the view is separated from the controller and the model.
 
 \begin{itemize}  
@@ -19,6 +29,7 @@ Here is a schematic representation of the website architecture
 
 
 
+
 \section{DAO}
 
 The DAO are the link between the program and the database. There are managed by the Hibernate technologie, coded in java.
@@ -29,6 +40,11 @@ Hibernate simplify the interaction with the database, we don't have to use stand
 It works with java object and an hibernate session, we use annotation in the Java class to describe the reproduction of this object in the database,
 and we can manipulate this object, transfer it by the session and it will be save on the database.
 
+\section{Services}
+
+We have an other types of files calls "Services", it works with the DAO files.
+Their role are to check data send from the application to the DAO, it's avoid errors in the datatbase.
+For example it can check data receive from form.
 
 
 \section{.twig}
@@ -40,7 +56,7 @@ A .twig file can represent a file, or a part of a file (a layout), like a that w
 
 \section{Design}
 
-Due to our inability to make a real design, we choose to take one on the internet
+Due to our inability to make a real design, we choose to take one from the internet
 \\
 \includegraphics[width=0.70\textwidth]{img/design.png}
 \\
