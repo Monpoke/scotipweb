@@ -43,4 +43,14 @@ public class MOHFileDaoImpl extends AbstractDao<Integer, MohFile> implements MOH
         int id = (int)getSession().save(mohFile);
         return id;
     }
+
+    @Override
+    public MohFile findById(int mid) {
+        return (MohFile) getByKey(mid);
+    }
+
+    @Override
+    public void removeFile(MohFile mohFile) {
+        getSession().delete(mohFile);
+    }
 }

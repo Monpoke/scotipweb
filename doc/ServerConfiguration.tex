@@ -2,7 +2,7 @@
 
 \section{Security}
 
-To protect our server, we had to setting up some security systems. A lot of these attacks consists to login on some sensitive services: \textit{SSH}, \textit{Asterisk}, \textit{FTP}... And our server didn't escape to these attacks. 
+To protect our server, we had to set up some security systems. A lot of these attacks consists to login on some sensitive services: \textit{SSH}, \textit{Asterisk}, \textit{FTP}... And our server didn't escape to these attacks. 
 
 \includegraphics[width=1\textwidth]{img/sshattacks.png}
 
@@ -30,5 +30,11 @@ By default, Tomcat is running on port \textbf{8080}, so it isn't the default HTT
 Because \textbf{Nginx} only redirect the incoming traffic through the internal network to the \textbf{Tomcat} server, it is impossible for the web application to access sensitive data in the system.
 
 \section{MySQL, different users}
-Parler ici des differents utilisateurs pour le site et pour le nodeJS.
+To improve security, we also created several users on our MySQL server. While the first user, designed for the Spring application is able to create tables, read and write in tables, the second one is fully restricted to some tables. This second user is designed to be used by the \textit{NodeJS} application. Because this application doesn't need all privileges on all tables, we just set up these following permissions. 
+
+\begin{figure}[!ht]
+  \caption{Restricted user.}
+  \centering
+    \includegraphics[width=0.5\textwidth]{img/scotipnodespas.png}
+\end{figure}
 

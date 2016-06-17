@@ -24,11 +24,14 @@
 
 package scotip.app.pages.logged;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import scotip.app.exceptions.SwitchboardNotFoundException;
+import scotip.app.model.CallLog;
 import scotip.app.model.Switchboard;
 import scotip.app.service.module.ModuleService;
 import scotip.app.service.modulemodel.ModuleModelService;
@@ -56,6 +59,7 @@ public class CallsController extends SwitchboardAppController {
 
 
     @RequestMapping("/u/switchboard/{sid}/calls")
+    @Transactional
     public String allsCalls(@PathVariable("sid") int sid, ModelMap modelMap) throws SwitchboardNotFoundException {
         Switchboard switchboard = getSwitchboard(sid);
         if (switchboard == null) {
@@ -65,6 +69,10 @@ public class CallsController extends SwitchboardAppController {
 
         modelMap.addAttribute("calls", switchboard.getCallLogs());
 
+        for(CallLog callLog : switchboard.getCallLogs()){
+            Hibernate.initialize(callLog.getVariables());
+            Hibernate.initialize(callLog.getActions());
+        }
 
         return "pages/switchboard/calls";
     }

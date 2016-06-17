@@ -18,7 +18,7 @@ One of the most important command in the above list was \textit{make menuselect}
 \section{Server organization}
 
 \subsection{Contexts}
-On Asterisk, all phone activities are based on contexts. It means when a phone is registered in a context, it can't reach phones which are located in different context. The contexts will be mainly useful for the company switchboard. Indeed, all switchboard will have their own context called like "\textbf{SWITCHBOARD\_USER\_(CODE)}" where (CODE) is replaced by the switchboard access code, defined at the creation of the switchboard on the website.
+On Asterisk, all phone activities are based on contexts. It means when a phone is registered in a context, it can't reach phones which are located in different context. The contexts will be mainly useful for the company switchboard. Indeed, all switchboard will have their own context called like \textbf{SWITCHBOARD\_USER\_(CODE)} where (CODE) is replaced by the switchboard access code, defined at the creation of the switchboard on the website.
 
 
 \textit{ScotIP} purposes two kinds of lines: the dedicated line and the shared lines.
@@ -100,7 +100,7 @@ Once a communication is established between a SIP client and a server, when an A
   \centering
     \includegraphics[width=1\textwidth]{img/rtpheader.png}
 \end{figure}
-
+\textit{\small{Source: Wikipedia \url{https://en.wikipedia.org/wiki/Real-time_Transport_Protocol}}}
 
 
 \subsection{SIP peers}
@@ -143,11 +143,28 @@ To call a Skype account, we just have to precise the account name then the conte
 
 \textbf{@TODO}
 
-\section{Dialplan}
+\section{Switchboard, modules and extensions}
+To represent a switchboard, we're using the extensions from \textit{Asterisk}. All these extensions have to be located in a context. For our project, all extensions related to a switchboard will be placed in the switchboard context we saw earlier: \textbf{SWITCHBOARD\_USER\_(CODE)}. \newline
+
+On the home context, \textit{ScotIPHome}, when a right access code is entered, the caller is redirected on a first extension in the switchboard context, called \textit{start}.
+All these switchboard context contains this first extension. This one sets some global variables which could be useful for the next extensions, like the current \textit{switchboard id}, the \textit{caller number}... \newline
+
+\subsection{Modules extensions}
+
+For our project, we have two kind of extensions:
+\begin{itemize}
+\item \textbf{"Binding keys"}
+\item \textbf{Extension for a module}
+\end{itemize}
+
+The second type corresponds to the chosen module. For each one, two variables are defined in order to be reused later. The name of these extensions are called in this way: \textbf{SWITCHBOARD\_USER\_(CODE)}.
+Afterwards, the Asterisk function is finally called.  We'll speak about these functions in next sections.
 
 
 
-\section{Dialplan applications}
+
+
+\section{Switchboard applications}
 \subsection{Playback}
 In Asterisk, one of the most used application is \textbf{Playback}. This command makes available the streaming of a file in a channel.
 

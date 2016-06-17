@@ -80,7 +80,7 @@
                                             {% endif %}
                                         </td>
                                         <td>
-                                            <a href="#" data-toggle="modal" data-target="#variables">Variables</a>
+                                            <a href="#" data-popup="{{ call.infosData }}">Information</a>
                                         </td>
                                     </tr>
                                 {% else %}
@@ -109,7 +109,7 @@
 
 
 
-    <div id="variables" class="modal fade" role="dialog">
+    <div id="informations" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -119,7 +119,17 @@
                 </div>
                 <div class="modal-body">
 
-                    Some things...
+                    <strong>Caller number: </strong> <span class="callerNb">loading...</span><br/>
+                    <strong>Date: </strong> <span class="callDate">loading...</span><br/>
+                    <strong>Duration: </strong> <span class="callDuration">loading...</span><br/><br/>
+
+                    <hr/>
+                    <h3>Saved variables</h3>
+                    <ul class="callVariables"></ul>
+                    <br/><br/>
+                    <hr/>
+                    <h3>Used modules</h3>
+                    <ul class="callModules"></ul>
 
                 </div>
                 <div class="modal-footer">
@@ -129,5 +139,42 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
+{% endblock %}
+
+{% block jsFiles %}
+    {{ parent() }}
+
+    <script>
+        $(function () {
+            $("[data-popup]").click(function (e) {
+                e.preventDefault();
+
+                try {
+                    var data = $.parseJSON($(this).attr('data-popup'));
+
+                    $("#informations .callerNb").text(data.callerNb);
+                    $("#informations .callDate").text(data.date);
+                    $("#informations .callDuration").text(data.duration);
+
+                    //variables
+                    $("#informations .callVariables").html("");
+                    $.each(data.variables, function (k, v) {
+                        $("#informations .callVariables").append("<li><strong>" + k + ":</strong> " + v + "</li>");
+                    });
+
+                    //actions
+                    $("#informations .callModules").html("");
+                    $.each(data.actions, function (k,sentence) {
+                        $("#informations .callModules").append("<li><i>" + sentence + "</i></li>");
+                    });
+
+                    $("#informations").modal('show');
+
+                } catch (ex) {
+
+                }
+            })
+        });
+    </script>
 {% endblock %}
 

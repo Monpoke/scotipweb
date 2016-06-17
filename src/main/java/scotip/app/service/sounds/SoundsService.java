@@ -55,4 +55,9 @@ public interface SoundsService {
     void notifyServerReload(Company company);
 
     int saveMohFILE(MohFile mohFile);
+
+    MohFile getMohFileWithIdAndSwitchboard(int mid, int sid);
+    MohFile getMohFileWithIdAndSwitchboardAndCompany(int mohid, int switchboardId, int companyId);
+
+    void removeMOHFile(MohFile mohFile);
 }

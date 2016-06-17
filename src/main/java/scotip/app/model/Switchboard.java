@@ -70,7 +70,7 @@ public class Switchboard {
     protected List<Module> modules = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "switchboard", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "switchboard", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     protected List<CallLog> callLogs = new ArrayList<>();
 
     @OneToMany(mappedBy = "switchboard", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
