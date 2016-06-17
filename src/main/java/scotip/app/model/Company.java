@@ -24,6 +24,8 @@
 
 package scotip.app.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -93,6 +95,7 @@ public class Company implements UserDetails {
     private String state = State.ACTIVE.getState();
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
     @JoinTable(name = "company_profiles",
             joinColumns = {@JoinColumn(name = "company_id")},
             inverseJoinColumns = {@JoinColumn(name = "profile_id")})
@@ -103,9 +106,11 @@ public class Company implements UserDetails {
      * @TODO HACK Fetch LAZY
      */
     @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @Fetch(FetchMode.SELECT)
     private List<Switchboard> switchboards = new ArrayList<>();
 
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @Fetch(FetchMode.SELECT)
     private List<Operator> operators = new ArrayList<>();
 
 
