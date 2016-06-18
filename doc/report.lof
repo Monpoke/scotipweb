@@ -10,19 +10,21 @@
 \contentsline {figure}{\numberline {6.1}{\ignorespaces ScotIPHOME context.}}{16}{figure.6.1}
 \contentsline {figure}{\numberline {6.2}{\ignorespaces Directory structure.}}{17}{figure.6.2}
 \contentsline {figure}{\numberline {6.3}{\ignorespaces SIP callflow example. Source: Wikipedia}}{18}{figure.6.3}
-\contentsline {figure}{\numberline {6.4}{\ignorespaces RTP header.}}{19}{figure.6.4}
+\contentsline {figure}{\numberline {6.4}{\ignorespaces RTP header.}}{20}{figure.6.4}
 \contentsline {figure}{\numberline {6.5}{\ignorespaces SIP registrations.}}{20}{figure.6.5}
 \contentsline {figure}{\numberline {6.6}{\ignorespaces Incoming contexts.}}{20}{figure.6.6}
 \contentsline {figure}{\numberline {6.7}{\ignorespaces Skype context.}}{21}{figure.6.7}
-\contentsline {figure}{\numberline {6.8}{\ignorespaces DTMF frequencies.}}{24}{figure.6.8}
+\contentsline {figure}{\numberline {6.8}{\ignorespaces MOH declaraton}}{22}{figure.6.8}
+\contentsline {figure}{\numberline {6.9}{\ignorespaces DTMF frequencies.}}{24}{figure.6.9}
+\contentsline {figure}{\numberline {6.10}{\ignorespaces MOH declaraton}}{26}{figure.6.10}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {7.1}{\ignorespaces HapiJS logo.}}{28}{figure.7.1}
+\contentsline {figure}{\numberline {7.1}{\ignorespaces HapiJS logo.}}{29}{figure.7.1}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {8.1}{\ignorespaces SSH attacks}}{29}{figure.8.1}
-\contentsline {figure}{\numberline {8.2}{\ignorespaces Restricted user.}}{31}{figure.8.2}
+\contentsline {figure}{\numberline {8.1}{\ignorespaces SSH attacks}}{31}{figure.8.1}
+\contentsline {figure}{\numberline {8.2}{\ignorespaces Restricted user.}}{33}{figure.8.2}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {10.1}{\ignorespaces Asterisk ScotIPHome context.}}{36}{figure.10.1}
-\contentsline {figure}{\numberline {10.2}{\ignorespaces Asterisk macros.}}{37}{figure.10.2}
-\contentsline {figure}{\numberline {10.3}{\ignorespaces Switchboard example: Playback, Queue, User Input.}}{38}{figure.10.3}
-\contentsline {figure}{\numberline {10.4}{\ignorespaces Conversion from MP3 to Asterisk readable format.}}{39}{figure.10.4}
+\contentsline {figure}{\numberline {10.1}{\ignorespaces Asterisk ScotIPHome context.}}{38}{figure.10.1}
+\contentsline {figure}{\numberline {10.2}{\ignorespaces Asterisk macros.}}{39}{figure.10.2}
+\contentsline {figure}{\numberline {10.3}{\ignorespaces Switchboard example: Playback, Queue, User Input.}}{40}{figure.10.3}
+\contentsline {figure}{\numberline {10.4}{\ignorespaces Conversion from MP3 to Asterisk readable format.}}{41}{figure.10.4}

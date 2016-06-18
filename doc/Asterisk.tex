@@ -18,14 +18,13 @@ One of the most important command in the above list was \textit{make menuselect}
 \section{Server organization}
 
 \subsection{Contexts}
-On Asterisk, all phone activities are based on contexts. It means when a phone is registered in a context, it can't reach phones which are located in different context. The contexts will be mainly useful for the company switchboard. Indeed, all switchboard will have their own context called like \textbf{SWITCHBOARD\_USER\_(CODE)} where (CODE) is replaced by the switchboard access code, defined at the creation of the switchboard on the website.
-
+On Asterisk, all phone activities are based on contexts. It means when a phone is registered in a context, it can't reach phones which are located in different context. The contexts will be mainly useful for the company switchboard. Indeed, all switchboard will have their own context called like \textbf{SWITCHBOARD\_USER\_(CODE)} where (CODE) is replaced by the switchboard access code, defined at the creation of the switchboard on the website.\newline
 
 \textit{ScotIP} purposes two kinds of lines: the dedicated line and the shared lines.
-Shared lines will share the same starting context. This context is called \textbf{ScotIPHome}. It is a vocal service where all incoming calls will be redirected. This vocal service will ask the caller to enter the switchboard access code, and if it exists, then the caller will be redirected on the switchboard context.
+Shared lines will share the same starting context. This context is called \textbf{ScotIPHome}. It is a vocal service where all incoming calls will be redirected. This vocal service will ask the caller to enter the switchboard access code, and if it exists, then the caller will be redirected on the switchboard context.\newline
 
-
-This is possible thanks to variables, conditions and functions provided in Asterisk. When the caller will press his phone keys, the number will be stored in a temporary variable. Then, thanks to the function \textbf{DIALPLAN\_EXISTS(name)} the caller can be redirected on the right context. Otherwise, the call will be hang up. 
+This is possible thanks to variables, conditions and functions provided in Asterisk. When the caller will press his phone keys, the number will be stored in a temporary variable. 
+Then, thanks to the function \textbf{DIALPLAN\_EXISTS(name)} the caller can be redirected on the right context. Otherwise, the call will be hang up. 
 
 
 \begin{figure}[!ht]
@@ -153,14 +152,23 @@ All these switchboard context contains this first extension. This one sets some 
 
 For our project, we have two types of extensions:
 \begin{itemize}
-\item \textbf{"Binding keys"}
 \item \textbf{Extension for a module}
+\item \textbf{"Binding keys"}
 \end{itemize}
 
-The second type corresponds to the chosen module. For each one, two variables are defined in order to be used later. The name of these extensions are called in this way: \textbf{SWITCHBOARD\_USER\_(CODE)}.
+The first type corresponds to a module. For each one, two variables are defined in order to be used later. The name of these extensions are called in this way: \textbf{mod\_(MOD\_ID)}.
 Afterwards, the Asterisk function is finally called.  We'll speak about these functions in next sections.
+\newline
+
+The second type of extension makes easier the job of the macro \textbf{wheretogo} which will be described in a next section. It is an alias for the modules extension name.
 
 
+
+\begin{figure}[!ht]
+  \caption{MOH declaraton}
+  \centering
+    \includegraphics[width=1\textwidth]{img/modname.png}
+\end{figure}
 
 
 
@@ -308,8 +316,25 @@ Sometimes, an URL can be precised on the \textit{User input} module on the websi
 
 
 \section{MOH}
-\subsection{About}
-\textit{Music on Hold} corresponds to some files which will be played when a caller have to wait someone to answer.  
+\subsection{Files declaration}
+\textit{Music on Hold} corresponds to some files which will be played when a caller have to wait someone to answer. Before any use in Asterisk, these files have to be declared in the configuration. 
+Each declaration have to be in the following way: 
+
+\begin{lstlisting}[language=bash,caption={bash}]
+[MOHCLASS]
+mode=files
+directory=/absolute/path/to/directory
+\end{lstlisting}
+
+The \textit{MOHCLASS} corresponds to the identifier which will can be used in applications. The directory have to contains the files to play. 
+
+
+\begin{figure}[!ht]
+  \caption{MOH declaraton}
+  \centering
+    \includegraphics[width=1\textwidth]{img/MOH.png}
+\end{figure}
+
 
 \subsection{Conversion}
 In order to have a good audio streaming, we had to convert uploaded MP3 files into a readable format for Asterisk. For a better experience, this conversion should be done in mono, at 8kHz (samples/second), 8 bits per sample, in ulaw format. Thanks to \textit{SOX} and \textit{mpg123} we can correctly convert these files.	

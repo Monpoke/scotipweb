@@ -15,28 +15,60 @@ When an URL is called on the \textit{NodeJS} server, it will read some informati
     \includegraphics[width=0.5\textwidth]{img/hapijs}
 \end{figure}
 
-\textit{Hapi} is a NodeJS framework which allows to create easily a REST API. 
-
-...
-
+\textit{Hapi} is a NodeJS framework which allows to create easily a REST API. It provides all the necessary tools for routing, server, logging... And this framework is one of the most used, with \textit{Express}.
 
 \section{REST API}
 	
 \subsection{Dialplan generation}
-URL: \textbf{/switchboards/{id}}
+URL: \textbf{/switchboards/{\textit{switchboardID}}}
+\paragraph{Needed parameters:}
+\begin{itemize}
+\item {switchboardID} - A valid switchboard ID
+\end{itemize}
 
-1) Looking for an existing switchboard.
-2) Dialplan reloader
 
+\paragraph{Algorithm:}
+\begin{itemize}
+	\item Checks if the switchboard exists.
+	\item Loads all modules from the switchboard in the database.
+	\item Checks if there is only one \textit{root module}, and no problem with data. If there is a problem, the reloading is aborted.
+	\item Configuration generation:
+	
+		\begin{itemize}
+			\item Generates the header: register some variables, call the \textit{NodeJS} server to notify a call.
+			\item Generates all keys aliases for the modules. 
+			\item Generates the root module alias.
+			\item For each module type, generate the associated configuration.
+			\item Register the hang up extension, \textbf{h}, to notify the call end.
+		\end{itemize}	
+	\item Write to right file.
+	\item Reload the Asterisk server by \textit{CLI} command.
+
+\end{itemize}
 
 \subsection{Operators}
+URL: \textbf{/operators/{\textit{companyId}}}
 
 \subsection{MOH}
+URL: \textbf{/moh/{\textit{companyId}}}
 
 \subsection{Queues}
+URL: \textbf{/queues/{\textit{switchboardId}}}
+
 
 \subsection{Calls logs}
+URL: \textbf{/calls/new/{\textit{switchboardId}}}
 
+URL: \textbf{/calls/end/{\textit{callId}}}
+
+URL: \textbf{/calls/action/{\textit{callId}}}
+
+URL: \textbf{/calls/variable/{\textit{callId}}}
+
+\subsection{Module recordings}
+
+URL: \textbf{/dialplan/{sid}/module/exists/{\textit{moduleId}}}
+URL: \textbf{/dialplan/{sid}/module/updateFile/{\textit{moduleId}}}
 
 
 
