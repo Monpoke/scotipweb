@@ -283,11 +283,39 @@ Queue(queuename,...)
 For \textit{ScotIP}, we used this application for the company queues, created from the website.
 
 
+
 \subsection{Macro}
+To simplify our files, we used a lot this function. It works exactly like a traditional function in usual programming languages. In our project, we used the following custom macros:
+
+\subsubsection{wheretogo - Selection of next module}
+This macro is probably the most important one. Indeed, this macro makes able the selection of an other module. This macro have just to know the current module ID. When a key will be pressed, the following extension will be checked for existence: \textit{mod\textbf{PARENTID}key\textbf{KEY}}. If it exists, then the caller will be redirected on this extension. Else, he will have to pressed again a key.
+
+\subsubsection{newcall, endcall - Notification of call events}
+To keep some logs of calls like the date, duration time... we used these custom macro to call our \textit{NodeJS} server.
+The first macro \textbf{newcall} asks for an unique call identifier and save it to a variable. 
+The second one tells only the server the call have been hang up.
+
+\subsubsection{saveaction, savevariable - Save caller action}
+When a caller action is required, these macros allows to save in database the pressed keys.
+
+\subsubsection{queuemacro - Save the queue replier}
+In order to make some statistics on operators, this macro is used to know who answered to a call.
+
+\subsubsection{checkVariableValue - Checks if an user input is correct}
+Sometimes, an URL can be precised on the \textit{User input} module on the website to check if user entry is correct. Once a number has been read by \textit{Read} application, this macro will send this number to the URL. If the requested URL answers \textbf{ok}, the call will be continued. Else, the caller will be asked to re-enter a number.
+
 
 
 
 \section{MOH}
 \subsection{About}
+
+
 \subsection{Conversion}
 Not here, but in website 
+
+
+
+
+
+
