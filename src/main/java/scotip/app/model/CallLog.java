@@ -160,4 +160,15 @@ public class CallLog {
 
         return new Gson().toJson(infos);
     }
+
+    @Override
+    public String toString() {
+        return "CallLog{" +
+                "caller_number='" + caller_number + '\'' +
+                ", timestamp='" + timestamp + '\'' +
+                ", duration=" + duration +
+                ", finished=" + finished +
+                ", callid=" + callid +
+                '}';
+    }
 }
