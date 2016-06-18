@@ -113,6 +113,10 @@ public class SoundsServiceImpl implements SoundsService {
     @Override
     public MohGroup getMohGroupWithIdAndSwitchboardAndCompany(int mid, int sid, int companyId) {
         MohGroup mohGroup = getMohGroupWithIdAndSwitchboard(mid,sid);
+        if(mohGroup==null){
+            return null;
+        }
+
         Hibernate.initialize(mohGroup.getSwitchboard().getCompany());
         if(mohGroup.getSwitchboard().getCompany().getId() != companyId){
             return null;
@@ -151,6 +155,37 @@ public class SoundsServiceImpl implements SoundsService {
     @Override
     public int saveMohFILE(MohFile mohFile) {
         return mohFileDao.saveMohFILE(mohFile);
+    }
+
+
+
+    @Override
+    public MohFile getMohFileWithIdAndSwitchboard(int mid, int sid) {
+        MohFile mohFile = mohFileDao.findById(mid);
+        if (mohFile == null || mohFile.getGroup().getSwitchboard().getSid() != sid) {
+            return null;
+        }
+
+        return mohFile;
+    }
+
+
+    @Override
+    public MohFile getMohFileWithIdAndSwitchboardAndCompany(int mohid, int switchboardId, int companyId) {
+        MohFile mohGroupWithIdAndSwitchboard = getMohFileWithIdAndSwitchboard(mohid, switchboardId);
+        if(mohGroupWithIdAndSwitchboard==null){
+            return null;
+        }
+
+        if(mohGroupWithIdAndSwitchboard.getGroup().getSwitchboard().getCompany().getId() != companyId){
+            return null;
+        }
+        return mohGroupWithIdAndSwitchboard;
+    }
+
+    @Override
+    public void removeMOHFile(MohFile mohFile) {
+        mohFileDao.removeFile(mohFile);
     }
 
 

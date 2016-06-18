@@ -121,6 +121,15 @@ public class MohController extends SwitchboardAppController {
             throw new SwitchboardNotFoundException();
         }
 
+        // have to remove all sounds
+        MohGroup mohGroup = soundsService.getMohGroupWithIdAndSwitchboardAndCompany(mid, sid, getCurrentCompany().getId());
+        Iterator<MohFile> iterator = mohGroup.getFiles().iterator();
+
+        while(iterator.hasNext()){
+            MohFile next = iterator.next();
+            removeFile(getCurrentCompany().getId(), next);
+        }
+
         soundsService.removeMOHGroup(switchboard, mid);
         return "redirect:/u/switchboard/" + sid + "/moh?del=1";
     }
@@ -176,7 +185,6 @@ public class MohController extends SwitchboardAppController {
                 int mohFileID = soundsService.saveMohFILE(mohFile);
 
 
-
                 String name = sid + "_" + mohFileID + ".mp3",
                         path = Application.UPLOAD_DIR + "/" + name;
 
@@ -207,6 +215,71 @@ public class MohController extends SwitchboardAppController {
 
     }
 
+    @RequestMapping(value = "/u/switchboard/{sid}/moh/remove/{mohid}")
+    public String deleteFile(@PathVariable int sid, @PathVariable int mohid) throws ModuleNotFoundException, NotFoundException, OperationException {
+        MohFile mohFile = soundsService.getMohFileWithIdAndSwitchboardAndCompany(mohid, sid, getCurrentCompany().getId());
+
+        if (mohFile == null) {
+            throw new MOHNotFoundException();
+        }
+
+        // remove from system
+        removeFile(getCurrentCompany().getId(), mohFile);
+
+        return "redirect:/u/switchboard/" + sid + "/moh/"+mohFile.getGroup().getGroupId() +"?del=1";
+
+    }
+
+    /**
+     * In order to remove a MOH file
+     * @param id
+     * @param mohFile
+     */
+    private void removeFile(int id, MohFile mohFile) {
+        try {
+
+
+            String filename = mohFile.getGroup().getSwitchboard().getSid() + "_" + mohFile.getSoundId() + ".sln";
+
+
+
+            // VARIABLES
+            String outputPath = "/usr/scotip/usermoh/files/" + mohFile.getGroup().getGroupId() + "/" + filename;
+
+            // ECHO
+            System.out.println("Removing " + outputPath);
+
+            // RUNTIME
+            Runtime r = Runtime.getRuntime();
+            Process p = r.exec("removeMP3MOH " + mohFile.getGroup().getSwitchboard().getSid() + " " + outputPath);
+            p.waitFor();
+            BufferedReader b = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line = "";
+
+            while ((line = b.readLine()) != null) {
+                System.out.println(line);
+            }
+
+            b.close();
+
+
+
+            System.out.println("Notify server reload");
+            // RELOAD
+            soundsService.notifyServerReload(getCurrentCompany());
+
+
+
+        } catch (IOException io) {
+            io.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        finally {
+            soundsService.removeMOHFile(mohFile);
+        }
+    }
+
 
     private void convertFile(String tmpPath, String name, MultipartFile file, MohFile mohFile) {
         try {
@@ -229,9 +302,12 @@ public class MohController extends SwitchboardAppController {
 
             b.close();
 
-            System.out.println("Notify server reload");
+            System.out.println("Notify server reload for MOH");
             // RELOAD
             soundsService.notifyServerReload(getCurrentCompany());
+
+
+            soundsService.removeMOHFile(mohFile);
 
 
         } catch (IOException io) {
@@ -240,8 +316,6 @@ public class MohController extends SwitchboardAppController {
             e.printStackTrace();
         }
     }
-
-
 
 
 }

@@ -18,7 +18,7 @@ One of the most important command in the above list was \textit{make menuselect}
 \section{Server organization}
 
 \subsection{Contexts}
-On Asterisk, all phone activities are based on contexts. It means when a phone is registered in a context, it can't reach phones which are located in different context. The contexts will be mainly useful for the company switchboard. Indeed, all switchboard will have their own context called like "\textbf{SWITCHBOARD\_USER\_(CODE)}" where (CODE) is replaced by the switchboard access code, defined at the creation of the switchboard on the website.
+On Asterisk, all phone activities are based on contexts. It means when a phone is registered in a context, it can't reach phones which are located in different context. The contexts will be mainly useful for the company switchboard. Indeed, all switchboard will have their own context called like \textbf{SWITCHBOARD\_USER\_(CODE)} where (CODE) is replaced by the switchboard access code, defined at the creation of the switchboard on the website.
 
 
 \textit{ScotIP} purposes two kinds of lines: the dedicated line and the shared lines.
@@ -100,7 +100,7 @@ Once a communication is established between a SIP client and a server, when an A
   \centering
     \includegraphics[width=1\textwidth]{img/rtpheader.png}
 \end{figure}
-
+\textit{\small{Source: Wikipedia \url{https://en.wikipedia.org/wiki/Real-time_Transport_Protocol}}}
 
 
 \subsection{SIP peers}
@@ -143,24 +143,179 @@ To call a Skype account, we just have to precise the account name then the conte
 
 \textbf{@TODO}
 
-\section{Dialplan}
+\section{Switchboard, modules and extensions}
+To represent a switchboard, we're using the extensions from \textit{Asterisk}. All these extensions have to be located in a context. For our project, all extensions related to a switchboard will be placed in the switchboard context we saw earlier: \textbf{SWITCHBOARD\_USER\_(CODE)}. \newline
+
+On the home context, \textit{ScotIPHome}, when a right access code is entered, the caller is redirected on a first extension in the switchboard context, called \textit{start}.
+All these switchboard context contains this first extension. This one sets some global variables which could be useful for the next extensions, like the current \textit{switchboard id}, the \textit{caller number}... \newline
+
+\subsection{Modules extensions}
+
+For our project, we have two types of extensions:
+\begin{itemize}
+\item \textbf{"Binding keys"}
+\item \textbf{Extension for a module}
+\end{itemize}
+
+The second type corresponds to the chosen module. For each one, two variables are defined in order to be used later. The name of these extensions are called in this way: \textbf{SWITCHBOARD\_USER\_(CODE)}.
+Afterwards, the Asterisk function is finally called.  We'll speak about these functions in next sections.
 
 
 
-\section{Dialplan applications}
+
+
+\section{Used Asterisk applications}
 \subsection{Playback}
-In Asterisk, one of the most used application is \textbf{Playback}. This command makes available the streaming of a file in a channel.
+In Asterisk, one of the most used application is \textbf{Playback}. This command makes available the streaming of a file in a channel. 
+
+
+\begin{lstlisting}[language=bash,caption={Syntax of application Playback}]
+Playback(filename&[filename2[&...]],[options])
+\end{lstlisting}
+
+\subparagraph{Arguments}
+\begin{itemize}
+
+	\item filenames
+	\begin{itemize}
+		\item filename
+		\item filename2
+	\end{itemize}
+	
+	\item options - Comma separated list of options
+		\begin{itemize}
+		\item skip - Do not play if not answered
+		\item noanswer - Playback without answering, otherwise the channel will be answered before the sound is played.
+		\end{itemize}
+\end{itemize}
+
+\subparagraph{Usage in our project:}
+For \textit{ScotIP}, we used this command to play audio files which cannot be skipped.  
+
+
+
+
+\subsection{Read}
+When you require the caller to type something, this command should be used. Based on the DTMF tone, the interpreted result is saved in a given variable. 
+
+
+\begin{lstlisting}[language=bash,caption={Syntax of application Read}]
+Read(variable,filename&[filename2[&...]],[maxdigits,[options,[attempts,[timeout]]]]])
+\end{lstlisting}
+
+\subparagraph{Arguments}
+\begin{itemize}
+	\item variable - The input digits will be stored in the given variable name
+	\item filenames - Files will be read while waiting for input
+	\begin{itemize}
+		\item filename
+		\item filename2
+	\end{itemize}
+	
+	\item maxdigits - Maximum of digits
+	\item options - Specify some options
+	\item attempts - Do not play if not answered
+	\item timeout - Wait for x seconds
+\end{itemize}
+
+\subparagraph{Usage in our project:}
+This command has been often used. Because the previous application, \textit{Playback}, doesn't allow to be skipped, we used \textit{Dial} for this purpose. Indeed, because for each module, except the root module, the caller have to press a key to reach a next module, we can use this application. It will play specified file until a key is pressed. \newline
+
+Furthermore, this application is also used for the module \textit{User input} on the website, and is used to get the code of the company which have to be reached on the welcome context (\textbf{ScotIPHome}). 
+
+
+\subparagraph{About DTMF:}
+\textit{Dual-tone multi-frequency signaling} (DTMF) is an in-band telecommunication signaling system using the voice-frequency band over telephone lines. 
+
+\begin{figure}[!ht]
+  \caption{DTMF frequencies.}
+  \centering
+    \includegraphics[width=0.5\textwidth]{img/dtmf.png}
+\end{figure}
+
+{\textit{Source:} Wikipedia} \url{https://en.wikipedia.org/wiki/Dual-tone_multi-frequency_signaling}
+	
+
+
+\subsection{Dial}
+This application is also one of the most used. Dial is the application which try to establish a new connection between two channels. 
+
+
+
+\begin{lstlisting}[language=bash,caption={Syntax of application Dial}]
+Dial(technology/identifier1, timeout, options)
+\end{lstlisting}
+
+\subparagraph{Arguments}
+\begin{itemize}
+
+	\item technology/identifier1 - Precise the technology type (SIP/IAX2...) followed by an identifier. 
+	\item timeout - Specify a ringing time before cancel the dial application
+	\item options - Comma separated list of options (only used options listed)
+	\begin{itemize}
+		\item m(mohclass) - Specify some class of music on hold while ringing
+	\end{itemize}
+	
+\end{itemize}
+
+\subparagraph{Usage in our project:}
+For \textit{ScotIP}, this application has been used to join operators. Because the operators was registered on the internal server, we could it as following: \textit{Dial(SIP/operator\_1,...)}. To contact a \textit{Skype} account, the call has to be forwarded through the context \textit{skype}, described previously. To use this context, the function becomes \textit{Dial(SIP/skypeUsername@skype,...)}.
+
+
+
 
 
 \subsection{Queue}
-\subsection{Operator}
-\subsection{Playback}
-\subsection{User input}
+\textbf{Queue} is an application really useful to welcome messages. For example, it is used to make wait callers when no operators is available to answer their call. While they are waiting, some music on hold can be played. 
+
+
+\begin{lstlisting}[language=bash,caption={Syntax of application Playback}]
+Queue(queuename,...)
+\end{lstlisting}
+
+\subparagraph{Arguments}
+\begin{itemize}
+
+	\item queuename - Contains the queue name where the caller should be added
+\end{itemize}
+
+\subparagraph{Usage in our project:}
+For \textit{ScotIP}, we used this application for the company queues, created from the website.
+
+
+
+\subsection{Macro}
+To simplify our files, we used a lot this function. It works exactly like a traditional function in usual programming languages. In our project, we used the following custom macros:
+
+\subsubsection{wheretogo - Selection of next module}
+This macro is probably the most important one. Indeed, this macro makes able the selection of an other module. This macro have just to know the current module ID. When a key will be pressed, the following extension will be checked for existence: \textit{mod\textbf{PARENTID}key\textbf{KEY}}. If it exists, then the caller will be redirected on this extension. Else, he will have to pressed again a key.
+
+\subsubsection{newcall, endcall - Notification of call events}
+To keep some logs of calls like the date, duration time... we used these custom macro to call our \textit{NodeJS} server.
+The first macro \textbf{newcall} asks for an unique call identifier and save it to a variable. 
+The second one tells only the server the call have been hang up.
+
+\subsubsection{saveaction, savevariable - Save caller action}
+When a caller action is required, these macros allows to save in database the pressed keys.
+
+\subsubsection{queuemacro - Save the queue replier}
+In order to make some statistics on operators, this macro is used to know who answered to a call.
+
+\subsubsection{checkVariableValue - Checks if an user input is correct}
+Sometimes, an URL can be precised on the \textit{User input} module on the website to check if user entry is correct. Once a number has been read by \textit{Read} application, this macro will send this number to the URL. If the requested URL answers \textbf{ok}, the call will be continued. Else, the caller will be asked to re-enter a number.
 
 
 
 
 \section{MOH}
 \subsection{About}
+
+
 \subsection{Conversion}
 Not here, but in website 
+
+
+
+
+
+

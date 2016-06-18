@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+import scotip.app.dao.switchboard.CallDao;
 import scotip.app.dto.CompanyDto;
 import scotip.app.model.Company;
 import scotip.app.pages.AppLogged;
@@ -60,6 +61,9 @@ public class DashboardController extends AppLogged {
 
     @Autowired
     private OperatorService operator;
+
+    @Autowired
+    private CallDao callDao;
 
     @RequestMapping("/u/edit")
     public String operators(ModelMap model) {
@@ -91,6 +95,13 @@ public class DashboardController extends AppLogged {
 
         int nbrOperator = operator.getAllOperators(getCurrentCompany()).size();
         model.addAttribute("nbrOperator", nbrOperator);
+
+        List incomingCallsByMonth = callDao.getIncomingCallsByMonth(getCurrentCompany());
+        Iterator iterator = incomingCallsByMonth.iterator();
+        while(iterator.hasNext()){
+            System.out.println(iterator.next().get);
+        }
+
 
         return ("pages/static/index");
     }

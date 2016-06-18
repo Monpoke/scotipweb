@@ -84,8 +84,8 @@
                                 <strong>Calls chart</strong>
                             </p>
                             <div class="chart">
-                                <!-- Sales Chart Canvas -->
-                                <canvas id="salesChart" style="height: 180px;"></canvas>
+                                <canvas id="lineChart" style="height:250px"></canvas>
+
                             </div><!-- /.chart-responsive -->
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -129,4 +129,9 @@
 
 
 
+{% endblock %}
+
+{% block jsFiles %}
+<script type="text/javascript" src="/assets/libs/plugins/chartjs/Chart.min.js"></script>
+<script type="text/javascript" src="/assets/js/dashboard.js"></script>
 {% endblock %}

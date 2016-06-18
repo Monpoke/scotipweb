@@ -22,35 +22,16 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.dao.sounds;
+package scotip.app.dao.switchboard;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-import scotip.app.dao.AbstractDao;
-import scotip.app.model.MohFile;
-import scotip.app.model.MohGroup;
+import scotip.app.model.Company;
+import scotip.app.model.Switchboard;
 
-import java.io.Serializable;
+import java.util.List;
 
 /**
- * Created by Pierre on 28/05/2016.
+ * Created by Pierre on 29/04/2016.
  */
-@Repository("mohFileDao")
-@Transactional
-public class MOHFileDaoImpl extends AbstractDao<Integer, MohFile> implements MOHFileDao {
-    @Override
-    public int saveMohFILE(MohFile mohFile) {
-        int id = (int)getSession().save(mohFile);
-        return id;
-    }
-
-    @Override
-    public MohFile findById(int mid) {
-        return (MohFile) getByKey(mid);
-    }
-
-    @Override
-    public void removeFile(MohFile mohFile) {
-        getSession().delete(mohFile);
-    }
+public interface CallDao {
+    List getIncomingCallsByMonth(Company company);
 }

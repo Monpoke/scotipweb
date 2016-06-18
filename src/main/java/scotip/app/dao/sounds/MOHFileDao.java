@@ -35,4 +35,7 @@ public interface MOHFileDao {
 
     int saveMohFILE(MohFile mohFile);
 
+    MohFile findById(int mid);
+
+    void removeFile(MohFile mohFile);
 }

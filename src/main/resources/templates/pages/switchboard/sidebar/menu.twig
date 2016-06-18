@@ -26,17 +26,23 @@
 <ul class="sidebar-menu">
     <li class="header">GENERAL</li>
     <li><a href="/u/switchboard/{{ switchboard.sid }}"><i class="fa fa-paper-plane"></i> <span>Stats</span></a></li>
-    <li><a href="/u/switchboard/{{ switchboard.sid }}/dialplan"><i class="fa fa-sitemap"></i> <span>Dialplan</span></a></li>
-    <li><a href="/u/switchboard/{{ switchboard.sid }}/operators"><i class="fa fa-male"></i> <span>Operators</span></a></li>
+    <li><a href="/u/switchboard/{{ switchboard.sid }}/dialplan"><i class="fa fa-sitemap"></i> <span>Dialplan</span></a>
+    </li>
+    <li><a href="/u/switchboard/{{ switchboard.sid }}/operators"><i class="fa fa-male"></i> <span>Operators</span></a>
+    </li>
     <li><a href="/u/switchboard/{{ switchboard.sid }}/queues"><i class="fa fa-list"></i> <span>Queues</span></a></li>
-    <li><a href="/u/switchboard/{{ switchboard.sid }}/opening"><i class="fa fa-hourglass-half"></i> <span>Opening hours</span></a></li>
-    <li><a href="/u/switchboard/{{ switchboard.sid }}/moh"><i class="fa fa-music"></i> <span>Music on hold</span></a></li>
-
+    {#   <li><a href="/u/switchboard/{{ switchboard.sid }}/opening"><i class="fa fa-hourglass-half"></i> <span>Opening hours</span></a></li>
+      #}
+    <li><a href="/u/switchboard/{{ switchboard.sid }}/moh"><i class="fa fa-music"></i> <span>Music on hold</span></a>
 
 
     <li class="header">SWITCHBOARD</li>
-    <li><a href="/u/switchboard/{{ switchboard.sid }}/calls"><i class="fa fa-phone-square"></i> <span>Call logs</span></a></li>
-    <li><a href="/u/switchboard/{{ switchboard.sid }}/config"><i class="fa fa-gear"></i> <span>Configuration</span></a></li>
+    <li><a href="/u/switchboard/{{ switchboard.sid }}/calls"><i class="fa fa-phone-square"></i>
+            <span>Call logs</span></a></li>
+
+    {#
+    <li><a href="/u/switchboard/{{ switchboard.sid }}/config"><i class="fa fa-gear"></i> <span>Configuration</span></a>
+    </li>#}
 
     <li class="header">SCOTIP</li>
     <li><a href="/u/switchboard"><i class="fa fa-angle-double-left"></i> <span>Back to list</span></a></li>

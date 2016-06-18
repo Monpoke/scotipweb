@@ -24,6 +24,8 @@
 
 package scotip.app.model;
 
+import com.google.gson.Gson;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -144,5 +146,29 @@ public class CallLog {
 
     public void setReplyer(Operator replyer) {
         this.replyer = replyer;
+    }
+
+
+    public String infosData(){
+        HashMap<String,Object> infos = new HashMap<>();
+
+        infos.put("callerNb",getCaller_number());
+        infos.put("date",getTimestamp());
+        infos.put("duration",getDuration());
+        infos.put("variables",getVariables());
+        infos.put("actions",getActions());
+
+        return new Gson().toJson(infos);
+    }
+
+    @Override
+    public String toString() {
+        return "CallLog{" +
+                "caller_number='" + caller_number + '\'' +
+                ", timestamp='" + timestamp + '\'' +
+                ", duration=" + duration +
+                ", finished=" + finished +
+                ", callid=" + callid +
+                '}';
     }
 }
