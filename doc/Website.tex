@@ -26,7 +26,6 @@ The website is based on \textbf{Spring} technology,  it follows the MVC conventi
 \item The views represents the content the users will be able to see. In our implementation, these files contains special HTML and special tags to allow dynamic contents. 
 \item The controllers corresponds to global files 
 \item The model represents the database data. It will perform SQL queries to get some data in order to return them as a simplified object to a controller.
-
 \end{itemize}  
 
 Here is a schematic representation of the website architecture
@@ -41,17 +40,22 @@ Here is a schematic representation of the website architecture
 \section{Spring application}
 \subsection{Why Spring instead traditional J2EE?}
 
-Spring is the most popular java framework, it have a lot's of advantage, like security, performance etc...
+\begin{figure}[H]
+  \caption{Logo Spring}
+  \centering
+    \includegraphics[width=0.2\textwidth]{img/spring.png}
+\end{figure}
+
+
+Spring is the most popular java framework, It is used in a large parts of professional projects due to his stability, performance and security
 It have a lot's of feature such as:
 
 \begin{itemize}  
 \item Spring provides easy and secure way to handle Forms, we just give it informations, and he crypt the password and stock it to the datatbase
 \item Spring manage the instantiation of the objects without developer worrying about placing instances, when Spring create only one instance and successive calls returns the same object
 \item Spring is developed in its core with design pattern as Singleton, Factory, MVC, it's more efficient
+\item Spring can manage the dependancy and the configuration of others Frameworks
 \end{itemize}  
-
-
-
 
 
 
@@ -74,6 +78,20 @@ In this example, Spring will automatically find the 3 class corresponding to the
 
 
 \section{Application structure}
+
+\subsection{login}
+
+\begin{figure}[H]
+  \caption{Login schematic}
+  \centering
+    \includegraphics[width=1\textwidth]{img/login.png}
+\end{figure}
+
+
+Here is a schematic representation of a login request processed by Spring
+
+
+
 
 
 \section{DAO}
