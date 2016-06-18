@@ -1,6 +1,4 @@
 \chapter{Asterisk, an open source PBX}
-\section{Overview}
-Created in 1999, Asterisk is designed to be an open-source telephony server. Multi-platform, it can be used in lot of various application. It can also easily manage both physical phone devices and phones software. More globally, a PBX is able to create automated vocal services, internal company phone service, voice mails... And it is just some examples of a PBX usage.
 
 \section{Why Asterisk?}
 For this project, we tried to look for an efficient telephony server. A server with a lot of documentation and a great community support would be ideal. Moreover, this server should be really flexible because the configuration will be often generated, and then reloaded.
@@ -29,8 +27,12 @@ Shared lines will share the same starting context. This context is called \textb
 
 This is possible thanks to variables, conditions and functions provided in Asterisk. When the caller will press his phone keys, the number will be stored in a temporary variable. Then, thanks to the function \textbf{DIALPLAN\_EXISTS(name)} the caller can be redirected on the right context. Otherwise, the call will be hang up. 
 
-\includegraphics[width=1\textwidth]{img/context_scotiphome.png}
 
+\begin{figure}[!ht]
+  \caption{ScotIPHOME context.}
+  \centering
+    \includegraphics[width=0.5\textwidth]{img/context_scotiphome.png}
+\end{figure}
 
 \subsection{Files and \#include directive}
 
@@ -38,9 +40,68 @@ Because Asterisk configuration have to be located in \textit{/etc/asterisk} dire
 
 Each directory will match one type of configuration file. For example, we have to save the dialplans for the company switchboards, music on hold files, extensions configuration... 
 
-\includegraphics[scale=1]{img/files_struct_conf.png}
+\begin{figure}[!ht]
+  \caption{Directory structure.}
+  \centering
+    \includegraphics[width=0.5\textwidth]{img/files_struct_conf.png}
+\end{figure}
+
 
 \section{SIP}
+
+\subsection{SIP communication}
+Asterisk supports a lot of protocol but for this project, we only used the SIP protocol. It is why we will only talk about this one.
+The SIP protocol is described by the \href{http://www.rfc-base.org/rfc-3261.html}{\textit{RFC 3261}}.
+
+
+\begin{figure}[!ht]
+  \caption{SIP callflow example. Source: Wikipedia}
+  \centering
+    \includegraphics[width=1\textwidth]{img/callflow.png}
+\end{figure}
+
+\subsubsection{SIP request}
+As SIP requests are simple, SIP requests are delivered over UDP protocol which don't need a persistent connection.  
+
+\begin{itemize}
+\item REGISTER: Used by a UA to register to the registrar.
+\item INVITE: Used to establish a media session between user agents.
+\item ACK: Confirms reliable message exchanges.
+\item CANCEL: Terminates a pending request.
+\item BYE: Terminates an existing session.
+\item OPTIONS: Requests information about the capabilities of a caller without the need to set up a session. Often used as keepalive messages.
+\item REFER: indicates that the recipient (identified by the Request-URI) should contact a third party using the contact information provided in the request. (call transfer)
+\end{itemize}
+\textit{\small{Source: Wikipedia and RFC}}
+
+
+\subsubsection{SIP response}
+As for the SIP requests, SIP responses are delivered over UDP protocol. The response only consists of a response code which means if the operation has been allowed or not. 
+
+\begin{itemize}
+\item Provisional (1xx): Request received and being processed.
+\item Success (2xx): The action was successfully received, understood, and accepted.
+\item Redirection (3xx): Further action needs to be taken (typically by sender) to complete the request.
+\item Client Error (4xx): The request contains bad syntax or cannot be fulfilled at the server.
+\item Server Error (5xx): The server failed to fulfill an apparently valid request.
+\item Global Failure (6xx): The request cannot be fulfilled at any server.
+\end{itemize}
+\textit{\small{Source: Wikipedia and RFC}}
+
+
+
+
+\subsubsection{RTP}
+Once a communication is established between a SIP client and a server, when an ACK command has been sent by the server, a new connection is established between them through the RTP protocol. It is this protocol, described for the first time in \textit{RFC 1889} in 1996, which allows the audio and video delivering. 
+
+ 
+\begin{figure}[!ht]
+  \caption{RTP header.}
+  \centering
+    \includegraphics[width=1\textwidth]{img/rtpheader.png}
+\end{figure}
+
+
 
 \subsection{SIP peers}
 In order to emit and receive calls, we have to register on the network on our providers. To use these networks, there are two important steps. 
@@ -48,27 +109,54 @@ In order to emit and receive calls, we have to register on the network on our pr
 
 First, we have to write a registration string of this kind: \textit{register => username:password@provider.dot.ltd}. This line allows to register our server to use the provider network. The state of this connection through the command line: \textit{sip show registry}
 
-\includegraphics[width=1\textwidth]{img/sipshowregistry.png}
+\begin{figure}[!ht]
+  \caption{SIP registrations.}
+  \centering
+    \includegraphics[width=1\textwidth]{img/sipshowregistry.png}
+\end{figure}
+
 
 
 For the second step, we have to tell Asterisk in which context the incoming calls have to be redirected, and also make some settings on the connection. (Eg: monitoring, incoming host...)
 Because on our project we only made possible incoming calls, we will not talk about outgoing calls in this report. For all these calls, they will be redirected on a local context called \textbf{phone\_incoming}, then redirected on a global context for all the project: \textbf{ScotIPHome}, which have been previously described.
 
-\includegraphics[width=1\textwidth]{img/contextsphones.png}
+\begin{figure}[!ht]
+  \caption{Incoming contexts.}
+  \centering
+    \includegraphics[width=0.5\textwidth]{img/contextsphones.png}
+\end{figure}
 
-\subsection{Extensions}
+\subsection{SIP accounts}
 
 
 \subsection{Calling Skype account}
+Because we couldn't afford a SIP line for Skype, thanks to our provider \textit{IPPI}, it becomes possible to emit calls to Skype. However, some configuration is still needed. Firstly, we have to register an outgoing context with IPPI.
+
+\begin{figure}[!ht]
+  \caption{Skype context.}
+  \centering
+    \includegraphics[width=0.5\textwidth]{img/skypeout.png}
+\end{figure}
+
+To call a Skype account, we just have to precise the account name then the context name: \textbf{mySkypeAccount@skype}. 
 
 
-\section{Dialplan and applications}
+\textbf{@TODO}
 
+\section{Dialplan}
+
+
+
+\section{Dialplan applications}
 \subsection{Playback}
+In Asterisk, one of the most used application is \textbf{Playback}. This command makes available the streaming of a file in a channel.
+
+
 \subsection{Queue}
 \subsection{Operator}
 \subsection{Playback}
 \subsection{User input}
+
 
 
 

@@ -37,6 +37,7 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
     public void initialize(PasswordMatches constraintAnnotation) {
         // empty
     }
+
     @Override
     public boolean isValid(Object obj, ConstraintValidatorContext context){
         CompanyDto company = (CompanyDto) obj;

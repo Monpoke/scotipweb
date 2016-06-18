@@ -28,3 +28,7 @@ When an IP is blocked, it stays blocked for few minutes, then it is removed from
 
 By default, Tomcat is running on port \textbf{8080}, so it isn't the default HTTP port which is \textbf{80}. Because all ports under \textit{1024} are reserved to \textit{root} user, we chose to not launch the tomcat server as \textit{root} user to prevent some attacks. In this way, we installed a reverse proxy on the port 80. As reverse proxy, we used the \textbf{Nginx} server.
 Because \textbf{Nginx} only redirect the incoming traffic through the internal network to the \textbf{Tomcat} server, it is impossible for the web application to access sensitive data in the system.
+
+\section{MySQL, different users}
+Parler ici des differents utilisateurs pour le site et pour le nodeJS.
+
