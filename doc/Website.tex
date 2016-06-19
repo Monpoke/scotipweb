@@ -75,7 +75,7 @@ It have a lot of features such as:
 With Spring and Hibernate, annotations have a very important place in our code, it helps the framework to understand the code and apply special action according to these annotations.
 An annotation always begin with the character \textbf{@} and it is placed above a class, a method or an attribute.
 
-\subsubsection{@Autowired}
+\subsubsection{@Autowired and injections}
 @Autowired is a Spring specific annotation, It signal to the framework that it have to inject something special at this location.
 
 \begin{figure}[!ht]
@@ -84,7 +84,23 @@ An annotation always begin with the character \textbf{@} and it is placed above 
     \includegraphics[width=0.7\textwidth]{img/autowired.png}
 \end{figure}
 
-In this example, Spring will automatically find the 3 class corresponding to these declarations, and will automatically inject an object and will stock it in cache. So if we call it after again, we will gain performance because it will not be created again.
+In this example, Spring will automatically find the 3 class corresponding to these declarations, and will automatically inject an object and will stock it in cache. So if we call it after again, we will gain performance because it will not be created again.\newline
+
+However, this example is not enough. When an \textit{@Autowired} request an interface, Spring will automatically find the best implementation of this interface.
+ 
+\begin{lstlisting}[language=java,caption={JAVA}]
+interface myInterface {}
+
+class MyImplementation implements myInterface {}
+
+public class MainClass {
+
+	// Contains an object of class: MyImplementation
+	@Autowired
+	private myInterface myObject; 
+}
+\end{lstlisting}
+
 
 
 
@@ -97,6 +113,8 @@ The configuration of Spring is mainly made by usage of annotations and implement
 Firstly, we have to tell Spring the application will be a website. According to the official documentation, we have to create a class called \textbf{SpringMvcInitializer} which implements \textit{WebApplicationInitializer}.\newline
 
 Now, Spring knows it will run a website. However, we have to configure some things before it can work properly. We have to create a class \textbf{WebMvcConfig} which extends \textit{WebMvcConfigurerAdapter}. It is in this file, the main settings will be made. For example, it is here we can define the \textbf{view resolver} (we chose Pebble), which will make Spring able to load the views files.  Some others settings will be described in next sections.
+\newline
+
 
 \subsection{Login mechanism}
 
@@ -142,26 +160,110 @@ For this application, we chose to encrypt password for a better security. Becaus
 
 
 
-
-\section{DAO}
-\subsection{Controllers}
+\section{Controllers}
 
 The controllers are the link between the user and the kernel.
 User ask for information : the controller transfer the request to the model, take informations and send them to the view
 User give informations : the controller take these informations (after every verifications) and send them to the kernel
 
 
-\subsection{Hibernate and Models}
+\section{Hibernate, a link to the Database}
 
-The DAO are the link between the program and the database. There are managed by the Hibernate technology, coded in JAVA.
-In fact, we have one DAO per entity (switchboard, company...), these files contains functions which returns informations from the database.
-\\
-\\
-Hibernate simplify the interaction with the database, we don't have to use standard SQL interaction.
-It works with java object and an hibernate session, we use annotation in the Java class to describe the reproduction of this object in the database,
-and we can manipulate this object, transfer it by the session and it will be save on the database.
+Hibernate makes easier the interaction with the database where we don't have to use standard SQL interaction. 
+Each traditional database table is represented by a JAVA class where all its fields are annotated. These class can also be linked to each other by some relations: \textit{ManyToMany}, \textit{OneToOne}, \textit{ManyToOne}...
+All the database operations are made through an hibernate session which allows to read, create, update, delete...
+
+\subsection{Configuration}
+To use Hibernate with Spring, we had to configure it. As seen in a previous section, all the configuration can be done through a file annotated with the annotation \textit{@Configuration}. 
+Because Hibernate uses the transaction system to save changes, have to use this annotation too: \textit{@EnableTransactionManagement}.
 
 
+\begin{figure}[!ht]
+  \caption{Transaction system.}
+  \centering
+    \includegraphics[width=0.7\textwidth]{img/transaction.jpg}
+\end{figure}
+
+
+Now, we have to tell Hibernate the correct settings to make it able to connect to the database:
+\begin{itemize}
+	\item \textbf{driver} - It corresponds to the JAVA driver to use. We used \textit{MySQL} as server: com.mysql.cj.jdbc.Driver
+	\item \textbf{url} - It corresponds to the URI to connect to the database
+	\item \textbf{username} - The login username
+	\item \textbf{password} - The login password
+	\item \textbf{dialect} - Because Hibernate can handle many SQL server, we have to tell it we will use a \textit{MySQL} server. 
+\end{itemize}
+
+\subsection{Entities annotation}
+To describe the entities, once more we used Hibernate annotations. The following list contains all the annotations we used.
+
+\begin{itemize}
+\item \textbf{@Transient} - Prevent a field to be saved in database.
+\item \textbf{@Column(name=...)} - Indicate the field has to be saved.
+	
+	\begin{itemize}
+		\item \textit{name} - The name in the database, useful to fix these name and use them with the \textit{NodeJS} server.
+	\end{itemize}
+	
+\item \textbf{@ManyToMany(fetch=...)}, \textbf{@JoinTable(name=..., joinColumns=..., inverseJoinColumns=...)} - Indicate a relation \textit{n,n}.
+\begin{itemize}
+\item \textit{fetch} - EAGER or LAZY mode. With EAGER mode, the relation will be loaded from database in same time that parent entity.
+\item \textit{name} - The name in the database.
+\end{itemize}
+
+\item \textbf{@OneToMany(mappedBy=..., fetch=...)} - Indicate a relation of \textit{0,n}.
+	\begin{itemize}
+	\item \textit{mappedBy} - contains the name of the current entity in the remote entity
+\end{itemize}
+
+
+\item \textbf{@ManyToOne(fetch=...), @JoinColumn(name=...,nullable=...)} - Indicate a relation of \textit{n,1} with an other entity
+	\begin{itemize}
+	\item \textit{nullable} - tells Hibernate if the field can be null
+\end{itemize}
+
+
+\item \textbf{@ElementCollection(fetch=...)} - Save a \textit{List<?>} or \textit{HashMap<?,?>} object
+
+
+\end{itemize}
+
+
+\newpage
+\subsection{Entities}
+
+In this section, we will describe the entities we used in our project. 
+
+\paragraph{Company:} 
+This entity is used to represent a logged user. It contains some details about the \textit{company}, the password and one email.
+ 
+\paragraph{Switchboard:}
+This entity represents a company \textit{switchboard}. It contains global informations about this switchboard and contains \textit{modules}. 
+
+\paragraph{Module:}
+The \textit{Module} entity represents the application which will be used in dialplans. It contains all settings related to a \textit{module model}. 
+
+\paragraph{ModuleModel:}
+The \textit{module model} entity only contains an identifier for others server. This unique identifier 
+
+\paragraph{Line:}
+It represents the available phone numbers linked to the \textit{Asterisk} server. It contains the phone number, the region code and a boolean to indicate if it's a shared line. This entity is used by \textit{Switchboards} entities.
+
+\paragraph{MOHGroup:}
+
+\paragraph{MOHFile:}
+
+\paragraph{Queue:}
+This entity represents the \textit{Queue} application and only contains a name and the name for \textit{Asterisk}. It is associated to a \textit{Switchboard}.
+
+\paragraph{Operator:}
+The \textit{Operator} entity is used to save the switchboard operators. It contains an username and a secret password if it is not a \textit{Skype} account.
+
+\paragraph{SoundLibrary:}
+This entity is only used to index the \textit{Asterisk} default files.
+
+\paragraph{CallLog:}
+This entity is useful to save some logs about the calls on the switchboards. It contains a caller number, a duration, a date... 
 
 \begin{figure}[H]
   \caption{Entities relations.
@@ -169,6 +271,18 @@ and we can manipulate this object, transfer it by the session and it will be sav
   \centering
     \includegraphics[width=0.7\textwidth]{img/modelsSimple.png}
 \end{figure}
+
+\subsection{DAO, repositories}
+
+
+The DAO are the link between the program and the database. There are managed by the Hibernate technology, coded in JAVA.
+In fact, we have one DAO per entity (switchboard, company...), these files contains functions which returns informations from the database.
+
+
+
+
+
+
 
 
 
@@ -200,9 +314,15 @@ Converters as indicated by his, can convert an object to an other one. Every con
 
 \subsection{DTO and Validator}
 
-The DTO are a copy of an entity, which explain constraints, for exemple we can say that an attribute should not be longer than 20 characters...
-After we put this DTO inside a view in a form, after validation, the DTO will check every constraints, if everything is correct it will send all the data to the controller in one time,
-This method allow a gain of time, network ressources and security.
+The DTO\footnotemark are a usually a copy of an entity, but it can also be the object representation of an HTML form. These DTO explain the entity constraints. For example we can say that one attribute should not be longer than 20 characters... 
+When a form is submitted, the DTO fields will be automatically filled with the form fields, according to their matching names. 
+\linebreak
+
+When a DTO is used for a form, we can create a POST method in a controller. This 
+
+
+\footnotetext{Data Transfer Object}
+
 
 \subsection{Exceptions}
 
