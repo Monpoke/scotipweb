@@ -253,7 +253,7 @@ It represents the available phone numbers linked to the \textit{Asterisk} server
 This entity represents the playlist a caller will be able to hear. It only contains a name and a \textit{switchboard}.
 
 \paragraph{MOHFile:}
-This entity is associated at \textit{MOHGroup}. It represents a file in a \textit{MOHGroup}. 
+This entity is associated at \textit{MOHGroup}. It represents a file in a \textit{MOHGroup}. It contains the filepath on the system and a name.
 
 \paragraph{Queue:}
 This entity represents the \textit{Queue} application and only contains a name and the name for \textit{Asterisk}. It is associated to a \textit{Switchboard}.
@@ -274,40 +274,29 @@ This entity is useful to save some logs about the calls on the switchboards. It 
     \includegraphics[width=0.7\textwidth]{img/modelsSimple.png}
 \end{figure}
 
+
+
+
 \subsection{DAO, repositories}
 
 
-The DAO are the link between the program and the database. There are managed by the Hibernate technology, coded in JAVA.
-In fact, we have one DAO per entity (switchboard, company...), these files contains functions which returns informations from the database.
+The DAO are the link between controllers, entities and the database. 
+In fact, we have one DAO per entity (switchboard, company...), these files contains functions which returns informations from the database. 
 
+In this way, controllers doesn't have to interact with database. It's the \textbf{M.V.C.} principle.
 
+The DAO have to be defined as \textbf{interface}, then there have to be implemented.
 
-
-
-
-
-
-
-\section{Services}
-
-We have an other types of files calls "Services", it works with the DAO files.
-Their role are to check data send from the application to the DAO, it's avoid errors in the database.
-For example it can check data receive from form.
-
-
-\subsection{View}
-
-The .twig files are an evolution of the HTML files, there are managed by pebble and represents the view of the website.
-A .twig file can represent a file, or a part of a file (a layout), like a that we don't have to code every time the same code (like the menu...)
-.twig offer something more than a classical html file, it allow to use Java object inside the view, so we can transfer a list and process it directly inside the view.
 
 
 \subsection{Converters}
 
-Converters as indicated by his, can convert an object to an other one. Every converters have to implement the interface  \textbf{Converter<S, T>} . The method \textit{convert(S element)} have to return the new object formed with the first one. For example the converter \textit{OperatorIdToOperatorConverter} have for first element an Interger which represent the ID of an operator and it is returned the Operator corresponding. 
+Converters, as indicated by its name, can convert an object to an other one. Every converters have to implement the interface  \textbf{Converter<S, T>} . The method \textit{convert(S element)} have to return the new object formed with the first one. For example the converter \textit{OperatorIdToOperatorConverter} have for first element an Interger which represent the ID of an operator and it is returned the Operator corresponding. 
+
+These converters are mostly used in the form process. For example, we can have a \textit{select} list which contains the operators name and the value attribute matches their id. To convert this integer value to an object in a DTO, Spring have to know how to convert it. The converters have to be registered in the configuration.
 
 \begin{figure}[H]
-  \caption{Converters code}
+  \caption{Converters code.}
   \centering
     \includegraphics[width=0.8\textwidth]{img/converter.png}
 \end{figure}
@@ -320,10 +309,51 @@ The DTO\footnotemark are a usually a copy of an entity, but it can also be the o
 When a form is submitted, the DTO fields will be automatically filled with the form fields, according to their matching names. 
 \linebreak
 
-When a DTO is used for a form, we can create a POST method in a controller. This 
+When a DTO is used for a form, we can create a POST method in a controller. 
+
+
+\begin{lstlisting}[language=java,caption={JAVA}]
+
+public class MyEntityDTO {
+	@Length(min=5, max = 10, message = "Your name should contains between 5 and 10 characters.")
+	private String name;
+	
+	// getters, setter...
+}
+
+@Controller
+public class MyController {
+
+	@RequestMapping(value = "/myform", method = RequestMethod.POST)
+	public String myPageProcess(MyEntityDTO dto, BindingResult result) {
+		
+		// check if form have some errors...
+		if(result.hasErrors()){
+			// process errors... 
+		} else {
+			// No error, can continue
+		}		
+		// ...
+	}
+}
+\end{lstlisting}
 
 
 \footnotetext{Data Transfer Object}
+
+
+\section{Services}
+
+We have an other types of files calls "Services", it works with the DAO files.
+Their role are to check data sent from the application to the DAO, it prevents to avoid any error in the database.
+
+
+\section{View}
+
+The .twig files are an evolution of the HTML files, there are managed by pebble and represents the view of the website.
+A .twig file can represent a file, or a part of a file (a layout), like a that we don't have to code every time the same code (like the menu...)
+.twig offer something more than a classical html file, it allow to use Java object inside the view, so we can transfer a list and process it directly inside the view.
+
 
 
 \subsection{Exceptions}
