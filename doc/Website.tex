@@ -250,8 +250,10 @@ The \textit{module model} entity only contains an identifier for others server. 
 It represents the available phone numbers linked to the \textit{Asterisk} server. It contains the phone number, the region code and a boolean to indicate if it's a shared line. This entity is used by \textit{Switchboards} entities.
 
 \paragraph{MOHGroup:}
+This entity represents the playlist a caller will be able to hear. It only contains a name and a \textit{switchboard}.
 
 \paragraph{MOHFile:}
+This entity is associated at \textit{MOHGroup}. It represents a file in a \textit{MOHGroup}. 
 
 \paragraph{Queue:}
 This entity represents the \textit{Queue} application and only contains a name and the name for \textit{Asterisk}. It is associated to a \textit{Switchboard}.
