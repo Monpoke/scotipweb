@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Monpoke/scotip_nodeSpas.svg?branch=master)](https://travis-ci.org/Monpoke/scotip_nodeSpas)
+[![Build Status](https://travis-ci.org/Monpoke/scotipweb.svg?branch=master)](https://travis-ci.org/Monpoke/scotipweb)
 [![Coverage Status](https://coveralls.io/repos/github/Monpoke/ScotIP_web/badge.svg?branch=master)](https://coveralls.io/github/Monpoke/ScotIP_web?branch=master)
 
 # ScotIP
