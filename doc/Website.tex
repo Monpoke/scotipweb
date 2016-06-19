@@ -12,20 +12,56 @@ When an user comes for the first time on the website, he has to sign up and prov
 
 \footnotetext{Operators are people who will receive calls from the switchboard.}
 
-\section{Available modules}
+\section{Available modules for dialplans}
+
+The dialplan corresponds to the structure of a switchboard. When someone calls the switchboard, he will arrives on a first module, then a second module, etc... This is the switchboard dialplan. These modules can be of different types.
 
 \subsubsection{Playback}
+This first module makes possible to play a file to the caller. It takes one message which have to be played, and an other optional file which will be played when the caller will have to press a key.
+It is also possible to allow to skip the message.
+
+\begin{figure}[H]
+  \caption{Playback module.}
+  \centering
+    \includegraphics[width=1\textwidth]{img/playback.png}
+\end{figure}
+
+
 
 \subsubsection{Operator}
+This module allows the caller to join a specific operator. It is possible to specify a music class to play while ringing and a message when the operator doesn't answer.
+
+\begin{figure}[H]
+  \caption{Operator module.}
+  \centering
+    \includegraphics[width=1\textwidth]{img/operator.png}
+\end{figure}
+
+
 
 \subsubsection{Queue}
+This module adds the caller to a queue. It means the caller will have to wait his turn and someone answer him. It is possible to specify a music class to play while waiting. It is also possible to specify a message when no operator answers after a timeout.
+
+\begin{figure}[H]
+  \caption{Queue module.}
+  \centering
+    \includegraphics[width=1\textwidth]{img/queue.png}
+\end{figure}
+
+
+
 \subsubsection{User input}
+This last module makes available entry of numbers. The caller will be asked to enter a predefined number format. Some errors messages can be specified. The most powerful function on this module is probably the number can be checked from an external \textit{URL}. 
+
+\begin{figure}[H]
+  \caption{User input module.}
+  \centering
+    \includegraphics[width=1\textwidth]{img/userinput.png}
+\end{figure}
 
 
 
 \section{Overview}
-In this project, the website had to be the only way to interact with the server. Through a simplified website, the users have to fill required informations, then they are saved into a database.
-\newline
 
 The website is based on \textbf{Spring} technology,  it follows the MVC convention (\textit{Model-View-Controller}). Each layer has its own role in this convention.
 
@@ -309,7 +345,7 @@ The DTO\footnotemark are a usually a copy of an entity, but it can also be the o
 When a form is submitted, the DTO fields will be automatically filled with the form fields, according to their matching names. 
 \linebreak
 
-When a DTO is used for a form, we can create a POST method in a controller. 
+When a DTO is used for a form, we can create a POST method in a controller. With Spring injection, we can ask for a \textit{BindingResult} which corresponds to the validation result. Below an example of usage.
 
 
 \begin{lstlisting}[language=java,caption={JAVA}]
@@ -350,17 +386,17 @@ Their role are to check data sent from the application to the DAO, it prevents t
 
 \section{View}
 
-The .twig files are an evolution of the HTML files, there are managed by pebble and represents the view of the website.
+The .twig files are an evolution of the HTML files, there are managed by pebble and represents the views of the website.
 A .twig file can represent a file, or a part of a file (a layout), like a that we don't have to code every time the same code (like the menu...)
-.twig offer something more than a classical html file, it allow to use Java object inside the view, so we can transfer a list and process it directly inside the view.
+These files offer something more than a classical html file, it allows to use JAVA object inside the view, so we can transfer a list and process it directly inside the view. This new language uses tags to make easier the work of template designers. With simple tags, almost everything can be done: \textit{escaping}, \textit{loops}, \textit{prints}, \textit{layouts}...
 
 
 
 \subsection{Exceptions}
 
 Exceptions are a special type of class which is call only when something goes wrong...
-Java provide a large panel of exceptions, we can use them or create our own Exceptions.
-The role of the excerptions are to identified quickly when an error occurred, we have a special name for every exceptions so we can know in a few seconds what is going wrong.
+JAVA provides a large panel of exceptions, we can use them or create our own Exceptions.
+The role of the exceptions are to identified quickly when an error occurred, we have a special name for every exceptions so we can know in a few seconds what is going wrong.
 
 
 \section{Design}

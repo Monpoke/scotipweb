@@ -4,38 +4,42 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces MVC.}}{12}{figure.5.1}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Logo Spring.}}{13}{figure.5.2}
-\contentsline {figure}{\numberline {5.3}{\ignorespaces @Autowired example}}{14}{figure.5.3}
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Login schematic}}{15}{figure.5.4}
-\contentsline {figure}{\numberline {5.5}{\ignorespaces Login code.}}{16}{figure.5.5}
-\contentsline {figure}{\numberline {5.6}{\ignorespaces UserDetails interface.}}{16}{figure.5.6}
-\contentsline {figure}{\numberline {5.7}{\ignorespaces Password encoder.}}{17}{figure.5.7}
-\contentsline {figure}{\numberline {5.8}{\ignorespaces Transaction system.}}{18}{figure.5.8}
-\contentsline {figure}{\numberline {5.9}{\ignorespaces Entities relations. Full schema in Appendix section.}}{21}{figure.5.9}
-\contentsline {figure}{\numberline {5.10}{\ignorespaces Converters code.}}{22}{figure.5.10}
-\contentsline {figure}{\numberline {5.11}{\ignorespaces AdminLTE2.}}{24}{figure.5.11}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Playback module.}}{12}{figure.5.1}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Operator module.}}{12}{figure.5.2}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Queue module.}}{13}{figure.5.3}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces User input module.}}{14}{figure.5.4}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces MVC.}}{15}{figure.5.5}
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Logo Spring.}}{15}{figure.5.6}
+\contentsline {figure}{\numberline {5.7}{\ignorespaces @Autowired example}}{16}{figure.5.7}
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Login schematic}}{18}{figure.5.8}
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Login code.}}{19}{figure.5.9}
+\contentsline {figure}{\numberline {5.10}{\ignorespaces UserDetails interface.}}{19}{figure.5.10}
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Password encoder.}}{20}{figure.5.11}
+\contentsline {figure}{\numberline {5.12}{\ignorespaces Transaction system.}}{21}{figure.5.12}
+\contentsline {figure}{\numberline {5.13}{\ignorespaces Entities relations. Full schema in Appendix section.}}{24}{figure.5.13}
+\contentsline {figure}{\numberline {5.14}{\ignorespaces Converters code.}}{25}{figure.5.14}
+\contentsline {figure}{\numberline {5.15}{\ignorespaces AdminLTE2.}}{27}{figure.5.15}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces ScotIPHOME context.}}{26}{figure.6.1}
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Directory structure.}}{27}{figure.6.2}
-\contentsline {figure}{\numberline {6.3}{\ignorespaces SIP callflow example. Source: Wikipedia}}{28}{figure.6.3}
-\contentsline {figure}{\numberline {6.4}{\ignorespaces RTP header.}}{30}{figure.6.4}
-\contentsline {figure}{\numberline {6.5}{\ignorespaces SIP registrations.}}{30}{figure.6.5}
-\contentsline {figure}{\numberline {6.6}{\ignorespaces Incoming contexts.}}{31}{figure.6.6}
-\contentsline {figure}{\numberline {6.7}{\ignorespaces Skype context.}}{31}{figure.6.7}
-\contentsline {figure}{\numberline {6.8}{\ignorespaces MOH declaraton}}{32}{figure.6.8}
-\contentsline {figure}{\numberline {6.9}{\ignorespaces DTMF frequencies.}}{34}{figure.6.9}
-\contentsline {figure}{\numberline {6.10}{\ignorespaces MOH declaration}}{37}{figure.6.10}
+\contentsline {figure}{\numberline {6.1}{\ignorespaces ScotIPHOME context.}}{29}{figure.6.1}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Directory structure.}}{30}{figure.6.2}
+\contentsline {figure}{\numberline {6.3}{\ignorespaces SIP callflow example. Source: Wikipedia}}{31}{figure.6.3}
+\contentsline {figure}{\numberline {6.4}{\ignorespaces RTP header.}}{33}{figure.6.4}
+\contentsline {figure}{\numberline {6.5}{\ignorespaces SIP registrations.}}{33}{figure.6.5}
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Incoming contexts.}}{34}{figure.6.6}
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Skype context.}}{34}{figure.6.7}
+\contentsline {figure}{\numberline {6.8}{\ignorespaces MOH declaraton}}{35}{figure.6.8}
+\contentsline {figure}{\numberline {6.9}{\ignorespaces DTMF frequencies.}}{37}{figure.6.9}
+\contentsline {figure}{\numberline {6.10}{\ignorespaces MOH declaration}}{40}{figure.6.10}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {7.1}{\ignorespaces HapiJS logo.}}{39}{figure.7.1}
+\contentsline {figure}{\numberline {7.1}{\ignorespaces HapiJS logo.}}{42}{figure.7.1}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {8.1}{\ignorespaces SSH attacks}}{45}{figure.8.1}
-\contentsline {figure}{\numberline {8.2}{\ignorespaces Restricted user.}}{47}{figure.8.2}
+\contentsline {figure}{\numberline {8.1}{\ignorespaces SSH attacks}}{48}{figure.8.1}
+\contentsline {figure}{\numberline {8.2}{\ignorespaces Restricted user.}}{50}{figure.8.2}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {10.1}{\ignorespaces Asterisk ScotIPHome context.}}{53}{figure.10.1}
-\contentsline {figure}{\numberline {10.2}{\ignorespaces Asterisk macros.}}{54}{figure.10.2}
-\contentsline {figure}{\numberline {10.3}{\ignorespaces Switchboard example: Playback, Queue, User Input.}}{55}{figure.10.3}
-\contentsline {figure}{\numberline {10.4}{\ignorespaces Conversion from MP3 to Asterisk readable format.}}{56}{figure.10.4}
-\contentsline {figure}{\numberline {10.5}{\ignorespaces Full models fields.}}{57}{figure.10.5}
-\contentsline {figure}{\numberline {10.6}{\ignorespaces Generated database schema.}}{58}{figure.10.6}
+\contentsline {figure}{\numberline {10.1}{\ignorespaces Asterisk ScotIPHome context.}}{56}{figure.10.1}
+\contentsline {figure}{\numberline {10.2}{\ignorespaces Asterisk macros.}}{57}{figure.10.2}
+\contentsline {figure}{\numberline {10.3}{\ignorespaces Switchboard example: Playback, Queue, User Input.}}{58}{figure.10.3}
+\contentsline {figure}{\numberline {10.4}{\ignorespaces Conversion from MP3 to Asterisk readable format.}}{59}{figure.10.4}
+\contentsline {figure}{\numberline {10.5}{\ignorespaces Full models fields.}}{60}{figure.10.5}
+\contentsline {figure}{\numberline {10.6}{\ignorespaces Generated database schema.}}{61}{figure.10.6}
