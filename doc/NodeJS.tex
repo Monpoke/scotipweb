@@ -114,8 +114,8 @@ URL: \textbf{/queues/{\textit{switchboardId}}}
 	\item Loads all the Queues from the company with provided ID.
 	\item For each queue, register the Queue name and make it extends from a default model. Then, load all operators:
 	\begin{itemize}
-		\item Register all assigned operators to the queue with this line: \textbf{member => SIP/username}
-		\item If it is a Skype account, add \textbf{@skype}
+		\item Register all assigned operators to the queue with this line: \textbf{member => SIP/username}.
+		\item If it is a Skype account, add \textbf{@skype}.
 \end{itemize}	 
 	\item Write to right file.
 	\item Reload the Asterisk server by \textit{CLI} command: \textbf{asterisk -rx "queue reload all"}.
@@ -128,25 +128,131 @@ URL: \textbf{/queues/{\textit{switchboardId}}}
 
 \subsection{Calls logs}
 \subsubsection{New call}
+The following URL will be called when someone call the switchboard.
+\newline
+
 URL: \textbf{/calls/new/{\textit{switchboardId}}}
 
+\paragraph{Needed parameters:}
+\begin{itemize}
+\item {switchboardID} - A valid switchboard ID
+\item \textit{POST} {callerid} - The caller phone number
+\end{itemize}
+
+
+\paragraph{Algorithm:}
+\begin{itemize}
+	\item Checks a switchboard exists with the provided ID.
+	\item Save to database.
+	\item Returns a call ID.
+
+\end{itemize}
 
 
 \subsubsection{End call}
+The following \textit{URL} is called when a call is hung up. 
+\newline
+
 URL: \textbf{/calls/end/{\textit{callId}}}
 
+
+\paragraph{Needed parameters:}
+\begin{itemize}
+\item {callID} - A valid call ID
+\item \textit{POST} {end} - Equals to 1
+\end{itemize}
+
+
+\paragraph{Algorithm:}
+\begin{itemize}
+	\item Checks if a call exists with the provided ID.
+	\item Process the duration time of the call and mark it as finished.
+	\item Save to database.
+
+\end{itemize}
+
+
 \subsubsection{Caller has made an action}
+The following \textit{URL} will be called when a caller press a key.
+\newline
+
 URL: \textbf{/calls/action/{\textit{callId}}}
 
+\paragraph{Needed parameters:}
+\begin{itemize}
+\item {callID} - A valid call ID
+\item \textit{POST} {mod} - Contains the module ID where the caller is
+\end{itemize}
+
+
+\paragraph{Algorithm:}
+\begin{itemize}
+	\item Checks if a call exists with the provided ID.
+	\item Save the module ID 
+
+\end{itemize}
+
+
 \subsubsection{Caller has entered a variable}
+The following \textit{URL} will be called when the caller has entered a number.
+\newline
+
 URL: \textbf{/calls/variable/{\textit{callId}}}
+
+\paragraph{Needed parameters:}
+\begin{itemize}
+\item {callID} - A valid call ID
+\item \textit{POST} {varname} - Contains the variable name
+\item \textit{POST} {value} - Contains the variable value
+\end{itemize}
+
+
+\paragraph{Algorithm:}
+\begin{itemize}
+	\item Checks if a call exists with the provided ID.
+	\item Save the variable name associated to its value.
+
+\end{itemize}
 
 
 
 \subsection{Module recordings}
+The following \textit{URL} will be called by Asterisk when a company wants to record new sounds through its phone.
+\newline 
+ 
+\subsubsection{Module existence}
 
 URL: \textbf{/dialplan/{sid}/module/exists/{\textit{moduleId}}}
+
+\paragraph{Needed parameters:}
+\begin{itemize}
+\item {sid} - A valid switchboard ID
+\item {moduleId} - A valid module ID associated to the switchboard ID
+\end{itemize}
+
+
+\paragraph{Algorithm:}
+\begin{itemize}
+	\item Returns \textit{exists} if a module exists with the provided ID and the associated switchboard matches the provided ID.
+
+\end{itemize}
+
+\subsubsection{Update a file}
 URL: \textbf{/dialplan/{sid}/module/updateFile/{\textit{moduleId}}}
 
+\paragraph{Needed parameters:}
+\begin{itemize}
+\item {sid} - A valid switchboard ID
+\item {moduleId} - A valid module ID associated to the switchboard ID
+\item \textit{POST} {file} - The filename to play
+\end{itemize}
+
+
+\paragraph{Algorithm:}
+\begin{itemize}
+	\item Checks \textit{exists} if a module exists with the provided ID and the associated switchboard matches the provided ID.
+	\item Save the new file in settings of the module.
+
+\end{itemize}
 
 

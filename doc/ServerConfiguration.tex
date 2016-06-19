@@ -36,9 +36,9 @@ Because \textbf{Nginx} only redirect the incoming traffic through the internal n
 \section{MySQL, different users}
 To improve security, we also created several users on our MySQL server. While the first user, designed for the Spring application is able to create tables, read and write in tables, the second one is fully restricted to some tables. This second user is designed to be used by the \textit{NodeJS} application. Because this application doesn't need all privileges on all tables, we just set up these following permissions. 
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \caption{Restricted user.}
   \centering
-    \includegraphics[width=0.5\textwidth]{img/scotipnodespas.png}
+    \includegraphics[width=1\textwidth]{img/scotipnodespas.png}
 \end{figure}
 
