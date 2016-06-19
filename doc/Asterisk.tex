@@ -27,7 +27,7 @@ This is possible thanks to variables, conditions and functions provided in Aster
 Then, thanks to the function \textbf{DIALPLAN\_EXISTS(name)} the caller can be redirected on the right context. Otherwise, the call will be hang up. 
 
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \caption{ScotIPHOME context.}
   \centering
     \includegraphics[width=0.5\textwidth]{img/context_scotiphome.png}
@@ -53,7 +53,7 @@ Asterisk supports a lot of protocol but for this project, we only used the SIP p
 The SIP protocol is described by the \href{http://www.rfc-base.org/rfc-3261.html}{\textit{RFC 3261}}.
 
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \caption{SIP callflow example. Source: Wikipedia}
   \centering
     \includegraphics[width=1\textwidth]{img/callflow.png}
@@ -94,7 +94,7 @@ As for the SIP requests, SIP responses are delivered over UDP protocol. The resp
 Once a communication is established between a SIP client and a server, when an ACK command has been sent by the server, a new connection is established between them through the RTP protocol. It is this protocol, described for the first time in \textit{RFC 1889} in 1996, which allows the audio and video delivering. 
 
  
-\begin{figure}[!ht]
+\begin{figure}[H]
   \caption{RTP header.}
   \centering
     \includegraphics[width=1\textwidth]{img/rtpheader.png}
@@ -108,7 +108,7 @@ In order to emit and receive calls, we have to register on the network on our pr
 
 First, we have to write a registration string of this kind: \textit{register => username:password@provider.dot.ltd}. This line allows to register our server to use the provider network. The state of this connection through the command line: \textit{sip show registry}
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \caption{SIP registrations.}
   \centering
     \includegraphics[width=1\textwidth]{img/sipshowregistry.png}
@@ -119,7 +119,7 @@ First, we have to write a registration string of this kind: \textit{register => 
 For the second step, we have to tell Asterisk in which context the incoming calls have to be redirected, and also make some settings on the connection. (Eg: monitoring, incoming host...)
 Because on our project we only made possible incoming calls, we will not talk about outgoing calls in this report. For all these calls, they will be redirected on a local context called \textbf{phone\_incoming}, then redirected on a global context for all the project: \textbf{ScotIPHome}, which have been previously described.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \caption{Incoming contexts.}
   \centering
     \includegraphics[width=0.5\textwidth]{img/contextsphones.png}
@@ -131,7 +131,7 @@ Because on our project we only made possible incoming calls, we will not talk ab
 \subsection{Calling Skype account}
 Because we couldn't afford a SIP line for Skype, thanks to our provider \textit{IPPI}, it becomes possible to emit calls to Skype. However, some configuration is still needed. Firstly, we have to register an outgoing context with IPPI.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \caption{Skype context.}
   \centering
     \includegraphics[width=0.5\textwidth]{img/skypeout.png}
@@ -164,7 +164,7 @@ The second type of extension makes easier the job of the macro \textbf{wheretogo
 
 
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \caption{MOH declaraton}
   \centering
     \includegraphics[width=1\textwidth]{img/modname.png}
@@ -235,7 +235,7 @@ Furthermore, this application is also used for the module \textit{User input} on
 \subparagraph{About DTMF:}
 \textit{Dual-tone multi-frequency signaling} (DTMF) is an in-band telecommunication signaling system using the voice-frequency band over telephone lines. 
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \caption{DTMF frequencies.}
   \centering
     \includegraphics[width=0.5\textwidth]{img/dtmf.png}
@@ -329,8 +329,8 @@ directory=/absolute/path/to/directory
 The \textit{MOHCLASS} corresponds to the identifier which will can be used in applications. The directory have to contains the files to play. 
 
 
-\begin{figure}[!ht]
-  \caption{MOH declaraton}
+\begin{figure}[H]
+  \caption{MOH declaration}
   \centering
     \includegraphics[width=1\textwidth]{img/MOH.png}
 \end{figure}

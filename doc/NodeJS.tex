@@ -9,7 +9,7 @@ When an URL is called on the \textit{NodeJS} server, it will read some informati
 
 \section{Hapi Server}
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \caption{HapiJS logo.}
   \centering
     \includegraphics[width=0.5\textwidth]{img/hapijs}
@@ -20,6 +20,9 @@ When an URL is called on the \textit{NodeJS} server, it will read some informati
 \section{REST API}
 	
 \subsection{Dialplan generation}
+The following \textit{URL} will be called by the website when the dialplan has been updated or a module added.
+\newline
+
 URL: \textbf{/switchboards/{\textit{switchboardID}}}
 \paragraph{Needed parameters:}
 \begin{itemize}
@@ -42,28 +45,103 @@ URL: \textbf{/switchboards/{\textit{switchboardID}}}
 			\item Register the hang up extension, \textbf{h}, to notify the call end.
 		\end{itemize}	
 	\item Write to right file.
-	\item Reload the Asterisk server by \textit{CLI} command.
+	\item Reload the Asterisk server by \textit{CLI} command: : \textbf{asterisk -rx "dialplan reload"}.
 
 \end{itemize}
 
 \subsection{Operators}
+The following \textit{URL} will be called by the website when an operator has been added.
+\newline
+
 URL: \textbf{/operators/{\textit{companyId}}}
 
+\paragraph{Needed parameters:}
+\begin{itemize}
+\item {companyID} - A valid company ID
+\end{itemize}
+
+
+\paragraph{Algorithm:}
+\begin{itemize}
+	\item Loads all the operators from the company with provided ID.
+	\item Generates the configuration for Asterisk users. The configuration is based on the extension of an user model, with default settings. \textit{(Skype accounts not created)}
+	\item Write to right file.
+	\item Reload the Asterisk server by \textit{CLI} command.: \textbf{asterisk -rx "sip reload"}.
+
+\end{itemize}
+
+
+
 \subsection{MOH}
+The following \textit{URL} will be called by the website when a MOH group has been created.
+\newline
+
 URL: \textbf{/moh/{\textit{companyId}}}
 
+\paragraph{Needed parameters:}
+\begin{itemize}
+\item {companyID} - A valid company ID
+\end{itemize}
+
+
+\paragraph{Algorithm:}
+\begin{itemize}
+	\item Loads all the MOH group from the company with provided ID.
+	\item Generates the configuration with the MOH classes. 
+	\item Write to right file.
+	\item Reload the Asterisk server by \textit{CLI} command: \textbf{asterisk -rx "moh reload"}.
+
+\end{itemize}
+
+
+
+
 \subsection{Queues}
+The following \textit{URL} will be called by the website when a queue has been updated.
+\newline
+
+
 URL: \textbf{/queues/{\textit{switchboardId}}}
+
+\paragraph{Needed parameters:}
+\begin{itemize}
+\item {companyID} - A valid company ID
+\end{itemize}
+
+
+\paragraph{Algorithm:}
+\begin{itemize}
+	\item Loads all the Queues from the company with provided ID.
+	\item For each queue, register the Queue name and make it extends from a default model. Then, load all operators:
+	\begin{itemize}
+		\item Register all assigned operators to the queue with this line: \textbf{member => SIP/username}
+		\item If it is a Skype account, add \textbf{@skype}
+\end{itemize}	 
+	\item Write to right file.
+	\item Reload the Asterisk server by \textit{CLI} command: \textbf{asterisk -rx "queue reload all"}.
+
+\end{itemize}
+
+
+
 
 
 \subsection{Calls logs}
+\subsubsection{New call}
 URL: \textbf{/calls/new/{\textit{switchboardId}}}
 
+
+
+\subsubsection{End call}
 URL: \textbf{/calls/end/{\textit{callId}}}
 
+\subsubsection{Caller has made an action}
 URL: \textbf{/calls/action/{\textit{callId}}}
 
+\subsubsection{Caller has entered a variable}
 URL: \textbf{/calls/variable/{\textit{callId}}}
+
+
 
 \subsection{Module recordings}
 
