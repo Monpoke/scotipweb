@@ -2,7 +2,7 @@
 \section{Features}
 In this project, the only objective of the website was to collect information from the user, and stock them in the database.
 
-When a user went for the first time on the website, he have to sign up, so we can collect informations about the company. After this operation he can access to his control panel where he can:
+When a user went for the first time on the website, he have to sign up, so we can collect informations about the company. After this operation user can access to his control panel where he can:
 \begin{itemize}  
 \item Create or edit their switchboard
 \item Manage operators (the operator are people who will receive the call from the switchboard)
@@ -36,6 +36,7 @@ Here is a schematic representation of the website architecture
     \includegraphics[width=0.5\textwidth]{img/mvc.png}
 \end{figure}
 
+\newpage
 
 \section{Spring application}
 \subsection{Why Spring instead traditional J2EE?}
@@ -54,7 +55,7 @@ It have a lot's of feature such as:
 \item Spring provides easy and secure way to handle Forms, we just give it informations, and he crypt the password and stock it to the datatbase
 \item Spring manage the instantiation of the objects without developer worrying about placing instances, when Spring create only one instance and successive calls returns the same object
 \item Spring is developed in its core with design pattern as Singleton, Factory, MVC, it's more efficient
-\item Spring can manage the dependancy and the configuration of others Frameworks
+\item Spring can manage the dependency and the configuration of others Frameworks
 \end{itemize}  
 
 
@@ -70,7 +71,7 @@ An annotation always begin with '@' and is place above a class, a method or an a
 \begin{figure}[!ht]
   \caption{@Autowired example}
   \centering
-    \includegraphics[width=0.9\textwidth]{img/autowired.png}
+    \includegraphics[width=0.7\textwidth]{img/autowired.png}
 \end{figure}
 
 In this example, Spring will automatically find the 3 class corresponding to theses declaration, and will automatically inject an object and will stock it in cache. So if we call it after again, we will gain performance because it will not create it again.
@@ -88,8 +89,13 @@ In this example, Spring will automatically find the 3 class corresponding to the
 \end{figure}
 
 
-Here is a schematic representation of a login request processed by Spring
+Here is a schematic representation of a login request processed by Spring, the framework is deliver with his own authentification method in his core, so we just have to get informations entered by the user and make a request to this method and we obtain the correct result. Below you can see the code used to check the login informations from a user.
 
+\begin{figure}[H]
+  \caption{Login code}
+  \centering
+    \includegraphics[width=1\textwidth]{img/loginCode.png}
+\end{figure}
 
 
 
@@ -105,7 +111,7 @@ User give informations : the controller take these informations (after every ver
 \subsection{Hibernate and Models}
 
 The DAO are the link between the program and the database. There are managed by the Hibernate technology, coded in JAVA.
-In fact, we have one DAO per entity (switchboard, company...), those files contains functions which returns informations from the database.
+In fact, we have one DAO per entity (switchboard, company...), these files contains functions which returns informations from the database.
 \\
 \\
 Hibernate simplify the interaction with the database, we don't have to use standard SQL interaction.
@@ -115,7 +121,7 @@ and we can manipulate this object, transfer it by the session and it will be sav
 \section{Services}
 
 We have an other types of files calls "Services", it works with the DAO files.
-Their role are to check data send from the application to the DAO, it's avoid errors in the datatbase.
+Their role are to check data send from the application to the DAO, it's avoid errors in the database.
 For example it can check data receive from form.
 
 
@@ -127,6 +133,16 @@ A .twig file can represent a file, or a part of a file (a layout), like a that w
 
 
 \subsection{Converters}
+
+Converters as indicated by his, can convert an object to an other one. Every converters have to implement the interface  \textbf{Converter<S, T>} . The method \textit{convert(S element)} have to return the new object formed with the first one. For example the converter \textit{OperatorIdToOperatorConverter} have for first element an Interger which represent the ID of an operator and it is returned the Operator corresponding. 
+
+\begin{figure}[H]
+  \caption{Converters code}
+  \centering
+    \includegraphics[width=0.8\textwidth]{img/converter.png}
+\end{figure}
+
+
 
 \subsection{DTO and Validator}
 
