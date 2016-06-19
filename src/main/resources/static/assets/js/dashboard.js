@@ -27,27 +27,26 @@ $(function () {
      * -------
      * Here we will create a few charts using ChartJS
      */
-    var areaChartData = {
-        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-        datasets: []
-    };
+
 
     try {
-        var datasets = $.parseJSON($("#datasets").attr('data-p'));
-        $.each(datasets, function (k, v) {
-            var d = {
-                label: v.label,
+        var labels = $.parseJSON($("#lineChart").attr('data-labels'));
+        var plots = $.parseJSON($("#lineChart").attr('data-plots'));
+
+        var areaChartData = {
+            labels: labels,
+            datasets: [{
+                label: "Total calls",
                 fillColor: "rgba(210, 214, 222, 1)",
                 strokeColor: "rgba(210, 214, 222, 1)",
                 pointColor: "rgba(210, 214, 222, 1)",
                 pointStrokeColor: "#c1c7d1",
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "rgba(220,220,220,1)",
-                data: v.data
-            };
+                data: plots
+            }]
+        };
 
-            areaChartData.datasets.push();
-        });
     } catch (e) {
     }
 

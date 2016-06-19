@@ -22,16 +22,57 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.dao.switchboard;
-
-import scotip.app.infos.IncomingCallsLogsWeek;
-import scotip.app.model.Company;
-
-import java.util.List;
+package scotip.app.infos;
 
 /**
- * Created by Pierre on 29/04/2016.
+ * Created by Pierre on 19/06/2016.
  */
-public interface CallDao {
-    List<IncomingCallsLogsWeek> getIncomingCallsByWeek(Company company);
+public class IncomingCallsLogsWeek {
+    private long total;
+    private int month;
+    private int day;
+    private Integer switchboardID;
+
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public void setMonth(Integer month) {
+        this.month = month;
+
+    }
+
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    @Override
+    public String toString() {
+        return "IncomingCallsLogsWeek{" +
+                "total=" + total +
+                ", month=" + month +
+                ", day=" + day +
+                '}';
+    }
+
+    public void setSwitchboardID(Integer switchboardID) {
+        this.switchboardID = switchboardID;
+    }
 }

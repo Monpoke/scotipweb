@@ -24,6 +24,7 @@
 
 package scotip.app.pages.logged;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -37,6 +38,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import scotip.app.dao.switchboard.CallDao;
 import scotip.app.dto.CompanyDto;
+import scotip.app.infos.IncomingCallsLogsWeek;
 import scotip.app.model.Company;
 import scotip.app.pages.AppLogged;
 import scotip.app.service.company.CompanyService;
@@ -44,8 +46,7 @@ import scotip.app.service.operator.OperatorService;
 import scotip.app.service.switchboard.SwitchboardService;
 
 import javax.validation.Valid;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Pierre on 18/04/2016.
@@ -88,32 +89,78 @@ public class DashboardController extends AppLogged {
         return "pages/edit";
     }
 
-    @RequestMapping({"/u","/u/dashboard"})
+    @RequestMapping({"/u", "/u/dashboard"})
     protected String dashboard(ModelMap model) {
-        int nbrSwitchboard =  switchboard.getAllSwitchboardFromCompany(getCurrentCompany()).size();
+        int nbrSwitchboard = switchboard.getAllSwitchboardFromCompany(getCurrentCompany()).size();
         model.addAttribute("nbrSwitchboard", nbrSwitchboard);
 
         int nbrOperator = operator.getAllOperators(getCurrentCompany()).size();
         model.addAttribute("nbrOperator", nbrOperator);
 
-        List incomingCallsByMonth = callDao.getIncomingCallsByMonth(getCurrentCompany());
-        Iterator iterator = incomingCallsByMonth.iterator();
-        while(iterator.hasNext()){
-            System.out.println(iterator.next().get);
+        List<IncomingCallsLogsWeek> incomingCallsByMonth = callDao.getIncomingCallsByWeek(getCurrentCompany());
+        model.addAttribute("callLogs", incomingCallsByMonth);
+
+
+        // GET CALLS LOGS
+        System.out.println("Size: " + incomingCallsByMonth.size());
+
+        // labels
+        List<String> labels = new ArrayList<>();
+        GregorianCalendar calendar = new GregorianCalendar();
+
+        int dayDisplay = 7;
+
+        calendar.add(Calendar.DAY_OF_MONTH, -dayDisplay);
+        for (int i = 0; i < dayDisplay; i++) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            labels.add(calendar.get(Calendar.DAY_OF_MONTH) + "/" + (calendar.get(Calendar.MONTH) + 1));
         }
+        model.addAttribute("labels", new Gson().toJson(labels));
+
+        // values, foreach on each day
+        List<Long> values = new ArrayList<>();
+
+        calendar.add(Calendar.DAY_OF_MONTH, -dayDisplay);
+        for (int i = 0; i < dayDisplay; i++) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+            int currentDay = calendar.get(Calendar.DAY_OF_MONTH),
+                    currentMonth = calendar.get(Calendar.MONTH);
+
+            boolean dataFound = false;
+
+            // foreach for the day
+            for (IncomingCallsLogsWeek incoming : incomingCallsByMonth) {
+
+                if (incoming.getDay() == currentDay && (incoming.getMonth()-1) == currentMonth) {
+                    dataFound=true;
+
+                    // ADD DATA TO CHART
+                    values.add(incoming.getTotal());
+                    break;
+                }
+            }
+
+            // add data
+            if(!dataFound){
+                values.add(0l);
+            }
+
+        }
+        model.addAttribute("plots",new Gson().toJson(values));
 
 
         return ("pages/static/index");
     }
 
-	
-    @RequestMapping(value="/edit", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public ModelAndView registerCompanyAccount(
             @ModelAttribute("company") @Valid CompanyDto companyDto,
             BindingResult result, WebRequest request, Errors errors) {
 
         if (!result.hasErrors()) {
-            company.update(getCurrentCompany(),companyDto);
+            company.update(getCurrentCompany(), companyDto);
             company.refresh(getCurrentCompany());
         }
 
@@ -123,7 +170,7 @@ public class DashboardController extends AppLogged {
             List<ObjectError> allErrors = result.getAllErrors();
             Iterator<ObjectError> iterator = allErrors.iterator();
 
-            while(iterator.hasNext()){
+            while (iterator.hasNext()) {
                 System.out.println(iterator.next().getDefaultMessage());
             }
 

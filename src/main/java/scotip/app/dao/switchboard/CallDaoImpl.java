@@ -24,19 +24,13 @@
 
 package scotip.app.dao.switchboard;
 
-import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import scotip.app.dao.AbstractDao;
+import scotip.app.infos.IncomingCallsLogsWeek;
 import scotip.app.model.CallLog;
 import scotip.app.model.Company;
-import scotip.app.model.Switchboard;
 
 import java.util.*;
 
@@ -48,23 +42,38 @@ import java.util.*;
 public class CallDaoImpl extends AbstractDao<Integer, CallLog> implements CallDao {
 
     @Override
-    public List getIncomingCallsByMonth(Company company) {
+    public List<IncomingCallsLogsWeek> getIncomingCallsByWeek(Company company) {
 
-        Query query = getSession().createQuery("select count(*) as callsNb, month(timestamp) as month from CallLog cl WHERE cl.switchboard.company = :cmp " +
+        Query query = getSession().createQuery("select count(*) as callsNb, day(timestamp) as day, month(timestamp) as month from CallLog cl WHERE cl.switchboard.company = :cmp " +
                 " AND cast(cl.timestamp as date) between :startDate AND :endDate" +
-                " group by month(cl.timestamp)");
+                " group by day(cl.timestamp), month(cl.timestamp)");
 
         query.setParameter("cmp", company);
 
         // months
         GregorianCalendar endDate = new GregorianCalendar();
         GregorianCalendar startDate = new GregorianCalendar();
-        startDate.add(Calendar.MONTH, -6);
+        startDate.add(Calendar.DAY_OF_MONTH, -6);
 
         query.setParameter("startDate",startDate.getTime());
         query.setParameter("endDate", endDate.getTime());
+        List list = query.list();
+
+        List<IncomingCallsLogsWeek> callsLogsWeeks = new ArrayList<>();
 
         System.out.println(query.getQueryString());
-        return query.list();
+        System.out.println("ResultSQL: "+ list.size());
+
+        // associate
+        for (Object object : list) {
+            Object[] result = (Object[]) object;
+            IncomingCallsLogsWeek incoming = new IncomingCallsLogsWeek();
+            incoming.setTotal(((Long) result[0]));
+            incoming.setDay(((Integer) result[1]));
+            incoming.setMonth(((Integer) result[2]));
+            callsLogsWeeks.add(incoming);
+        }
+
+        return callsLogsWeeks;
     }
 }

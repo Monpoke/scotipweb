@@ -84,7 +84,10 @@
                                 <strong>Calls chart</strong>
                             </p>
                             <div class="chart">
-                                <canvas id="lineChart" style="height:250px"></canvas>
+                                <canvas id="lineChart"
+                                        data-labels="{{ labels }}"
+                                        data-plots="{{ plots }}"
+                                        style="height:250px"></canvas>
 
                             </div><!-- /.chart-responsive -->
                         </div><!-- /.col -->
