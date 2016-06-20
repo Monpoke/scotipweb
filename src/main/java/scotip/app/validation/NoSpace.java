@@ -22,26 +22,26 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.dao.sounds;
+package scotip.app.validation;
 
-import scotip.app.model.MohFile;
-import scotip.app.model.MohGroup;
-import scotip.app.model.Switchboard;
+import javax.validation.Constraint;
+import javax.validation.Payload;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-import java.util.List;
+import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Created by Pierre on 29/04/2016.
+ * Created by Pierre on 26/04/2016.
  */
-public interface MOHFileDao {
-
-    int saveMohFILE(MohFile mohFile);
-
-    MohFile saveFile(MohFile mohFile);
-
-    MohFile findById(int mid);
-
-    void removeFile(MohFile mohFile);
-
-    List<MohFile> getFilesFromGroup(MohGroup mohGroup);
+@Target({TYPE,ANNOTATION_TYPE,FIELD})
+@Retention(RUNTIME)
+@Constraint(validatedBy = NoSpaceValidator.class)
+@Documented
+public @interface NoSpace {
+    String message() default "The name can't contains space characters.";
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
 }

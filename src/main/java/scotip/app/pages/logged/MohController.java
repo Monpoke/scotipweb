@@ -144,7 +144,9 @@ public class MohController extends SwitchboardAppController {
 
         modelMap.put("switchboard", mohGroup.getSwitchboard());
         modelMap.put("group", mohGroup);
-        modelMap.put("mohFiles", mohGroup.getFiles());
+
+        List<MohFile> mohFilesFromGroup = soundsService.getMOHFilesFromGroup(mohGroup);
+        modelMap.put("mohFiles", mohFilesFromGroup);
 
 
         return "pages/moh/group";
@@ -176,14 +178,16 @@ public class MohController extends SwitchboardAppController {
 
 
         if (!mohUploadDto.getFile().isEmpty()) {
-            try {
-                // SAVE TO DB, TO GET A DATABASE
-                MohFile mohFile = new MohFile();
-                mohFile.setGroup(mohGroup);
-                mohFile.setName(mohUploadDto.getName());
-                mohFile.setPath("");
-                int mohFileID = soundsService.saveMohFILE(mohFile);
 
+            // SAVE TO DB, TO GET A DATABASE
+            MohFile mohFile = new MohFile();
+            mohFile.setGroup(mohGroup);
+            mohFile.setName(mohUploadDto.getName());
+            mohFile.setPath("");
+            int mohFileID = soundsService.saveMohFILE(mohFile);
+
+
+            try {
 
                 String name = sid + "_" + mohFileID + ".mp3",
                         path = Application.UPLOAD_DIR + "/" + name;
@@ -305,10 +309,6 @@ public class MohController extends SwitchboardAppController {
             System.out.println("Notify server reload for MOH");
             // RELOAD
             soundsService.notifyServerReload(getCurrentCompany());
-
-
-            soundsService.removeMOHFile(mohFile);
-
 
         } catch (IOException io) {
             io.printStackTrace();

@@ -188,5 +188,10 @@ public class SoundsServiceImpl implements SoundsService {
         mohFileDao.removeFile(mohFile);
     }
 
+    @Override
+    public List<MohFile> getMOHFilesFromGroup(MohGroup mohGroup) {
+        return mohFileDao.getFilesFromGroup(mohGroup);
+    }
+
 
 }

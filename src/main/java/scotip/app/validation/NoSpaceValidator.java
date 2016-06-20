@@ -22,26 +22,26 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package scotip.app.dao.sounds;
+package scotip.app.validation;
 
-import scotip.app.model.MohFile;
-import scotip.app.model.MohGroup;
-import scotip.app.model.Switchboard;
-
-import java.util.List;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 /**
- * Created by Pierre on 29/04/2016.
+ * Created by Pierre on 20/05/2016.
  */
-public interface MOHFileDao {
+public class NoSpaceValidator implements ConstraintValidator<NoSpace,Object>{
+    @Override
+    public void initialize(NoSpace validSkypeName) {
 
-    int saveMohFILE(MohFile mohFile);
+    }
 
-    MohFile saveFile(MohFile mohFile);
+    @Override
+    public boolean isValid(Object o, ConstraintValidatorContext constraintValidatorContext) {
+        if(!(o instanceof String)){
+            return false;
+        }
 
-    MohFile findById(int mid);
-
-    void removeFile(MohFile mohFile);
-
-    List<MohFile> getFilesFromGroup(MohGroup mohGroup);
+        return !((String) o).contains(" ");
+    }
 }

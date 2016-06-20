@@ -60,4 +60,6 @@ public interface SoundsService {
     MohFile getMohFileWithIdAndSwitchboardAndCompany(int mohid, int switchboardId, int companyId);
 
     void removeMOHFile(MohFile mohFile);
+
+    List<MohFile> getMOHFilesFromGroup(MohGroup mohGroup);
 }

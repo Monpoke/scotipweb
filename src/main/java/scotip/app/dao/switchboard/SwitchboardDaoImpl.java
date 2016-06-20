@@ -25,6 +25,7 @@
 package scotip.app.dao.switchboard;
 
 import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -80,6 +81,9 @@ public class SwitchboardDaoImpl extends AbstractDao<Integer, Switchboard>  imple
 
     @Override
     public List<Switchboard> getAllSwitchboardFromCompany(Company currentCompany) {
-        return createEntityCriteria().add(Restrictions.eq("company",currentCompany)).list();
+        Query query = getSession().createQuery("from Switchboard where company = :company");
+        query.setParameter("company",currentCompany);
+
+        return query.list();
     }
 }

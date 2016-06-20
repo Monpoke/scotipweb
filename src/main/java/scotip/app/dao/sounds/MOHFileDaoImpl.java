@@ -24,6 +24,9 @@
 
 package scotip.app.dao.sounds;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import scotip.app.dao.AbstractDao;
@@ -31,6 +34,7 @@ import scotip.app.model.MohFile;
 import scotip.app.model.MohGroup;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Pierre on 28/05/2016.
@@ -40,8 +44,16 @@ import java.io.Serializable;
 public class MOHFileDaoImpl extends AbstractDao<Integer, MohFile> implements MOHFileDao {
     @Override
     public int saveMohFILE(MohFile mohFile) {
-        int id = (int)getSession().save(mohFile);
-        return id;
+        return saveFile(mohFile).getSoundId();
+    }
+
+
+    @Override
+    public MohFile saveFile(MohFile mohFile) {
+        Session session = getSession();
+        mohFile.setSoundId((int) session.save(mohFile));
+        session.flush();
+        return mohFile;
     }
 
     @Override
@@ -52,5 +64,12 @@ public class MOHFileDaoImpl extends AbstractDao<Integer, MohFile> implements MOH
     @Override
     public void removeFile(MohFile mohFile) {
         getSession().delete(mohFile);
+    }
+
+    @Override
+    public List<MohFile> getFilesFromGroup(MohGroup mohGroup) {
+        Query query = getSession().createQuery("from MohFile WHERE group = :group");
+        query.setParameter("group", mohGroup);
+        return query.list();
     }
 }

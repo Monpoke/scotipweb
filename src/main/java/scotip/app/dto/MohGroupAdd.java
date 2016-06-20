@@ -26,6 +26,7 @@ package scotip.app.dto;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+import scotip.app.validation.NoSpace;
 import scotip.app.validation.PasswordMatches;
 import scotip.app.validation.ValidEmail;
 
@@ -39,6 +40,7 @@ public class MohGroupAdd {
 
 
     @Length(min = 3, max=25, message = "Group name can contains between 3 and 25 characters.")
+    @NoSpace
     private String groupName;
 
     public String getGroupName() {
